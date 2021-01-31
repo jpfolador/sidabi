@@ -1,0 +1,160 @@
+/* Classes utilitarias */
+.clearfix:before,
+.clearfix:after {
+    content: " "; 
+    display: table; 
+}
+.clearfix:after {
+    clear: both;
+}
+/* Faz com que elementos clicados duas vezes não selecionem o conteúdo */
+.inline-search .noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.inline-search .show{
+    display: block;
+}
+.inline-search .hide{
+    display: none;
+}
+
+/* Botão de pesquisa */
+.inline-search .search-bar .search-button{
+    display: inline-block;
+    vertical-align: baseline;
+    width: 35px;
+}
+.inline-search .search-bar .search-button:before{
+    display: block;
+    cursor: pointer;
+    content: url("../../_resources/inlineSearch/inlineSeachIcon.png");
+}
+.inline-search .search-bar .search-button:hover:before{
+    color: #3064bb;
+}
+.inline-search .search-bar .search-button:active:before{
+    position: relative;
+    top: 1px;
+}
+
+/* Resultado selecionado */
+.inline-search .result-selected{
+    background-color: #FFFFFF;
+    border: 1px solid #CCCCCC;
+    padding: 0.5em;
+    float: left;
+}
+.inline-search .result-selected .selected-info{
+    max-width: 90%;
+    float: left;
+    clear: left;
+    vertical-align: sub;
+    margin-right: 1.5em;
+}
+.inline-search .result-selected .selected-complement{
+    max-width: 90%;
+    float: left;
+    clear: left;
+    color: #666666;
+    padding-right: 1em;
+}
+.inline-search .result-selected .selected-remove{
+    float: right;
+    width: 16px;
+}
+.inline-search .result-selected .selected-remove:before{
+    vertical-align: top;    
+    display: block;
+    cursor: pointer;
+    color: #B7B7B7;
+    font-size: 20px;
+    font-family: "Arial, Helvetica, sans-serif";
+    content:'\2716';
+    line-height: 16px;
+}
+.inline-search .result-selected .selected-remove:hover:before{
+    color: #DC8080;
+}
+.inline-search .result-selected .selected-remove:active:before{
+    position: relative;
+    top: 1px;
+}
+
+/* Controle de paginação */
+.inline-search .search-results .inline-search-paginator{
+    padding: 0;
+    border-bottom: 1px solid #bbb;
+    background-color: #DFDFDF;
+}
+.inline-search .search-results .inline-search-paginator button{
+    width: 50%;
+    border: none;
+    padding: 0.3em;
+    cursor: pointer;
+}
+.inline-search .search-results .inline-search-paginator button:hover{
+    background-color: #999;
+    color: #fff;
+}
+.inline-search .search-results .inline-search-paginator button[disabled=disabled]{
+    color: #888;    
+}
+.inline-search .search-results .inline-search-paginator .btn-prev{
+    float: left;
+}
+.inline-search .search-results .inline-search-paginator .btn-next{
+    float: right;
+}
+
+/* Lista de resultados */
+.inline-search .search-results .results-list{
+    margin: 0;
+    overflow: auto;
+    padding-left: 0;
+    list-style: none;
+}
+.inline-search .search-results .result-model{
+    display: none;
+}
+.inline-search .search-results .result{
+    cursor: pointer;
+    background-color: #DFDFDF;
+    padding: 0.8em 0.5em;
+}
+.inline-search .search-results .result.selected{
+    color: #fff;
+    background-color: #999;
+}
+.inline-search .search-results .results-list .result-content{
+    float: left;
+    width: 60%;
+}
+.inline-search .search-results .results-list .result-complement{
+    float: left;
+    width: 40%;
+    color: #666666;
+}
+
+/* Lista de resultados vazia */
+.inline-search .results-empty{
+    margin-top: 0.5em;
+}
+.inline-search .results-empty .information-icon:before{    
+    color: #669BF2;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: "Arial, Helvetica, sans-serif";
+    content:'\24D8';
+    vertical-align: baseline;
+}
+.nearToInput {
+	padding-left: 10px;
+	position: relative;
+	top: 7px;
+	float: left;
+}

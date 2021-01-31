@@ -1,0 +1,57 @@
+<!-- BEGIN TABLE_REGISTROS -->
+<br/><br/>
+<!-- BEGIN BLOCO_MSG_ADMIN -->
+<div class="alert alert-warning">
+    Estou como usuário administrador do SIDABI, posso ver todos os arquivos
+    compartilhados se não selecionar nenhum grupo de pesquisadores.
+</div>
+<!-- END BLOCO_MSG_ADMIN -->
+<div>
+    <b>Registros encontrados:</b> {QTD_REGISTRO_ENCONTRADO}
+</div> <br/>
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th> <input type="checkbox" id="chkTodos" class="chkSelecionarTodos"/> </th>
+            <th> Responsável </th>
+            <th> Data da Sessão </th>
+            <th> Hora </th>
+            <th> Participante </th>
+            <th> Arquivo </th>
+        </tr>
+    </thead>
+    <tbody>
+    <!-- BEGIN LINHA_ARQUIVO -->
+        <tr>
+            <td>
+                <input type="checkbox" name="chkSelecionaArquivo" class="chkSelecionaLinha" data-sessao-id="{SESSAO_ID}"/>
+            </td>
+            <td>
+                {RESPONSAVEL}
+            </td>
+            <td>
+                {DATA_SESSAO}
+            </td>
+            <td>
+                {HORA}
+            </td>
+            <td>
+                {PARTICIPANTE}
+            </td>
+            <td>
+                <a href="../../files/sessao_arquivos/{ARQUIVO}" target="_blank">
+                    {ARQUIVO}
+                </a>
+            </td>
+        </tr>
+    <!-- END LINHA_ARQUIVO -->
+    </tbody>
+</table>
+<!-- END TABLE_REGISTROS -->
+
+<!-- BEGIN MSG_VAZIO -->
+<br/><br/>
+<div class="alert alert-info">
+    Nenhum registro encontrado, tente escolher outros filtros.
+</div>
+<!-- END MSG_VAZIO -->

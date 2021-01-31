@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+
+	<link href="/sidabi/_resources/free-jqGrid/dist/css/ui.jqgrid.jpf.css" rel="stylesheet" type="text/css" />
+	<style type="text/css">
+		#observacao {
+			width: 98%;
+			height: 90px;
+		}
+		.glyphicon-minus-sign,
+		.glyphicon-plus-sign {
+			position: relative;
+			left: -10px;
+			font-size: 16px;
+			padding: 1px;
+			margin: 1px;
+		}
+		.glyphicon-indent-left{
+			color: #337ab7;
+		}
+		.glyphicon-plus {
+			color: #05b305;
+		}
+		.glyphicon-trash {
+			color: #FF0000;
+		}
+	</style>
+
+	<script src="/sidabi/_resources/free-jqGrid/dist/i18n/grid.locale-pt-br.js" type="text/ecmascript"></script>
+	<script src="/sidabi/_resources/free-jqGrid/dist/jquery.jqgrid.min.js" type="text/ecmascript"></script>
+	<script type="text/javascript">
+		$(function() {
+			"use strict";
+
+            $("#jqGrid").jqGrid({
+            	url: '/sidabi/gestao_pessoa/controller/ctrl_individuo/individuoJqGridLoad.php',
+                datatype: "json",
+                mtype: "GET",
+                page: 1,
+                jsonReader: {
+                    page: "obj.currpage",
+                    total: "obj.totalpages",
+                    records: "obj.totalrecords",
+                    repeatitems: false,
+                    root: "obj.rows",
+                    cell: "cell",
+                    id: "0"
+                },
+                colModel: [
+                	{
+						label: 'ID',
+                        name: 'id',
+                        width: 20,
+						key: true,
+						editable: false
+                    },
+                    {
+						label: 'Nome',
+                        name: 'individuo_nome',
+                        width: 100,
+                        search: true,
+                        stype: 'text'
+                    },
+                    {
+						label: 'Sexo',
+                        name: 'individuo_sexo',
+                        width: 25,
+                        edittype: 'select',
+                        search: true,
+                        stype: 'select',
+                        searchoptions: {
+                        	value: ':Todos;Feminino:Feminino;Masculino:Masculino'
+                        }
+                    },
+                    {
+						label: 'Diagnóstico',
+                        name: 'diagnostico',
+                        width: 70,
+                        edittype: 'select',
+                        search: true,
+                        stype: 'select',
+                        searchoptions: {
+                        	value: ":Todos;Doença de Parkinson Idiopática:Doença de Parkinson Idiopática;Parkinsonismo:Parkinsonismo"
+                        }
+                    },
+                    {
+						label: 'Data do diagnóstico',
+                        name: 'dt_diagnostico',
+                        width: 60,
+                        search: true,
+                        stype: 'text'
+                    },
+                    {
+						label: 'Médico Responsável',
+                        name: 'medico_responsavel',
+                        width: 60,
+                        search: true,
+                        stype: 'text'
+                    }
+                ],
+				guiStyle: "bootstrap",
+				autowidth: true,
+				rownumbers: false,
+				hidegrid: false,
+				loadComplete: function () {
+					$(this).triggerHandler('resize.jqGrid');
+				},
+				sortname: 'individuo_nome',
+				sortorder: 'asc',
+				viewrecords: true,
+				height: 'auto',
+				rowNum: 15,
+				pager: "#jqGridPager",
+				subGrid: true, // set the subGrid property to true to show expand buttons for each row
+				//subgridtype: 'json', // set the subgrid type to json
+				subGridRowExpanded: function(subgrid_id, row_id) {
+					let subgrid_table_id, pager_id;
+					subgrid_table_id = subgrid_id+"_t";
+					pager_id = "p_"+subgrid_table_id;
+
+					$("#"+subgrid_id).html("<table id='"+subgrid_table_id+"' class='scroll'></table><div id='"+pager_id+"' class='scroll'></div>");
+					jQuery("#" + subgrid_table_id).jqGrid({
+						url:"../ctrl_individuo_medicamento/individuoMedicamentoJqGridLoad.php?individuo_id=" + row_id,
+						editurl: '../ctrl_individuo_medicamento/individuoMedicamentoJqGridEdit.php?individuo_id=' + row_id,
+						datatype: "json",
+						colNames: ["ID", "Individuo", "Medicamento", "Dosagem", "Observação"],
+						colModel: [
+							{ 
+								name:"individuo_medicamento_id",
+								index:"individuo_medicamento_id",
+								width: 20,
+								key: true,
+								editable: false
+							},
+							{
+								name:"individuo_id",
+								index:"individuo_id",
+								width: 40, 
+								editable: false,
+								hidden: true
+							},
+							{ 
+								name: "medicamento_descricao", 
+								index: "medicamento_descricao", 
+								width: 100, 
+								align: "left", 
+								editable: true,
+								editrules : { required: true },
+								edittype: "select",
+		                        editoptions: {
+		                            value: {OPTIONS_MEDICAMENTO}
+		                        }
+							},
+							{
+								name: "dosagem",
+								index: "dosagem",
+								width: 80,
+								editable: true,
+								editrules : { required: true },
+								search: true,
+								stype: 'text'
+							},
+							{
+								name:"observacao",
+								index:"observacao",
+								width: 100,
+								editable: true,
+								editrules: { edithidden: true },
+								edittype: 'textarea',
+								search: true,
+								stype: 'text'
+							},
+						],
+						jsonReader: { repeatitems: false, root:"obj.rows" },
+						caption: 'Medicamento',
+						guiStyle: "bootstrap",
+						autowidth: true,
+						rownumbers: false,
+						hidegrid: false,
+						sortname: 'medicamento_descricao',
+						sortorder: 'asc',
+						viewrecords: true,
+						height: '100%',
+						rowNum: 'auto',
+						pager: pager_id
+					});
+
+					$("#" + subgrid_table_id).jqGrid('navGrid',"#" + pager_id,
+						{
+							edit: {PERMITE_EDITAR},
+							add: {PERMITE_INCLUIR},
+							del: {PERMITE_EXCLUIR},
+							search: false,
+							refresh: false,
+							view: {PERMITE_VISUALIZAR},
+		            		position: "left", 
+		            		cloneToTop: false	            		
+						},{
+							editCaption: "Editar medicamento",
+							width: "450",
+							height: "auto",
+							top: "10",
+							left: "10",
+							closeAfterEdt: true,
+							afterSubmit: function () {
+								$("#" + subgrid_table_id).jqGrid('setGridParam',{datatype:'json'}).trigger('reloadGrid');
+								$(".ui-jqdialog-titlebar-close").trigger('click');
+							},
+							recreateForm: true,
+							errorTextFormat: function (data) {
+								return 'Error: ' + data.responseText
+							}
+						},{
+							editCaption: "Adicionar medicamento",
+		                    width: "450",
+		                    height: "auto",
+		                    top: "10",
+		                    left: "10",
+		                	closeAfterAdd: true,
+		                	afterSubmit: function () {
+		                    	$("#" + subgrid_table_id).jqGrid('setGridParam',{datatype:'json'}).trigger('reloadGrid');
+		                    	$(".ui-jqdialog-titlebar-close").trigger('click');
+		                    },
+		                    recreateForm: true,
+		                    errorTextFormat: function (data) {
+		                        return 'Error: ' + data.responseText
+		                    }
+		                },{
+		                	editCaption: "Apagar medicamento",
+		                	width: "400",
+		                    height: "auto",
+		                    top: "10",
+		                    left: "10",
+		                    errorTextFormat: function (data) {
+		                        return 'Error: ' + data.responseText
+		                    }
+		                }
+					);
+				}
+            });
+
+            $('#jqGrid').jqGrid('filterToolbar', {defaultSearch:'cn'});
+            
+            $('#jqGrid').navGrid('#jqGridPager',
+                { 
+            		edit: false, 
+            		add: false, 
+            		del: false, 
+            		search: false, 
+            		refresh: false, 
+            		view: false, 
+            		position: "left", 
+            		cloneToTop: false
+                },
+                {
+                    // sem editar
+                },
+                {
+                    // sem add
+                },
+                {
+					// sem delete
+                }
+            );
+			$(window).on('resize.jqGrid', function () {
+				$('#jqGrid').jqGrid('setGridWidth', $(".freeJqgridContainer").width() - 20);
+			}).triggerHandler('resize.jqGrid');
+        });
+    </script>
+</head>
+
+<body>
+	<br />
+	<h4> Associar medicamentos </h4>
+
+	<div class="freeJqgridContainer row">
+		<table id="jqGrid"></table>
+		<div id="jqGridPager"></div>
+	</div>
+</body>
+</html>

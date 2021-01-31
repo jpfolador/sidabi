@@ -1,0 +1,94 @@
+<div class="form-horizontal" style="margin: 5px 10px; padding: 5px;">
+
+    <!-- BEGIN BLOCO_QUESTAO_VAZI0 -->
+    <div class="questaoVazio questaoCor">
+        <div class="row item">
+            <div class="col-sm-12 ">
+                Nenhuma questão cadastrada para este agrupamento.
+            </div>
+        </div>
+    </div>
+    <!-- END BLOCO_QUESTAO_VAZI0 -->
+
+    <!-- BEGIN BLOCO_QUESTAO -->
+    <div class="questao">
+        <div class="row addBorda">
+            <div class="panel panel-default">
+                <div class="panel-heading col-sm-12 painelTituloQuestao questaoCor">
+                    <div class="col-sm-10 tituloQuestao">
+                        <span title="ordem da questão" class="hide"> {QUESTAO_ORDEM}. </span>
+                        <span title="Número da questão"> {QUESTAO_NUMERO}. </span>
+                        {QUESTAO_TITULO}
+                    </div>
+                    <div class="col-sm-2 text-right">
+                        <div class="dropdown">
+                            <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Ação <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-right" data-questao-id="{QUESTAO_ID}">
+                                <li>
+                                    <a href="#" class="liBtnEditarQuestao"> Editar questão </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="liBtnExcluirQuestao"> Excluir questão </a>
+                                </li>
+                                <li role="separator" class="divider"></li>
+                                <li>
+                                    <a href="#" class="liBtnAdicionarAlternativa"> Adicionar alternativa </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body col-sm-12 dadosQuestao">
+                    <div class="dadoExtraQuestao">
+                        <div> <b>Descrição: </b> {QUESTAO_DESCRICAO} </div>
+                        <div> <b>Instrução: </b> {QUESTAO_INSTRUCAO} </div>
+                        <div> <b>Detalhes da questão: </b> Esta questão é do tipo <b>{TIPO_QUESTAO}</b>, <b>{QUESTAO_CONTAVEL}</b> e está <b>{QUESTAO_STATUS}</b> </div>
+                        <div> <b>Tipo de aplicação: </b>{QUESTAO_TIPO_APLICACAO} </div>
+                    </div>
+
+                    <div class="containerAlternativas">
+                        <br />
+                        <div> <b> Alternativas </b> </div>
+                        <!-- BEGIN BLOCO_QUESTAO_ALTERNATIVA_VAZIA -->
+                            <div class="row item alternativaCor">
+                                <div class="col-sm-12 ">
+                                    Nenhuma alternativa cadastrada até o momento.
+                                </div>
+                            </div>
+                        <!-- END BLOCO_QUESTAO_ALTERNATIVA_VAZIA -->
+
+                        <!-- BEGIN BLOCO_QUESTAO_ALTERNATIVA -->
+                            <div class="row itemAlternativa item alternativaCor">
+                                <div class="col-sm-10 itemTexto">
+                                    <span title="Ordem" class="hide"> {ALTERNATIVA_ORDEM}.</span>
+                                    <span title="Valor da alternativa" class="badge"> {ALTERNATIVA_VALOR}</span>
+                                    <span title="Descrição"> {ALTERNATIVA_DESCRICAO} </span>
+                                </div>
+                                <div class="col-sm-2 text-right">
+                                    <div class="dropdown">
+                                        <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Ação <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-right" data-alternativa-id="{ALTERNATIVA_ID}" data-questao-id="{QUESTAO_ID}">
+                                            <li>
+                                                <a href="#" class="liBtnEditarAlternativa"> Editar alternativa </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="liBtnExcluirAlternativa"> Excluir alternativa </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        <!-- END BLOCO_QUESTAO_ALTERNATIVA -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END BLOCO_QUESTAO -->
+
+    <script src="/sidabi/questionario/view/js/questao.js" charset="UTF-8" type="text/javascript"></script>
+</div>

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+
+	<link href="/sidabi/_resources/free-jqGrid/dist/css/ui.jqgrid.jpf.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+    	 .ui-jqgrid .ui-jqgrid-bdiv {
+			  position: relative; 
+			  margin: 0;
+			  padding: 0;
+			  overflow-x: hidden;
+			  overflow-y: auto;
+			  text-align: left;
+		  }
+         .ui-jqgrid {
+             background-color: #FFF;
+         }
+		 .customelement .radio-inline input {
+			 margin-left: -40px;
+			 padding-right: 10px; 
+		 }
+		 .typeahead {
+			 z-index: 10051;
+		 }
+         #TblGrid_jqGrid td.CaptionTD,
+         #ViewTbl_jqGrid td.CaptionTD {
+             width: 150px !important;
+         }
+         #ViewTbl_jqGrid td :not(.captionTD) {
+             padding-left: 0;
+             white-space: pre-wrap;
+             text-align: justify;
+         }
+         #ViewTbl_jqGrid {
+             width: 760px !important;
+         }
+         #viewmodjqGrid {
+             width: 800px !important;
+         }
+    </style>
+
+	<script src="/sidabi/_resources/free-jqGrid/dist/i18n/grid.locale-pt-br.js" type="text/ecmascript"></script>
+	<script src="/sidabi/_resources/free-jqGrid/dist/jquery.jqgrid.min.js" type="text/ecmascript"></script>
+	<script type="text/javascript">
+		$(function() {
+			"use strict";
+
+            $("#jqGrid").jqGrid({
+                url: '../ctrl_config/permissaoSidabiJqGridLoad.php',
+                editurl: '../ctrl_config/permissaoSidabiJqGridEdit.php',
+                datatype: "json",
+                mtype: "GET",
+                page: 1,
+                jsonReader: {
+                    page: "obj.currpage",
+                    total: "obj.totalpages",
+                    records: "obj.totalrecords",
+                    repeatitems: false,
+                    root: "obj.rows",
+                    cell: "cell",
+                    id: "0"
+                },
+                colModel: [
+                    {
+                        label: 'ID',
+                        name: 'id',
+                        width: 20,
+                        key: true,
+                        editable: false
+                    },
+                    {
+                        label: 'login_fk_id',
+                        name: 'login_fk_id',
+                        editable: false,
+                        hidden: true
+                    },
+                    {
+                        label: 'Usuário',
+                        name: 'usuario',
+                        width: 90,
+                        editable: true,
+                        edittype: 'select',
+                        editoptions: {
+                            value: {OPTIONS_USUARIO}
+                        },
+                        editrules : { required: true },
+                        search: true,
+                        stype: 'select',
+                        searchoptions: {
+                            value: ':Todos;'+{OPTIONS_USUARIO}
+                        }
+                    },
+                    {
+                        label: 'modulo_fk_id',
+                        name: 'modulo_fk_id',
+                        editable: false,
+                        hidden: true
+                    },
+                    {
+                        label: 'Módulo',
+                        name: 'sigla',
+                        width: 90,
+                        editable: true,
+                        edittype: 'select',
+                        editoptions: {
+                            value: {OPTIONS_MODULO}
+                        },
+                        editrules : { required: true },
+                        search: true,
+                        stype: 'select',
+                        searchoptions: {
+                            value: ':Todos;'+{OPTIONS_MODULO}
+                        }
+                    }
+                ],
+				guiStyle: "bootstrap",
+				autowidth: true,
+				rownumbers: false,
+				hidegrid: false,
+				loadComplete: function () {
+					$(this).triggerHandler('resize.jqGrid');
+				},
+				sortname: 'usuario',
+				sortorder: 'asc',
+				viewrecords: true,
+				height: 'auto',
+				rowNum: 15,
+				pager: "#jqGridPager"
+			}).jqGrid('filterToolbar', {defaultSearch:'cn'});
+            
+            $('#jqGrid').navGrid('#jqGridPager',
+                { 
+            		edit: true, 
+            		add: true, 
+            		del: true, 
+            		search: false, 
+            		refresh: false, 
+            		view: false, 
+            		position: "left", 
+            		cloneToTop: false
+                },
+                {
+                    editCaption: "Editar",
+                    width: "750",
+                    height: "auto",
+                    top: "10",
+                    left: "10",
+                    recreateForm: true,
+                    closeAfterEdit: true,
+                    afterComplete: function (data) {
+                        let res = $.parseJSON(data.responseText);
+                        switch (res.status)
+                        {
+                            case 'ok':
+                                //bootbox.alert(res.obj);
+                                break;
+
+                            case 'erro':
+                                bootbox.alert("Não foi possível editar o registro. Tente atualizar e refazer o processo!");
+                                console.log("Erro: " + res.msg);
+                                break;
+                        }
+                    },
+                    errorTextFormat: function (data) {
+                        return 'Error: ' + data.responseText
+                    }
+                },
+                {
+                    editCaption: "Adicionar",
+                    width: "750",
+                    height: "auto",
+                    top: "10",
+                    left: "10",
+                	closeAfterAdd: true,
+                    recreateForm: true,
+                    afterComplete: function (data) {
+                        let res = $.parseJSON(data.responseText);
+                        switch (res.status)
+                        {
+                            case 'ok':
+                                bootbox.alert(res.obj);
+                                break;
+
+                            case 'erro':
+                                bootbox.alert(res.msg);
+                                console.log("Erro: " + res.msg);
+                                break;
+                        }
+                    },
+                    errorTextFormat: function (data) {
+                        return 'Error: ' + data.responseText
+                    }
+                },
+                {
+                	editCaption: "Apagar",
+                    width: "500",
+                    height: "auto",
+                    top: "10",
+                    left: "10",
+                    msg: " Ao apagar a permissão do usuário no módulo, todas as permissões atribuidas \n em cada tela também serão apagadas. <b>Deseja prosseguir?</b>",
+                    delData: {
+                        loginId: function() {
+                            return $('#jqGrid').jqGrid('getCell', $('#jqGrid').jqGrid('getGridParam', 'selrow'), 'login_fk_id');
+                        },
+                        moduloId: function() {
+                            return $('#jqGrid').jqGrid('getCell', $('#jqGrid').jqGrid('getGridParam', 'selrow'), 'modulo_fk_id');
+                        }
+                    },
+                    afterComplete: function (data) {
+                        let res = $.parseJSON(data.responseText);
+                        switch (res.status)
+                        {
+                            case 'ok':
+                                bootbox.alert(res.obj);
+                                break;
+
+                            case 'erro':
+                                bootbox.alert("Não foi possível apagar o registro. Ele pode estar sendo utilizado!");
+                                console.log("Erro: " + res.msg);
+                                break;
+                        }
+                    },
+                    errorTextFormat: function (data) {
+                        return 'Error: ' + data.responseText
+                    }
+                });
+
+			$(window).on('resize.jqGrid', function () {
+				$('#jqGrid').jqGrid('setGridWidth', $(".freeJqgridContainer").width() - 20);
+			}).triggerHandler('resize.jqGrid');
+        });
+    </script>
+</head>
+
+<body>
+	<h4> Atribuir permissão do usuário no módulo </h4>
+	<br />
+
+	<div class="freeJqgridContainer">
+		<table id="jqGrid"></table>
+		<div id="jqGridPager"></div>
+	</div>
+	<br />
+</body>
+</html>

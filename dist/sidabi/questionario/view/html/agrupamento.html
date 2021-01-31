@@ -1,0 +1,315 @@
+<div id="telaAgrupamento" class="form-horizontal">
+    <!-- BEGIN BLOCO_AGRUPAMENTO_VAZIO -->
+    <div class="agrupamentoItem col-sm-12">
+        <h4> Agrupamento </h4>
+        <div class="row item">
+            <div class="col-sm-10 itemTexto">
+                Nenhum agrupamento cadastrado para o tipo de questionário escolhido
+            </div>
+            <div class="btn-group col-sm-2 text-right">
+                <button type="button" class="btn btn-default btnAddAgrupamento">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    Novo agrupamento
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- END BLOCO_AGRUPAMENTO_VAZIO -->
+
+    <!-- BEGIN BLOCO_AGRUPAMENTO -->
+    <div class="agrupamentoItem">
+        <div class="row addBorda">
+            <div class="panel panel-default">
+                <div class="panel-heading col-sm-12">
+                    <h4  class="col-sm-10"> Agrupamento de questões </h4>
+                    <div class="col-sm-2">
+                        <button type="button" class="btn btn-default btnAddAgrupamento">
+                            <span class="glyphicon glyphicon-plus"></span>
+                            Novo agrupamento
+                        </button>
+                    </div>
+                </div>
+                <div class="panel-body col-sm-12 containerAgrupamentoQuestao" role="tablist">
+
+                    <!-- BEGIN BLOCO_AGRUPAMENTO_LINHA -->
+                    <div class="row agrupamentoLinhaControle item agrupamentoCor" data-agrupamento-id="{AGRUPAMENTO_ID}">
+                        <div class="col-sm-10 itemTexto" role="tab">
+                            <a href="#containerQuestoes_{AGRUPAMENTO_ID}" class="agrupamentoItemLink" data-toggle="collapse" data-target="#containerQuestoes_{AGRUPAMENTO_ID}">
+                                {AGRUPAMENTO_ORDEM}. {AGRUPAMENTO_DESCRICAO}
+                            </a>
+                        </div>
+                        <div class="col-sm-2 text-right">
+                            <div class="dropdown">
+                                <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Ação <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-right">
+                                    <li>
+                                        <a href="#" class="liBtnEditarAgrupamento"> Editar agrupamento </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="liBtnExcluirAgrupamento"> Excluir agrupamento </a>
+                                    </li>
+                                    <li role="separator" class="divider"></li>
+                                    <li>
+                                        <a href="#" class="liBtnAdicionarQuestao"> Adicionar questão </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="containerQuestoes_{AGRUPAMENTO_ID}" class="containerQuestoes collapse" data-agrupamento-id="{AGRUPAMENTO_ID}" role="tabpanel"></div>
+
+                    <!-- END BLOCO_AGRUPAMENTO_LINHA -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END BLOCO_AGRUPAMENTO -->
+
+    <!-- TODOS OS FORMULÁRIOS DE CADASTRO ESTÃO AQUI -->
+    <!-- CADASTRO DE AGRUPAMENTO -->
+    <div id="containerFormAgrupamento" class="hide">
+        <h4> Cadastrar agrupamento </h4>
+        <br/>
+        <form id="formAgrupamento" name="formAgrupamento"
+              onsubmit="return false;" class="form-horizontal">
+
+            <input type="hidden" id="agrupamentoId" name="agrupamentoId" />
+
+            <div class="form-group">
+                <label for="agrupamentoDescricao" class="control-label col-sm-2"> Descrição </label>
+                <div class="col-sm-8">
+                    <textarea id="agrupamentoDescricao" name="agrupamentoDescricao"
+                              class="form-control" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="agrupamentoOrdem" class="control-label col-sm-2"> Ordem </label>
+                <div class="col-sm-4">
+                    <input type="number" id="agrupamentoOrdem" name="agrupamentoOrdem" class="form-control" min="1" max="99"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="agrupamentoStatus" class="control-label col-sm-2"> Status </label>
+                <div class="col-sm-4">
+                    <select id="agrupamentoStatus" name="agrupamentoStatus" class="form-control">
+                        <option value="1"> Ativo </option>
+                        <option value="0"> Inativo </option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-10 col-sm-offset-2">
+                    <button type="button" id="btnAgrupamentoCancelar" class="btn btn-default">
+                        Cancelar
+                    </button>
+                    <button type="button" id="btnAgrupamentoSalvar" class="btn btn-success">
+                        Salvar
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- CADASTRO DE QUESTÃO -->
+    <div id="containerFormQuestao" class="hide">
+        <h4> Cadastrar questão </h4>
+        <br/>
+        <form id="formQuestao" name="formQuestao"
+              onsubmit="return false;" class="form-horizontal">
+
+            <input type="hidden" id="formQuestaoAgrupamentoId" name="formQuestaoAgrupamentoId" />
+            <input type="hidden" id="questaoId" name="questaoId" />
+
+            <div class="form-group">
+                <label for="agrupamentoQuestaoTexto" class="control-label col-sm-2"> Agrupamento </label>
+                <div class="col-sm-8">
+                    <span id="agrupamentoQuestaoTexto" class="form-control" style="background-color: #EAEAEA; height: auto;"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="questaoNumero" class="control-label col-sm-2"> Número/Identificação </label>
+                <div class="col-sm-4">
+                    <!--<input type="number" id="questaoNumero" name="questaoNumero" class="form-control" min="1" max="99" />-->
+                    <input type="text" id="questaoNumero" name="questaoNumero" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="questaoTitulo" class="control-label col-sm-2"> Título </label>
+                <div class="col-sm-8">
+                    <input type="text" id="questaoTitulo" name="questaoTitulo" class="form-control" required />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="questaoDescricao" class="control-label col-sm-2"> Descrição </label>
+                <div class="col-sm-8">
+                    <textarea id="questaoDescricao" name="questaoDescricao"
+                              class="form-control" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="questaoInstrucao" class="control-label col-sm-2"> Instrução </label>
+                <div class="col-sm-8">
+                    <textarea id="questaoInstrucao" name="questaoInstrucao"
+                              class="form-control" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="questaoTipoQuestao" class="control-label col-sm-2"> Tipo da questão </label>
+                <div class="col-sm-4">
+                    <select id="questaoTipoQuestao" name="questaoTipoQuestao" class="form-control" required>
+                        <option value=""> Esqcolher o tipo da questão </option>
+                        <!-- BEGIN BLOCO_OPTION_TIPO_QUESTAO -->
+                            <option value="{TIPO_QUESTAO_ID}"> {TIPO_QUESTAO_DESCRICAO} </option>
+                        <!-- END BLOCO_OPTION_TIPO_QUESTAO -->
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="questaoOrdem" class="control-label col-sm-2"> Ordem </label>
+                <div class="col-sm-4">
+                    <input type="number" id="questaoOrdem" name="questaoOrdem" class="form-control" min="1" max="99"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">
+                    Tipo da aplicação
+                </label>
+                <div class="col-sm-8">
+                    <!-- BEGIN BLOCO_OPTION_TIPO_APLICACAO -->
+                    <div class="col-sm-4">
+                        <label class="checkbox-inline" title="{TIPO_APLICACAO_SIGLA}">
+                            <input type="checkbox"
+                                   id="questaoTipoAplicacao_{TIPO_APLICACAO_ID}"
+                                   name="questaoTipoAplicacao[]"
+                                   value="{TIPO_APLICACAO_ID}"
+                                   class="checkbox" />
+                            <span> {TIPO_APLICACAO_DESCRICAO} </span>
+                        </label>
+                    </div>
+                    <!-- END BLOCO_OPTION_TIPO_APLICACAO -->
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="questaoContavel" class="control-label col-sm-2"> Contável </label>
+                <div class="col-sm-4">
+                    <select id="questaoContavel" name="questaoContavel" class="form-control">
+                        <option value="1"> Sim </option>
+                        <option value="0"> Não </option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="questaoStatus" class="control-label col-sm-2"> Status </label>
+                <div class="col-sm-4">
+                    <select id="questaoStatus" name="questaoStatus" class="form-control">
+                        <option value="1"> Ativo </option>
+                        <option value="0"> Inativo </option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-10 col-sm-offset-2">
+                    <button type="button" id="btnQuestaoCancelar" class="btn btn-default">
+                        Cancelar
+                    </button>
+                    <button type="button" id="btnQuestaoSalvar" class="btn btn-success">
+                        Salvar
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- CADASTRO DE ALTERNATIVA -->
+    <div id="containerFormAlternativa" class="hide col-sm-12 form-horizontal">
+        <h4> Cadastrar alternativa </h4>
+        <br/>
+        <div id="containerTabelaAlternativas" class="hide">
+
+            <div class="form-group">
+                <div class="col-sm-10">
+                    <button type="button" id="btnFecharGrid" class="btn btn-default">
+                        Cancelar
+                    </button>
+                    <button type="button" id="btnAlternativasSelecionadas" class="btn btn-success">
+                        <span class="glyphicon glyphicon-floppy-disk"></span>
+                        Salvar alternativas selecionadas
+                    </button>
+                </div>
+            </div>
+
+            <div class="freeJqgridContainer">
+                <table id="jqGrid"></table>
+                <div id="jqGridPager"></div>
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="button" id="btnAbrirGrid" class="btn btn-info">
+                    <span class="glyphicon glyphicon-search"></span>
+                    Buscar alternativas cadastradas
+                </button>
+            </div>
+        </div>
+        <form id="formAlternativa" name="formAlternativa"
+              onsubmit="return false;" class="form-horizontal">
+
+            <input type="hidden" id="formAlternativaQuestaoId" name="formAlternativaQuestaoId" />
+            <input type="hidden" id="alternativaId" name="alternativaId" />
+
+            <div class="form-group">
+                <label for="alternativaQuestaoTexto" class="control-label col-sm-2"> Questão </label>
+                <div class="col-sm-8">
+                    <span id="alternativaQuestaoTexto" class="form-control" style="background-color: #EAEAEA; height: auto;"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="alternativaDescricao" class="control-label col-sm-2"> Descrição </label>
+                <div class="col-sm-8">
+                    <textarea id="alternativaDescricao" name="alternativaDescricao"
+                              class="form-control" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="alternativaOrdem" class="control-label col-sm-2"> Ordem </label>
+                <div class="col-sm-4">
+                    <input type="number" id="alternativaOrdem" name="alternativaOrdem" class="form-control" min="1" max="99"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="alternativaValor" class="control-label col-sm-2"> Valor </label>
+                <div class="col-sm-4">
+                    <input type="number" id="alternativaValor" name="alternativaValor" class="form-control" min="1" max="99"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="alternativaStatus" class="control-label col-sm-2"> Status </label>
+                <div class="col-sm-4">
+                    <select id="alternativaStatus" name="alternativaStatus" class="form-control">
+                        <option value="1"> Ativo </option>
+                        <option value="0"> Inativo </option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-10 col-sm-offset-2">
+                    <button type="button" id="btnAlternativaCancelar" class="btn btn-default">
+                        Cancelar
+                    </button>
+                    <button type="button" id="btnAlternativaSalvar" class="btn btn-success">
+                        Salvar
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script src="/sidabi/questionario/view/js/agrupamento.js" charset="UTF-8" type="text/javascript"></script>
+</div>

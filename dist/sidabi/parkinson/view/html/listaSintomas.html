@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta name="Author Email" content="niats.sidabi@gmail.com" />
+    <meta name="DC.creator" content="niats.sidabi@gmail.com" />
+    <meta name="DC.title" content="Estudo da doença de Parkinson" />
+    <meta name="DC.language" content="PT-BR" />
+    <meta name="DC.subject" content="Estudo da doença de Parkinson" />
+    <meta name="itunes.block" content="No" />
+    <meta name="itunes.explicit" content="Clean" />
+    <meta name="itunes.category" content="Arts" />
+    <meta name="google" value="notranslate" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <link href="../../view/css/listaSintomas.css" rel="stylesheet">
+    <script src="../../view/js/listaSintomas.js" charset="UTF-8" type="text/javascript"></script>
+</head>
+<body>
+    <Br />
+    <div class="form-horizontal" style="overflow: hidden">
+
+        <!-- BEGIN BLOCO_SINTOMA -->
+
+            <!-- BEGIN BLOCO_CATEGORIA -->
+                <h3 class="nomeCategoria">
+                    {NOME_CATEGORIA}
+                </h3>
+            <!-- END BLOCO_CATEGORIA -->
+
+            <div class="form-group">
+                <div class="col-sm-2">
+                    <iframe class="ajustaVideo" src="{CAMINHO_VIDEO}" allowfullscreen></iframe>
+                </div>
+                <div class="containerSintoma">
+                    <h4 class=""> {TITULO} </h4>
+                    <div class="descricaoSintoma">
+                        {DESCRICAO_SINTOMA}
+                    </div>
+                    <a href="{URL_INFORMACAO}" class="linkMaisInformacao" target="_blank"> Mais informações </a>
+                </div>
+            </div>
+
+        <!-- END BLOCO_SINTOMA -->
+
+        <!-- BEGIN MSG_VAZIO -->
+        <br/>
+        <div class="alert alert-info">
+            Nenhum Sintoma cadastrado sobre doença de Parkinson foi encontrado. Faça o cadastra dos sintomas.
+        </div>
+        <!-- END MSG_VAZIO -->
+    </div>
+</body>
+</html>

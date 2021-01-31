@@ -1,0 +1,71 @@
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- Custom CSS -->
+<link href="../../view/css/gerenciamento.css" rel="stylesheet">
+
+<div id="containerPrincipal">
+
+    <div id="verticalMenuIcon">
+        <button type="button" class="btn btn-primary btn-circle btn-lg">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+        </button>
+    </div>
+
+    <div id="wrapper" class="toggled">
+
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li id="tituloGerenciamento" class="sidebar-brand">
+                    <span>
+                        Gerenciamento
+                    </span>
+                </li>
+
+                <!-- BEGIN BLOCO_MENU -->
+                    <li>
+                        <a href="#menu_{MENU_ID}" class="itemMenu" data-menu-id="{MENU_ID}" data-menu-url="{MENU_URL}">
+                            {MENU_NOME}
+                        </a>
+                    </li>
+                <!-- END BLOCO_MENU -->
+
+                <!-- BEGIN BLOCO_SEM_PERMISSAO -->
+                    <li>
+                        <a href="#semPermissao" class="usuarioSemPermissao">
+                            Usuário sem permissão
+                        </a>
+                    </li>
+                <!-- END BLOCO_SEM_PERMISSAO -->
+            </ul>
+        </div>
+
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="col-md-12">
+                    <div id="containerGerencimento">
+                        <div>
+                            Esta área de Gerencimanto possibilita ao usuário do software: inserir, atualizar e apagar informações
+                            relacionadas ao controle de dados dos sintomas da doenças de Parkinson.
+                            Deste modo, no menu vertical lateral encontram-se as opções necessárias para gerenciar os dados.
+                        </div>
+
+                        <br/>
+                        <p>
+                            <b> Categorias: </b> nesta opção, o usuário poderá gerenciar as categorias que agrupam os sintomas.
+                            É possível inserir, editar ou apagar uma categoria. É necessário que a categoria seja cadastrada com o campo 'Status' ativo,
+                            para que ela possa ser utilizada.
+                        </p>
+                        <p>
+                            <b> Sintomas: </b> refere-se ao cadastro dos sintomas que comporão o quadro de uma dada categoria.
+                            Nesta opção é possível inserir, apagar ou editar um sintoma da doença de Parkinson.
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Menu Toggle Script -->
+	<script src="../../view/js/gerenciamento.js" charset="UTF-8" type="text/javascript"></script>
+</div>

@@ -1,0 +1,123 @@
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="../../view/css/configSidabi.css" rel="stylesheet">
+
+<div id="containerX" class="text-left">
+    <div id="wrapper" class="toggled">
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li>
+                    <a href="/sidabi/index.php" id="voltarSidabi">
+                        <span class="glyphicon glyphicon-chevron-left"></span>
+                        Voltar
+                    </a>
+                </li>
+                <li id="tituloGerenciamento" class="sidebar-brand">
+                    <span> Configurações </span>
+                </li>
+                <li>
+                    <a href="#loginSidabi" id="loginSidabi">
+                        Usuário
+                    </a>
+                </li>
+                <li>
+                    <a href="#perfil" id="perfil">
+                        Perfil
+                    </a>
+                </li>
+                <li>
+                    <a href="#moduloSidabi" id="moduloSidabi">
+                        Módulo
+                    </a>
+                </li>
+                <li>
+                    <a href="#menuSidabi" id="menuSidabi">
+                        Tela
+                    </a>
+                </li>
+                <li>
+                    <a href="#permissaoSidabi" id="permissaoSidabi">
+                        Permissão nos módulos
+                    </a>
+                </li>
+                <li>
+                    <a href="#permissaoMenuSidabi" id="permissaoMenuSidabi">
+                        Permissão nas telas
+                    </a>
+                </li>
+                <li>
+                    <a href="#grupoPesquisadoresSidabi" id="grupoPesquisadoresSidabi">
+                        Criar grupo de Pesquisadores
+                    </a>
+                </li>
+                <li>
+                    <a href="#associarGrupoPesquisadoresLoginSidabi" id="associarGrupoPesquisadoresLoginSidabi">
+                        Associar pesquisadores
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="col-sm-12">
+                    <div id="containerConfiguracaoSidabi" class="text-justify">
+                        <div>
+                            Esta área de Gerencimanto possibilita ao usuário do SIDABI gerenciar a criação de módulos, telas e login para os
+                            usuários do sistema. Ainda nesta área, é possível atribuir ou remover permissões de acesso nos módulos ou nas funcionalidades
+                            de cada tela, como: editar, visualizar, inserir ou excluir informações.
+                            Deste modo, no menu vertical lateral encontram-se as opções necessárias para gerenciar os dados.
+                        </div>
+
+                        <br/>
+                        <p>
+                            <b> Usuário: </b> cadastro de informações referentes aos usuários que poderão ter acesso ao sistema.
+                        </p>
+                        <p>
+                            <b> Perfil: </b> cadastro de informações do perfil dos usuários.
+                        </p>
+                        <p>
+                            <b> Módulo: </b> refere-se ao cadastro de um módulo, ou seja, o "software" que compõe o sistema intergrado.
+                        </p>
+                        <p>
+                            <b> Permissão nos módulos: </b> nesta área, é possível atribuir permissão em qual módulo cada usuário poderá ter acesso.
+                        </p>
+                        <p>
+                            <b> Tela: </b> cadastro de telas que cada módulo possuirá.
+                        </p>
+                        <p>
+                            <b> Permissões nas telas: </b> atribuição de permissões de acesso por tela a cada usuário.
+                        </p>
+                        <p>
+                            <b> Criar grupo de pesquisadores: </b> nesta tela, é possível criar um grupo para identificar um grupo de pesquisadores para facilitar o compartilhamento de arquivos.
+                        </p>
+                        <p>
+                            <b> Associar pesquisadores: </b> nesta área é possível associar os pesquisadores aos grupos de pesquisadores.
+                        </p>
+
+                        <div class="col-sm-12">
+                            <div class="col-sm-6">
+                                <div class="chart-container text-center" style="width: 500px; height: 280px;">
+                                    <h4> Quantidade de usuário por perfil </h4>
+                                    <canvas id="graficoQtdAlunos"></canvas>
+                                    <br/>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="col-sm-6 chart-container text-center" style="width: 500px; height: 280px;">
+                                    <h4> Quantidade de usuário por grupo de pesquisadores </h4>
+                                    <canvas id="graficoQtdAlunosGrupo"></canvas>
+                                    <br/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Menu Toggle Script -->
+    <script src="/sidabi/_resources/chartJs/dist/Chart.min.js" type="text/javascript"></script>
+    <script src="/sidabi/_resources/chartJs/dist/chartjs-plugin-labels.js" type="text/javascript"></script>
+    <script src="../../view/js/configSidabi.js" charset="UTF-8" type="text/javascript"></script>
+</div>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt">
+	<head>
+		<link rel="shortcut icon" type="image/png" href="/sidabi/_resources/sidabi-fav.ico"/>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="tela de abertura de modulos - SIDABI">
+		<meta name="author" content="Joao Paulo Folador">
+	
+		<title> SIDABI - NIATS </title>
+	  
+	   	<link href="/sidabi/_resources/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
+		<link href="../../view/css/telaModulos.css" rel="stylesheet">
+	</head>
+
+ 	<body>
+		<nav id="barraMenu" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+						data-target="#menuHorizontal" aria-expanded="false" aria-controls="menuHorizontal">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+
+				<a class="navbar-brand textoNiats" href="http://www.niats.feelt.ufu.br/" target="_blank"> NIATS </a>
+				<div class="navbar-brand">|</div>
+				<div id="sidabiModulo" class="navbar-brand siglaTitulo" href="#"> SIDABI </div>
+			</div>
+
+			<div id="menuHorizontal" class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+
+					<!-- BEGIN BLOCO_BOTAO_SAIR -->
+						<li class="">
+							<a href="/sidabi/index.php" >
+								<span class="glyphicon glyphicon-home"></span>
+							</a>
+						</li>
+						<li class="">
+							<a href="#userLogado" id="usuarioLogado"> {NOME_USUARIO_LOGADO} </a>
+						</li>
+						<!-- BEGIN BLOCO_CONFIG_SIDABI -->
+							<li>
+								<a href="#configSidabi" id="configSidabi">
+									<span class="glyphicon glyphicon-cog"></span>
+									Configuração
+								</a>
+							</li>
+						<!-- END BLOCO_CONFIG_SIDABI -->
+						<li class="sairSidabi">
+							<a href="#sairModulo" id="sairModulo">
+								Sair
+							</a>
+						</li>
+					<!-- END BLOCO_BOTAO_SAIR -->
+				</ul>
+			</div><!--/.nav-collapse -->
+
+		</nav>
+
+		<div id="conteudoModulo" class="container-fluid">
+			<!-- BEGIN BLOCO_MODULO -->
+				<div class="modulo col-sm-3" data-modulo="{CAMINHO_MODULO}" data-modulo-id={MODULO_ID}>
+					<div class="iconeModulo">
+						<img src="{CAMINHO_IMAGEM}" alt="{SIGLA}" title="Acessar {SIGLA}" />
+					</div>
+					<div class="descModulo">
+						<div class="sigla"> {SIGLA} </div>
+						<div class="tituloModulo"> {TITULO} </div>
+					</div>
+				</div>
+			<!-- END BLOCO_MODULO -->
+
+			<!-- BEGIN BLOCO_MSG_LINK_INVALIDO -->
+				<div class="form-group">
+					<br /><br />
+					<div class="alert alert-info col-sm-4">
+						Ocorreu algum problema ao verificar o link do seu email! <br /><br />
+						Tente refazer o processo, caso não consiga, solicite a recuperação de senha novamente
+						ou entre em contato com o professor responsável.
+
+						<br /><br />
+						<a href="/sidabi/index.php"> Voltar </a>
+					</div>
+				</div>
+			<!-- END BLOCO_MSG_LINK_INVALIDO -->
+
+			<!-- BEGIN BLOCO_SETUSER -->
+				<input type="hidden" id="setUser" value="{SETUSERID}"/>
+			<!-- END BLOCO_SETUSER -->
+
+			{TELA_LOGIN}
+
+			<!-- BEGIN BLOCO_MSG_VAZIO -->
+				<br/>
+				<div class="alert alert-warning col-sm-6">
+					<b> Você não tem permissão para acessar nenhum módulo! </b>
+					<br />
+					Verifique com o administrador do sistema sobre suas permissões.
+				</div>
+			<!-- END BLOCO_MSG_VAZIO -->
+		</div>
+
+		<script src="/sidabi/_resources/jquery-3.1.1.min.js" type="text/javascript"></script>
+	    <script src="/sidabi/_resources/bootstrap-3.3.7-dist/js/bootstrap.min.js" type="text/javascript"></script>
+		<script src="/sidabi/_resources/bootbox.min.js" type="text/javascript"></script>
+		<script src="../../view/js/telaModulos.js" charset="UTF-8" type="text/javascript"></script>
+	</body>
+</html>

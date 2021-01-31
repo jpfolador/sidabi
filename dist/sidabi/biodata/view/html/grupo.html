@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+
+    <link href="/sidabi/_resources/free-jqGrid/dist/css/ui.jqgrid.jpf.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        .ui-jqgrid .ui-jqgrid-bdiv {
+            position: relative;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            overflow-y: auto;
+            text-align: left;
+        }
+        #criterio_inclusao,
+        #criterio_exclusao,
+        #descricao {
+            width: 98%;
+            height: 90px;
+        }
+        .customelement .radio-inline input {
+            margin-left: -40px;
+            padding-right: 10px;
+        }
+        .typeahead {
+            z-index: 10051;
+        }
+        #TblGrid_jqGrid td.CaptionTD,
+        #ViewTbl_jqGrid td.CaptionTD {
+            width: 150px !important;
+        }
+        #ViewTbl_jqGrid td :not(.captionTD) {
+            padding-left: 0;
+            white-space: pre-wrap;
+            text-align: justify;
+        }
+        #ViewTbl_jqGrid {
+            width: 760px !important;
+        }
+        #viewmodjqGrid {
+            width: 800px !important;
+        }
+        /* Ajusta o texto com quebra na TD da tabela */
+        .ui-jqgrid tr.jqgrow td {
+            white-space: normal !important;
+            height: auto;
+            padding: 0.5em !important;
+        }
+    </style>
+
+    <script src="/sidabi/_resources/free-jqGrid/dist/i18n/grid.locale-pt-br.js" type="text/ecmascript"></script>
+    <script src="/sidabi/_resources/free-jqGrid/dist/jquery.jqgrid.min.js" type="text/ecmascript"></script>
+    <script type="text/javascript">
+        $(function() {
+            "use strict";
+            $("#jqGrid").jqGrid({
+                url: '../ctrl_gerenciamento/grupoJqGridLoad.php',
+                editurl: '../ctrl_gerenciamento/grupoJqGridEdit.php',
+                datatype: "json",
+                mtype: "GET",
+                page: 1,
+                jsonReader: {
+                    page: "obj.currpage",
+                    total: "obj.totalpages",
+                    records: "obj.totalrecords",
+                    repeatitems: false,
+                    root: "obj.rows",
+                    cell: "cell",
+                    id: "0"
+                },
+                colModel: [
+                    {
+						label: 'ID',
+                        name: 'id',
+                        width: 20,
+						key: true,
+						editable: false
+                    },
+                    {
+                        label: 'Estudo',
+                        name: 'estudo_descricao',
+                        width: 50,
+                        editable: true,
+                        editrules : { required: true },
+                        search: true,
+                        edittype: "select",
+                        editoptions: {
+                            value: {OPTIONS_ESTUDO}
+                        },
+                        stype: 'text'
+                    },
+                    {
+                        label: 'Nome',
+                        name: 'nome',
+                        width: 50,
+                        editable: true,
+                        editrules : { required: true },
+                        search: true,
+                        stype: 'text'
+                    },
+                    {
+                        label: 'Descrição',
+                        name: 'descricao',
+                        edittype: 'textarea',
+                        width: 80,
+                        editable: true,
+                        editrules : { required: true },
+                        search: true,
+                        stype: 'text'
+                    },
+                    {
+						label: 'Critério de inclusão',
+                        name: 'criterio_inclusao',
+                        edittype: 'textarea',
+                        width: 50,
+                        editable: true,
+                        search: true,
+                        stype: 'text'
+                    },
+                    {
+                        label: 'Critério de exclusão',
+                        name: 'criterio_exclusao',
+                        edittype: 'textarea',
+                        width: 50,
+                        editable: true,
+                        search: true,
+                        stype: 'text'
+                    }
+                ],
+                guiStyle: "bootstrap",
+                autowidth: true,
+                rownumbers: false,
+                hidegrid: false,
+                loadComplete: function () {
+                    $(this).triggerHandler('resize.jqGrid');
+                },
+                sortname: 'nome',
+                sortorder: 'asc',
+                viewrecords: true,
+                height: 'auto',
+                rowNum: 15,
+                pager: "#jqGridPager"
+            }).jqGrid('filterToolbar', {defaultSearch:'cn'});
+
+            $('#jqGrid').navGrid('#jqGridPager',
+            {
+                edit: {PERMITE_EDITAR},
+                add: {PERMITE_INCLUIR},
+                del: {PERMITE_EXCLUIR},
+                search: false,
+                refresh: false,
+                view: {PERMITE_VISUALIZAR},
+                position: "left",
+                cloneToTop: false
+            },
+            {
+                editCaption: "Editar",
+                width: "700",
+                height: "auto",
+                top: "10",
+                left: "10",
+                recreateForm: true,
+                closeAfterEdit: true,
+                afterComplete: function (data) {
+                    let res = $.parseJSON(data.responseText);
+                    switch (res.status)
+                    {
+                        case 'ok':
+                            //bootbox.alert(res.obj);
+                            break;
+
+                        case 'erro':
+                            bootbox.alert("Não foi possível editar o registro. Tente atualizar e refazer o processo!");
+                            console.log("Erro: " + res.msg);
+                            break;
+                    }
+                },
+                errorTextFormat: function (data) {
+                    return 'Error: ' + data.responseText
+                }
+            },
+            {
+                editCaption: "Adicionar",
+                width: "700",
+                height: "auto",
+                top: "10",
+                left: "10",
+                closeAfterAdd: true,
+                recreateForm: true,
+                afterComplete: function (data) {
+                    let res = $.parseJSON(data.responseText);
+                    switch (res.status)
+                    {
+                        case 'ok':
+                            //bootbox.alert(res.obj);
+                            break;
+
+                        case 'erro':
+                            bootbox.alert("Não foi possível adicionar o registro. Tente atualizar e refazer o processo!");
+                            console.log("Erro: " + res.msg);
+                            break;
+                    }
+                },
+                errorTextFormat: function (data) {
+                    return 'Error: ' + data.responseText
+                }
+            },
+            {
+                editCaption: "Apagar",
+                width: "500",
+                height: "auto",
+                top: "10",
+                left: "10",
+                afterComplete: function (data) {
+                    let res = $.parseJSON(data.responseText);
+                    switch (res.status)
+                    {
+                        case 'ok':
+                            bootbox.alert(res.obj);
+                            break;
+
+                        case 'erro':
+                            bootbox.alert("Não foi possível apagar o registro. Ele pode estar sendo utilizado!");
+                            console.log("Erro: " + res.msg);
+                            break;
+                    }
+                },
+                errorTextFormat: function (data) {
+                    return 'Error: ' + data.responseText
+                }
+            });
+            $(window).on('resize.jqGrid', function () {
+                $('#jqGrid').jqGrid('setGridWidth', $(".freeJqgridContainer").width() - 20);
+            }).triggerHandler('resize.jqGrid');
+        });
+    </script>
+</head>
+
+<body>
+    <div class="row">
+        <h4 class="pull-left"> Grupo de estudo </h4>
+        <span class="pull-right btn btn-link"
+              data-toggle="collapse"
+              data-parent="#accordion"
+              href="#collapseOne"
+              aria-expanded="true"
+              aria-controls="collapseOne">
+            Ajuda
+            <span class="glyphicon glyphicon-question-sign"></span>
+        </span>
+    </div>
+    <div id="collapseOne" class="panel-collapse collapse out" role="tabpanel" aria-labelledby="headingOne">
+        <div class="panel-body panel panel-default" style="background-color: #F5F5F5">
+            Nesta etapa, você deve criar um grupo de estudo, sendo necessário o cadastro prévio deste estudo.
+            Assim, você escolhe o <b>Estudo</b> que fará parte deste grupo de estudo e associa os participantes do estudo/pesquisa. <br/>
+            Depois de escolher o estudo, escolha um <b>Nome</b> para o seu Grupo de estudo (Escolha um nome simples e tente não
+            usuar caracteres especiais, apenas letras e/ou números). <br/>
+            Já na <b>Descrição</b>, você pode detalhar as características do grupo. <br/>
+            No campo <b>Critério de inclusão</b>, cite brevemente as características dos participantes que farão parte das coletas. <br/>
+            No campo <b>Critério de exclusão</b>, descreva o que impede que um participante faça parte da pesquisa. <br/>
+        </div>
+    </div>
+    <div class="freeJqgridContainer row">
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+    </div>
+    <br />
+</body>
+</html>

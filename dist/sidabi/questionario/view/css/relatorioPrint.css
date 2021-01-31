@@ -1,0 +1,59 @@
+.opcaoRelatorio {
+	margin: 5px 0;
+	padding: 8px 13px;
+	background-color: #EAEAEA;
+	color: #555;
+	font-weight: bold;
+}
+.opcaoRelatorio:hover {
+	background-color: #CACACA;
+	color: #000;
+	cursor: pointer;
+}
+
+.linhaResposta {
+	position: relative;
+	padding-top: 10px !important;
+	font-size: 16px !important;
+	font-weight: bold !important;
+}
+
+.containerRespostas {
+	position: relative;
+}
+
+.perguntasRespostas {
+	display: inline;
+	margin: 5px 0;
+	font-size: 12px;
+}
+
+.dadosQuestionario {
+	font-size: 14px;
+	margin: 5px 0;
+}
+
+.tituloResultado {
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.alinhaDireita {
+	float: right;
+}
+
+.tbTodasAvaliacoes {
+	font-size: 13px;
+	width: 100%;
+	border-collapse: collapse;
+	padding: 0;
+}
+
+.tbTodasAvaliacoes td {
+	padding-left: 4px;
+	height: 23px;
+}
+
+.linhaSubTotal {
+	background-color: #EAEAEA;
+}

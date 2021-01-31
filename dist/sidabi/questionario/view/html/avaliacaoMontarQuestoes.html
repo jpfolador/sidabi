@@ -1,0 +1,121 @@
+<form id="formQuestionario" method="post" onsubmit="return false" class="form-horizontal">
+
+    <!-- BEGIN CONTAINER_AGRUPAMENTO -->
+    <div class="containerAgrupamento">
+        <!-- BEGIN BLOCO_AGRUPAMENTO_DESCRICAO -->
+        <h3 class="agrupamentoDivisao"> {AGRUPAMENTO_ORDEM}. {AGRUPAMENTO_DESCRICAO} </h3>
+        <!-- END BLOCO_AGRUPAMENTO_DESCRICAO  -->
+
+        <!-- BEGIN BLOCO_QUESTAO -->
+        <div class="containerQuestao">
+            <!-- BEGIN BLOCO_PERGUNTA -->
+                <h4> {QUESTAO_NUMERO}. {QUESTAO_TITULO} </h4>
+                <h5> {QUESTAO_DESCRICAO} </h5>
+                <p class="questaoInstrucao"> {QUESTAO_INSTRUCAO} </p>
+            <!-- END BLOCO_PERGUNTA -->
+
+            <!-- BEGIN BLOCO_ALTERNATIVA_MULTIPLA_ESCOLHA_UMA_APLICACAO -->
+            <div class="alternativa">
+                <label style="font-weight: normal;">
+                    <input id="alternativa-{QUESTAO_ID}-{TIPO_APLICACAO_ID}-{ALTERNATIVA_ID}"
+                           name="alternativa-{QUESTAO_ID}-{TIPO_APLICACAO_ID}"
+                           type="radio"
+                           class="altertivaRadio"
+                           data-questao-id="{QUESTAO_ID}"
+                           data-tipo-aplicacao-id="{TIPO_APLICACAO_ID}"
+                           data-alternativa-id="{ALTERNATIVA_ID}"/>
+                    {ALTERNATIVA_DESCRICAO}
+                </label>
+            </div>
+            <!-- END BLOCO_ALTERNATIVA_MULTIPLA_ESCOLHA_UMA_APLICACAO -->
+
+            <!-- BEGIN BLOCO_ALTERNATIVA_MULTIPLA_ESCOLHA_MULTIPLA_APLICACAO -->
+            <div class="alternativaMulti table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <!-- BEGIN TH_TIPO_APLICACAO_SIGLA -->
+                        <th title="{TH_TITLE}" class="text-center col-sm-1"> {TH_SIGLA} </th>
+                        <!-- END TH_TIPO_APLICACAO_SIGLA -->
+                        <th> &nbsp; </th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <!-- BEGIN TR_ALTERNATIVA_MULTI -->
+                    <tr>
+                        <!-- BEGIN TD_INPUT_ALTERNATIVA_MULTI -->
+                        <td class="text-center">
+                            <input id="alternativa-{QUESTAO_ID}-{TIPO_APLICACAO_ID}-{ALTERNATIVA_ID}"
+                                   name="alternativa-{QUESTAO_ID}-{TIPO_APLICACAO_ID}"
+                                   type="radio"
+                                   class="altertivaRadio"
+                                   data-questao-id="{QUESTAO_ID}"
+                                   data-tipo-aplicacao-id="{TIPO_APLICACAO_ID}"
+                                   data-alternativa-id="{ALTERNATIVA_ID}" />
+                        </td>
+                        <!-- END TD_INPUT_ALTERNATIVA_MULTI -->
+                        <td> {ALTERNATIVA_DESCRICAO} </td>
+                    </tr>
+                    <!-- END TR_ALTERNATIVA_MULTI -->
+                    </tbody>
+                </table>
+            </div>
+            <!-- END BLOCO_ALTERNATIVA_MULTIPLA_ESCOLHA_MULTIPLA_APLICACAO -->
+
+            <!-- BEGIN BLOCO_ALTERNATIVA_TEXTO_CURTO -->
+            <div class="alternativa form-group">
+                <div> {ALTERNATIVA_DESCRICAO} </div>
+
+                <input id="alternativa-{QUESTAO_ID}-{TIPO_APLICACAO_ID}-{ALTERNATIVA_ID}"
+                       name="alternativa-{QUESTAO_ID}-{TIPO_APLICACAO_ID}-{ALTERNATIVA_ID}"
+                       type="text"
+                       class="altertivaTexto form-control"
+                       data-questao-id="{QUESTAO_ID}"
+                       data-tipo-aplicacao-id="{TIPO_APLICACAO_ID}"
+                       data-alternativa-id="{ALTERNATIVA_ID}"/>
+            </div>
+            <!-- END BLOCO_ALTERNATIVA_TEXTO_CURTO -->
+
+            <!-- BEGIN BLOCO_ALTERNATIVA_TEXTO_LONGO -->
+            <div class="alternativa form-group">
+                <div> {ALTERNATIVA_DESCRICAO} </div>
+
+                <textarea id="alternativa-{QUESTAO_ID}-{TIPO_APLICACAO_ID}-{ALTERNATIVA_ID}"
+                          name="alternativa-{QUESTAO_ID}-{TIPO_APLICACAO_ID}-{ALTERNATIVA_ID}"
+                          class="altertivaTexto form-control"
+                          data-questao-id="{QUESTAO_ID}"
+                          data-tipo-aplicacao-id="{TIPO_APLICACAO_ID}"
+                          data-alternativa-id="{ALTERNATIVA_ID}"></textarea>
+            </div>
+            <!-- END BLOCO_ALTERNATIVA_TEXTO_LONGO -->
+
+        </div>
+        <!-- END BLOCO_QUESTAO -->
+    </div>
+    <!-- END CONTAINER_AGRUPAMENTO -->
+
+    <!-- BEGIN BLOCO_BTN_SALVAR -->
+    <div class="form-group">
+        <div class="col-sm-12 pull-right">
+            <button id="btnCancelar" type="button" class="btn btn-default">
+                <span class="glyphicon glyphicon-trash"></span>
+                Apagar avaliação
+            </button>
+
+            <button id="btnFinalizar" type="button" class="btn btn-success ">
+                <span class="glyphicon glyphicon-floppy-disk"></span>
+                Finalizar avaliação
+            </button>
+        </div>
+    </div>
+    <!-- END BLOCO_BTN_SALVAR -->
+
+    <!-- BEGIN BLOCO_AVALIACAO_FINALIZADA -->
+        <div class="alert alert-success">
+            Esta avaliação já foi <b>finalizada</b>.
+        </div>
+    <!-- END BLOCO_AVALIACAO_FINALIZADA -->
+</form>
+
+<script src="/sidabi/questionario/view/js/avaliacao.js" type="text/javascript"></script>

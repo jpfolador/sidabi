@@ -1,0 +1,117 @@
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="/sidabi/questionario/view/css/relatorioContabilizar.css" rel="stylesheet" type="text/css" />
+
+<div class="resultadoTodasAvaliacoes">
+    <div id="areaImprimir">
+        <br />
+
+        <h4> {TIPO_QUESTIONARIO_TITULO} </h4>
+
+<!--        <div class="tituloResultado">
+            <span class="col-sm-7">
+                &nbsp;
+            </span>
+            <span class="col-sm-4 alinhaDireita">
+                &nbsp;
+            </span>
+        </div>-->
+
+        <!-- BEGIN RESPOSTA_BLOCK -->
+        <div class="containerRespostas">
+
+            <table class="table tbTodasAvaliacoes">
+                <tr>
+                    <td rowspan="2" style="vertical-align: middle;">
+                         <p> <b> Participante: </b> {PARTICIPANTE_NOME} </p>
+                         <p> <b> Data de nascimento: </b> {PARTICIPANTE_DT_NASCIMENTO} </p>
+                         <p> <b> Sexo: </b> {PARTICIPANTE_SEXO} </p>
+                         <p> <b> Diagnóstico: </b> {PARTICIPANTE_DIAGNOSTICO} </p>
+                    </td>
+                    
+                    <td colspan="{ESCORE_COLSPAN}" class="text-center">
+                    	<b> Escore </b>
+                    </td> 
+                </tr>
+
+                <tr>      
+                	<!-- BEGIN QUESTIONARIO_BLOCK_CABECALHO -->                
+	                    <td class="text-center">
+	                    	<b> {DATA_AVALIACAO} </b>
+	                    	<div> {MEDICAMENTO_DIA} </div>
+	                    </td>
+                    <!-- END QUESTIONARIO_BLOCK_CABECALHO -->                        
+                </tr>  
+
+                <!-- BEGIN AGRUPAMENTO_BLOCK -->
+	                <!-- BEGIN AGRUPAMENTO_DESCRICAO_BLOCK -->
+		                <tr>
+		                    <td colspan="{AGRUPAMENTO_DESCRICAO_COLSPAN}" style="background-color: #EAEAEA;">
+		                    	<b> {AGRUPAMENTO_ORDEM}. {AGRUPAMENTO_DESCRICAO} </b>
+		                    </td>   
+		                </tr>                 
+	                <!-- END AGRUPAMENTO_DESCRICAO_BLOCK -->
+
+	                <!-- BEGIN QUESTAO_TIPO_APLICACAO_BLOCK -->
+		                <tr>
+		                    <td class="col-sm-8"> {NUMERO_QUESTAO} {TITULO_QUESTAO} </td>
+		                    <!-- BEGIN QUESTIONARIO_BLOCK -->
+		                        <td class="text-center">
+                                    {VALOR_ALTERNATIVA}
+                                </td>
+		                    <!-- END QUESTIONARIO_BLOCK -->
+		                </tr>
+	                <!-- END QUESTAO_TIPO_APLICACAO_BLOCK -->
+
+	                <!-- BEGIN AGRUPAMENTO_SUBTOTAL_BLOCK -->
+		                <tr class="linhaSubTotal">
+		                    <td>
+                                <b> Subtotal </b>
+                            </td>
+
+		                    <!-- BEGIN VALOR_ALTERNATIVA_SUBTOTAL_BLOCK -->
+		                        <td class="text-center">
+                                    <b> {VALOR_ALTERNATIVA_SUBTOTAL} </b>
+                                </td>
+		                    <!-- END VALOR_ALTERNATIVA_SUBTOTAL_BLOCK -->
+		                </tr>
+	                <!-- END AGRUPAMENTO_SUBTOTAL_BLOCK -->
+                <!-- END AGRUPAMENTO_BLOCK -->
+
+                <!-- BEGIN AGRUPAMENTO_TOTALGERAL_BLOCK -->
+                <tr class="linhaTotalGeral">
+                    <td>
+                    	<b> Total Geral </b>
+                    </td>
+                    <!-- BEGIN VALOR_ALTERNATIVA_TOTALGERAL_BLOCK -->
+                    	<td class="text-center">
+                    		<b> {VALOR_ALTERNATIVA_TOTALGERAL} </b>
+                    	</td>                    
+                    <!-- END VALOR_ALTERNATIVA_TOTALGERAL_BLOCK -->
+                </tr>
+                <!-- END AGRUPAMENTO_TOTALGERAL_BLOCK -->
+            </table>
+        </div>
+        <!-- END RESPOSTA_BLOCK -->
+        
+        <!-- BEGIN MSG_VAZIO -->
+        <br/><br/>
+        <div class="alert alert-warning col-sm-12">
+            Esta avaliação provavelmente não foi finalizada! Verifique-a no menu 'Avaliação' do topo da página.
+        </div>
+        <!-- END MSG_VAZIO -->
+    </div>
+
+    <div class="col-sm-12" style="margin-top: 30px;">
+        <button type="button" id="btnImprimirTodasAvaliacoes" class="btn btn-info">
+            <span class="glyphicon glyphicon-print"></span>
+            Imprimir
+        </button>
+        <button type="button" id="btnImprimirTodasAvaliacoesXls" class="btn btn-success">
+            <span class="glyphicon glyphicon-print"></span>
+            Gerar planilha
+        </button>
+    </div>
+</div>
+
+<script type="text/javascript" src="/sidabi/_resources/printThis-master/printThis.js"></script>
+<script type="text/javascript" src="/sidabi/_resources/jquery.table2excel.min.js"></script>

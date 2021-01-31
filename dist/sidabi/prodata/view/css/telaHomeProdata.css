@@ -1,0 +1,86 @@
+/*
+	Cor da barra horizontal #0d4767
+	Cor do menu vertical #103A51
+*/
+.collapsing {
+	-webkit-transition: none;
+	transition: none;
+	display: none;
+}
+
+body {
+	padding-top: 50px;
+}
+
+#menuHorizontal a {
+	color: #FFF;
+	font-size: 16px;
+}
+#menuHorizontal a:visited {
+	background-color: #306a8a;
+	font-size: 16px;
+}
+#menuHorizontal a:hover {
+	background-color: #306a8a;
+}
+
+#barraMenu {
+	background-color: #2C5371;
+	color: #FFF;
+}
+
+
+.tituloModulo {
+	color: #FFF !important;
+}
+
+#sair {
+	background-color: #2b405d !important;
+}
+
+.starter-template {
+	padding: 20px 15px;
+	overflow: auto;
+}
+
+.descricaoSoftware {
+	width: 98%;
+	height: 98%;
+	margin: 10px;
+	padding-top: 2%;
+}
+
+.imgNiats {
+	width: 250px;
+	height: auto;
+	float: left;
+	padding-top: 10px;
+	margin-bottom: 40px;
+}
+
+.imgUfu {
+	width: 130px;
+	height: auto;
+	float: left;
+}
+
+.centerlBlock {
+	text-align: justify;
+	position: relative;
+	margin: 15px 5px;
+	padding: 5px;
+	height: auto;
+	width: 100%;
+}
+
+.flatIcon {
+	text-align: center;
+	border-bottom: 2px solid #EAEAEA;
+	padding: 25px 0;
+	margin: 20px 0;
+}
+.flatIcon img {
+	border: none;
+	width: 70px;
+	height: auto;
+}

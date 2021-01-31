@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+
+    <!-- We support more than 40 localizations -->
+    <script type="text/ecmascript" src="../../../_resources/jqGrid/js/i18n/grid.locale-pt-br.js"></script>
+
+    <!-- This is the Javascript file of jqGrid -->   
+    <script type="text/ecmascript" src="../../../_resources/jqGrid/js/jquery.jqGrid.js"></script>
+
+    <!-- A link to a Boostrap  and jqGrid Bootstrap CSS siles-->
+    <link rel="stylesheet" type="text/css" media="screen" href="../../../_resources/jqGrid/css/ui.jqgrid-bootstrap.css" />
+
+	<script src="../../../_resources/jquery.mask.min.js" type="text/javascript"></script>
+	<!--<script src="../../../_resources/jquery.ajaxfileupload.js" type="text/javascript"></script>-->
+	<script src="../../../_resources/ajaxFileUpload.js" type="text/javascript"></script>
+
+    <style type="text/css">
+        .visualizaFoto {
+            padding: 0;
+            margin-bottom: 10px;
+            width: 150px;
+            height: auto;
+        }
+        .containerFoto {
+            padding: 1px;
+        }
+        .removeFoto {
+            padding: 5px;
+            cursor: pointer;
+            position: relative;
+            top: -50px;
+        }
+        .removeFoto:hover{
+            color: #ff000e;
+        }
+        #tr_foto_nome {
+            display: none;
+        }
+
+        #TblGrid_jqGrid td.CaptionTD,
+        #ViewTbl_jqGrid td.CaptionTD {
+            width: 150px !important;
+        }
+        #ViewTbl_jqGrid td :not(.captionTD) {
+            padding-left: 0;
+            white-space: pre-wrap;
+            text-align: justify;
+        }
+        #ViewTbl_jqGrid {
+            width: 760px !important;
+        }
+        #viewmodjqGrid {
+            width: 800px !important;
+        }
+        #trv_foto,
+        #trv_foto_nome {
+            display: none;
+        }
+        #nData, #pData {
+            display: none;
+        }
+    </style>
+
+	<script type="text/javascript">
+		$.jgrid.defaults.width = 950;
+		$.jgrid.defaults.responsive = true;
+		$.jgrid.defaults.styleUI = 'Bootstrap';
+		
+		$.jgrid.styleUI.Bootstrap.base.rowTable = "table table-bordered table-striped";
+
+        $(document).ready(function () {
+            atualizarFoto = function(id, foto)
+            {
+                $.ajax({
+                    dataType: "json",
+                    type: "post",
+                    url: "../ctrl_gerenciamento/participanteAtualizarFoto.php",
+                    data: {
+                        id: id,
+                        foto: foto
+                    },
+                    success: function(data) {
+                        switch (data.status)
+                        {
+                            case 'ok':
+                                // Tudo certo
+                                // console.log(data);
+                            break;
+                            case 'erro':
+                                console.log("Erro: " + data.msg);
+                            break;
+                        }
+                    },
+                    error: function(){
+                        console.error("Erro: Não foi possível atualizar o arquivo");
+                    }
+                });
+            };
+
+            removerUpload = function(nomeArquivo) {
+                $.ajax({
+                    dataType: "json",
+                    type: "post",
+                    url: "../ctrl_gerenciamento/participanteRemoverArquivo.php",
+                    data: {
+                        nomeArquivo: nomeArquivo
+                    },
+                    success: function(data) {
+                        switch (data.status)
+                        {
+                            case 'ok':
+                                // Tudo certo
+                                // console.log(data);
+                            break;
+                            case 'erro':
+                                console.log("Erro: " + data.msg);
+                            break;
+                        }
+                    },
+                    error: function(){
+                        console.error("Erro: Não foi possível remover o arquivo!");
+                    }
+                });
+            };
+
+            limparInputFile = function() {
+                $("#imgFotoParticipante").attr("src", "../../files/participantes_fotos/");
+                $('#foto').val('');
+                $("#nomeArquivo").val("");
+                $("#removerFoto").addClass("hide");
+                $("#tr_foto_nome").hide();
+                $("#tr_foto").show();
+            };
+
+            pegarArquivo = function()
+            {
+                // pega o dado de uma linha da tabela.
+                var temFoto = $("#jqGrid").jqGrid('getRowData',$("#jqGrid")[0].p.selrow).foto;
+                var gridId = $("#jqGrid").jqGrid('getGridParam',"selrow");
+
+                if ((temFoto != undefined) && (temFoto.length > 0))
+                {
+                    $("#removerFoto").on('click', function (event) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        removerUpload(temFoto);
+                        atualizarFoto(gridId, null);
+                        limparInputFile();
+                    });
+
+                    $("#imgFotoParticipante").prop("src", "../../files/participantes_fotos/" + temFoto);
+                    $("#removerFoto").removeClass("hide");
+                    $("#nomeArquivo").val(temFoto);
+                    $("#tr_foto_nome").show();
+                    $("#tr_foto").hide();
+                }
+
+                $("#FrmGrid_jqGrid").on("change", "#foto", function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    $("#imgFotoParticipante").prop("src", "../../files/participantes_fotos/");
+
+                    $.ajaxFileUpload({
+                        url: "../ctrl_gerenciamento/participanteUploadFile.php",
+                        secureuri: false,
+                        fileElementId: 'foto',
+                        dataType: 'json',
+                        success: function (data, status) {
+                            switch (data.status) {
+                                case 'ok':
+                                    // Eventos ao adicionar uma foto
+                                    var src = $("#imgFotoParticipante").prop("src");
+
+                                    $("#imgFotoParticipante").prop("src", src + data.obj["file_name"]);
+                                    $("#removerFoto").removeClass("hide");
+                                    $("#nomeArquivo").val(data.obj["file_name"]);
+                                    $("#tr_foto_nome").show();
+                                    $("#tr_foto").hide();
+                                    atualizarFoto(gridId, data.obj["file_name"]);
+
+                                    // Eventos ao remover a imagem pelo 'x'
+                                    $("#removerFoto").on('click', function (event) {
+                                        event.preventDefault();
+                                        event.stopPropagation();
+                                        removerUpload(data.obj["file_name"]);
+                                        atualizarFoto(gridId, null);
+                                        limparInputFile();
+                                    });
+                                break;
+                                case 'erro':
+                                    alert("Erro: " + data.msg);
+                                    limparInputFile();
+                                break;
+                            }
+                        },
+                        error: function () {
+                            alert("Não foi possível carregar o arquivo");
+                            limparInputFile();
+                        }
+                    });
+                });
+            };
+
+            $("#jqGrid").jqGrid({
+                url: '../ctrl_gerenciamento/participanteJqGridLoad.php',
+                editurl: '../ctrl_gerenciamento/participanteJqGridEdit.php',
+                datatype: "json",
+                mtype: "GET",
+                page: 1,
+                jsonReader: {
+                    page: "obj.currpage",
+                    total: "obj.totalpages",
+                    records: "obj.totalrecords",
+                    repeatitems: false,
+                    root: "obj.rows",
+                    cell: "cell",
+                    id: "0"
+                },
+                search: {
+                    caption: "Pesquisar",
+                    Find: "Find",
+                    Reset: "Reset",
+                    odata : ['equal', 'not equal', 'less', 'less or equal','greater','greater or equal', 'begins with','does not begin with','is in','is not in','ends with','does not end with','contains','does not contain'],
+                    groupOps: [ { op: "AND", text: "all" }, { op: "OR", text: "any" } ],
+                    matchText: " match",
+                    rulesText: " rules"
+                },
+                colModel: [
+                    {
+						label: 'ID',
+                        name: 'id',
+                        width: 20,
+						key: true,
+						editable: false
+                    },
+                    {
+						label: 'Nome',
+                        name: 'nome',
+                        width: 80,
+                        editable: true,
+                        editrules : { required: true },
+                        search: true,
+                        stype: 'text'
+                    },
+                    {
+                        label: 'Data de Nascimento',
+                        name: 'data_nascimento_formatada',
+                        width: 40,
+                        editable: true,
+                        editrules: { edithidden: true },
+                        editoptions: {
+                            dataInit: function (elem) {
+                                $(elem).mask("99/99/9999");
+                            }
+                        },
+                        search: true,
+                        stype: 'text'
+                    },
+                    {
+                        label: 'Sexo',
+                        name: 'sexo',
+                        width: 40,
+                        editable: true,
+                        hidden: true,
+                        edittype: 'select',
+                        editoptions: {
+                            value: "F:Feminino;M:Masculino"
+                        },
+                        editrules: { edithidden: true },
+                        stype: 'select',
+                        searchoptions: {
+                            value: ":Todos;F:Feminino;M:Masculino"
+                        }
+                    },
+                    {
+                        label: 'Foto',
+                        name: 'foto',
+                        align: 'left',
+                        editable: true,
+                        editrules: { edithidden: true },
+                        hidden: true,
+                        edittype: 'file',
+                        editoptions: {
+                            enctype: "multipart/form-data"
+                        },
+                        width: 80,
+                        search: false
+                    },
+                    {
+                        label: 'Nome do arquivo',
+                        name: 'nomeArquivo',
+                        hidden: true,
+                        editable: true,
+                        stype: 'text'
+                    },
+                    {
+                        label: '&nbsp;',
+                        name: 'foto_nome',
+                        width: 80,
+                        editable: true,
+                        editrules: { edithidden: true },
+                        edittype: 'custom',
+                        hidden: true,
+                        editoptions: {
+                            custom_element: function() {
+                                var temp = "<span class='containerFoto'>";
+                                temp += "<img id='imgFotoParticipante' src='../../files/participantes_fotos/' class='visualizaFoto' />";
+                                temp += "<div id='removerFoto' class='glyphicon glyphicon-remove removeFoto hide'></div>";
+                                temp += "</span>";
+                                return temp;
+                            }
+                        }
+                    },
+                    {
+						label: 'Telefone',
+                        name: 'telefone',
+                        width: 75,
+                        editable: true,
+                        hidden: true,
+                        editrules: { edithidden: true },
+                        editoptions: {
+                        	dataInit: function (elem) {
+                        		$(elem).mask("(99)9999-9999");
+                        	}
+                        },
+                        search: true,
+                        stype: 'text'
+                    },
+                    {
+						label: 'Celular',
+                        name: 'celular',
+                        width: 50,
+                        editable: true,
+                        editrules: { edithidden: true },
+                        editoptions: {
+                        	dataInit: function (elem) { 
+                        		$(elem).mask("(99)99999-9999"); 
+                        	}                   
+                        },
+                        search: true,
+                        stype: 'text'
+                    },
+                    {
+                        label: 'Email',
+                        name: 'email',
+                        width: 60,
+                        editable: true,
+                        hidden: true,
+                        editrules: { edithidden: true },
+                        search: true,
+                        stype: 'text'
+                    },
+                    {
+						label: 'Endereço',
+                        name: 'endereco',
+                        width: 100,
+                        hidden: true,
+                        editable: true,
+                        editrules: { edithidden: true },
+                        stype: 'text'
+                    },
+                    {
+						label: 'CEP',
+                        name: 'cep',
+                        width: 25,
+                        hidden: true,
+                        editable: true,
+                        editrules: { edithidden: true },
+                        editoptions: {
+                            dataInit: function (elem) {
+                                $(elem).mask("99999-999");
+                            }
+                        },
+                        stype: 'text'
+                    },
+                    {
+                    	label: 'Tipo sanguíneo',
+                        name: 'tipo_sangue_descricao',
+                        width: 20,
+                        hidden: true,
+                        editable: true,
+                        editrules: { edithidden: true },
+                        edittype: "select",
+                        editoptions: {
+                            value: {OPTIONS_TIPO_SANGUE}
+                        }
+                    },
+                    {
+						label: 'Peso',
+                        name: 'peso',
+                        width: 20,
+                        hidden: true,
+                        editable: true,
+                        editrules: { edithidden: true },
+                        editoptions: {
+                            dataInit: function (elem) {
+                                $(elem).mask("999.99");
+                            }
+                        },
+                        stype: 'text'
+                    },
+                    {
+                    	label: 'Altura',
+                        name: 'altura',
+                        width: 20,
+                        hidden: true,
+                        editable: true,
+                        editrules: { edithidden: true },
+                        editoptions: {
+                            dataInit: function (elem) {
+                                $(elem).mask("9.99");
+                            }
+                        },
+                        stype: 'text'
+                    }
+                ],
+				sortname: 'nome',
+				sortorder : 'asc',
+				loadonce: false,
+				viewrecords: true,
+				autowidth: true,
+                height: 370,
+                rowNum: 10,
+                pager: "#jqGridPager"
+            });
+
+            $('#jqGrid').jqGrid('filterToolbar', {defaultSearch:'cn'});
+            
+            $('#jqGrid').navGrid('#jqGridPager',
+                {
+                    edit: {PERMITE_EDITAR},
+                    add: {PERMITE_INCLUIR},
+                    del: {PERMITE_EXCLUIR},
+                    search: false,
+                    refresh: false,
+                    view: {PERMITE_VISUALIZAR},
+                    position: "left",
+                    cloneToTop: false
+                },
+                {
+                    editCaption: "Editar",
+                    width: "700",
+                    height: "auto",
+                    top: "120",
+                    left: "450",
+                    recreateForm: true,
+                    closeAfterEdit: true,
+                    afterShowForm: pegarArquivo,
+                    afterComplete: function (data) {
+                        var res = $.parseJSON(data.responseText);
+                        switch (res.status)
+                        {
+                            case 'ok':
+                                //bootbox.alert(res.obj);
+                                break;
+
+                            case 'erro':
+                                bootbox.alert("Não foi possível editar o registro. Tente atualizar e refazer o processo!");
+                                console.log("Erro: " + res.msg);
+                                break;
+                        }
+                    },
+                    errorTextFormat: function (data) {
+                        return 'Error: ' + data.responseText
+                    }
+                },
+                {
+                    editCaption: "Adicionar",
+                    width: "700",
+                    height: "auto",
+                    top: "120",
+                    left: "450",
+                    closeAfterAdd: true,
+                    recreateForm: true,
+                    afterShowForm: pegarArquivo,
+                    beforeShowForm: function() {
+                        $('#jqGrid').jqGrid('setSelection','');
+                    },
+                    afterComplete: function (data) {
+                        var res = $.parseJSON(data.responseText);
+                        switch (res.status)
+                        {
+                            case 'ok':
+                                //bootbox.alert(res.obj);
+                                break;
+
+                            case 'erro':
+                                bootbox.alert("Não foi possível adicionar o registro. Tente atualizar e refazer o processo!");
+                                console.log("Erro: " + res.msg);
+                                break;
+                        }
+                    },
+                    errorTextFormat: function (data) {
+                        return 'Error: ' + data.responseText
+                    }
+                },
+                {
+                    editCaption: "Apagar",
+                    width: "500",
+                    height: "auto",
+                    top: "120",
+                    left: "500",
+                    afterComplete: function (data) {
+                        var res = $.parseJSON(data.responseText);
+                        switch (res.status)
+                        {
+                            case 'ok':
+                                bootbox.alert(res.obj);
+                                break;
+
+                            case 'erro':
+                                bootbox.alert("Não foi possível apagar o registro. Ele pode estar sendo utilizado!");
+                                console.log("Erro: " + res.msg);
+                                break;
+                        }
+                    },
+                    errorTextFormat: function (data) {
+                        return 'Error: ' + data.responseText
+                    }
+                }
+            );
+
+            $("#view_jqGrid").click(function() {
+                var temp = $("#v_foto span").html().trim();
+                $("#v_foto span").html("<img src='../../files/participantes_fotos/" + temp + "' class='visualizaFoto'>");
+            });
+        });
+    </script>
+</head>
+
+<body>
+<div id="uploads">
+
+</div>
+	<br />
+	<h4> Gerenciamento de Participantes </h4>
+	<br />
+	<div id="gridParticipantes" style="margin-left:10px">
+	    <table id="jqGrid"></table>
+	    <div id="jqGridPager"></div>
+	</div>
+</body>
+</html>

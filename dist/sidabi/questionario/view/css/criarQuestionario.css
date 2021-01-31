@@ -1,0 +1,30 @@
+.item {
+    background-color: #F5F5F5;
+    padding: 5px 10px;
+    margin: 5px 0;
+    vertical-align: middle;
+}
+.itemTexto {
+    padding: 6px 0 0 5px;
+}
+.addBorda {
+    border: 1px dashed #ccc;
+}
+.containerQuestoes {
+    margin: 5px 10px;
+}
+.tituloQuestao {
+    padding: 4px 0 0 7px;
+}
+.painelTituloQuestao {
+    padding: 1px;
+}
+.agrupamentoCor {
+    background-color: #d1e0e8 !important;
+}
+.questaoCor {
+    background-color: #dff0d8 !important;
+}
+.alternativaCor {
+    background-color: #fcf8e3 !important;
+}

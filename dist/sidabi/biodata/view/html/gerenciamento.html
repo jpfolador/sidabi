@@ -1,0 +1,94 @@
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="../../view/css/gerenciamento.css" rel="stylesheet">
+
+<div id="containerPrincipal">
+
+    <div id="verticalMenuIcon">
+        <button type="button" class="btn btn-primary btn-circle btn-lg">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+        </button>
+    </div>
+
+    <div id="wrapper" class="toggled">
+
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li id="tituloGerenciamento" class="sidebar-brand">
+                    <span>
+                        Gerenciamento
+                    </span>
+                </li>
+
+                <!-- BEGIN BLOCO_MENU -->
+                    <li>
+                        <a href="#menu_{MENU_ID}" class="itemMenu" data-menu-id="{MENU_ID}" data-menu-url="{MENU_URL}">
+                            {MENU_NOME}
+                        </a>
+                    </li>
+                <!-- END BLOCO_MENU -->
+
+                <!-- BEGIN BLOCO_SEM_PERMISSAO -->
+                    <li>
+                        <a href="#semPermissao" class="usuarioSemPermissao">
+                            Usuário sem permissão
+                        </a>
+                    </li>
+                <!-- END BLOCO_SEM_PERMISSAO -->
+            </ul>
+        </div>
+
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="col-md-12">
+                    <div id="containerGerencimento">
+                        <div>
+                            Esta área de Gerencimanto possibilita ao usuário do software: inserir, atualizar e apagar informações
+                            relacionadas ao controle de dados biomédicos.
+                            Deste modo, no menu vertical lateral encontram-se as opções necessárias para gerenciar os dados.
+                        </div>
+
+                        <br/>
+                        <p>
+                            <b> Equipamento: </b> cadastro de informações de equipamentes que são utilizados nas sessões de coleta.
+                        </p>
+                        <p>
+                            <b> Estudo: </b> refere-se ao cadastro de um estudo, pesquisa a ser feito.
+                        </p>
+                        <p>
+                            <b> Grupo de estudo: </b> refere-se ao cadastro do grupo e seus critérios onde os participantes serão vinculados.
+                        </p>
+                        <p>
+                            <b> Participante: </b> gerenciamento dos dados dos participantes dos estudos: alunos e professores.
+                        </p>
+                        <p>
+                            <b> Associar participantes-grupo: </b> opção para vincular os participantes a um grupo anteriormente cadastrado.
+                        </p>
+                        <p>
+                            <b> Protocolo: </b> cadastro do protocolo adotado no estudo.
+                        </p>
+                        <p>
+                            <b> Sessão de coleta: </b> esta opção gerencia as informações de coleta, assim como, o arquivo com os dados resultante da coleta.
+                        </p>
+                        <p>
+                            <b> Baixar arquivos: </b> nesta área o usuário pode fazer o download de todos seus arquivos no formato compactado.
+                        </p>
+                        <br/><br/>
+                        <p>
+                            Vale lembrar que nas telas que utilizam as tabelas para gerenciar os dados, no rodapé da tabela estão os ícones de controle:
+
+                            Para <b>inserir</b> um novo registro clique no ícone <img src="/sidabi/gestao_pessoa/view/img/add.png" class="icone"/>.
+                            Para <b>editar</b>, escolha um registro na tabela e depois clique no ícone <img src="/sidabi/gestao_pessoa/view/img/edit.png" class="icone"/>.
+                            Já para <b>visualizar</b> um item cadastrado, marque-o e depois clique no símbolo <img src="/sidabi/gestao_pessoa/view/img/view.png" class="icone"/>, e
+                            por fim, se quiser <b>apagar</b> um registro, escolha o registro e clique no ícone <img src="/sidabi/gestao_pessoa/view/img/delete.png" class="icone"/>.
+
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Menu Toggle Script -->
+	<script src="../../view/js/gerenciamento.js" charset="UTF-8" type="text/javascript"></script>
+</div>

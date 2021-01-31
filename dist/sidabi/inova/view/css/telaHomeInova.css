@@ -1,0 +1,66 @@
+/*
+	Cor da barra horizontal #0d4767
+	Cor do menu vertical #103A51
+*/
+
+.collapsing {
+	-webkit-transition: none;
+	transition: none;
+	display: none;
+}
+
+#FrmGrid_jqGrid {
+	overflow: hidden;
+}
+#alertmod_jqGrid {
+	width: 350px !important;
+}
+
+.tituloModulo {
+	color: #FFF !important;
+}
+
+#sairInova {
+	background-color: #2b405d !important;
+}
+
+#navbar a {
+	color: #FFF;
+	font-size: 16px;
+}
+#navbar a:hover {
+	background-color: #306a8a;
+}
+
+body {
+  	padding-top: 50px;
+}
+
+#barraMenu {
+	 background-color: #2C5371;
+	 color: #FFF;
+ }
+
+.conteudoApp {
+	height: auto;
+	width: 100%;
+}
+
+.homeBloco {
+	padding: 10px 0;
+	margin: 5px 0;
+}
+
+.starter-template {
+  	padding: 20px 15px;
+  	overflow: auto;
+}
+
+.filed-ajust {
+	width: 300px;
+}
+
+.descricaoSoftware {
+	margin: 10px;
+	padding-top: 3%;
+}

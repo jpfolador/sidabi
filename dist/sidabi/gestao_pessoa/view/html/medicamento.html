@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+
+	<link href="/sidabi/_resources/free-jqGrid/dist/css/ui.jqgrid.jpf.css" rel="stylesheet" type="text/css" />
+	<style type="text/css">
+		#descricao {
+			width: 98%;
+			height: 90px;
+		}
+		.ui-jqgrid .ui-jqgrid-bdiv {
+			position: relative;
+			margin: 0;
+			padding: 0;
+			overflow-x:hidden;
+			overflow-y:auto;
+			text-align:left;
+		}
+		.customelement .radio-inline input {
+			margin-left: -40px;
+			padding-right: 10px;
+		}
+		.typeahead {
+			z-index: 10051;
+		}
+		.ui-jqgrid {
+			background-color: #FFF;
+		}
+	</style>
+
+	<script src="/sidabi/_resources/free-jqGrid/dist/i18n/grid.locale-pt-br.js" type="text/ecmascript"></script>
+	<script src="/sidabi/_resources/free-jqGrid/dist/jquery.jqgrid.min.js" type="text/ecmascript"></script>
+	<script type="text/javascript">
+		$(function() {
+			"use strict";
+
+			$("#jqGrid").jqGrid({
+                url: '../ctrl_medicamento/medicamentoJqGridLoad.php',
+                editurl: '../ctrl_medicamento/medicamentoJqGridEdit.php',
+                datatype: "json",
+                mtype: "GET",
+                page: 1,
+                jsonReader: {
+                    page: "obj.currpage",
+                    total: "obj.totalpages",
+                    records: "obj.totalrecords",
+                    repeatitems: false,
+                    root: "obj.rows",
+                    cell: "cell",
+                    id: "0"
+                },
+                colModel: [
+                    {
+						label: 'ID',
+                        name: 'id',
+                        width: 20,
+						key: true,
+						editable: false
+                    },
+					{
+						label: 'Nome',
+						name: 'nome',
+						width: 80,
+						editable: true,
+						editrules : { required: true },
+						search: true,
+						stype: 'text'
+					},
+                    {
+						label: 'Descrição',
+                        name: 'descricao',
+						width: 100,
+						hidden: true,
+						editable: true,
+						editrules: { edithidden: true },
+						edittype: 'textarea',
+						search: true,
+						stype: 'text'
+					},
+                    {
+						label: 'Fabricante',
+                        name: 'fabricante',
+                        width: 70,
+                        editable: true,
+                        editrules : { required: true },
+                        search: true,
+                        stype: 'text'
+                    }
+                ],
+				guiStyle: "bootstrap",
+				autowidth: true,
+				rownumbers: false,
+				hidegrid: false,
+				loadComplete: function () {
+					$(this).triggerHandler('resize.jqGrid');
+				},
+				sortname: 'nome',
+						sortorder: 'asc',
+						viewrecords: true,
+						height: 'auto',
+						rowNum: 15,
+						pager: "#jqGridPager"
+			}).jqGrid('filterToolbar', {defaultSearch:'cn'});
+
+            $('#jqGrid').navGrid('#jqGridPager',
+                {
+                    edit: {PERMITE_EDITAR},
+                    add: {PERMITE_INCLUIR},
+                    del: {PERMITE_EXCLUIR},
+                    search: false,
+                    refresh: false,
+                    view: {PERMITE_VISUALIZAR},
+            		position: "left", 
+            		cloneToTop: false
+                },
+                {
+                    editCaption: "Editar",
+                    width: "500",
+                    height: "auto",
+                    top: "10",
+                    left: "10",
+                    recreateForm: true,
+                    closeAfterEdit: true,
+                    afterSubmit: function () {
+                    	$("#jqGrid").jqGrid('setGridParam',{datatype:'json'}).trigger('reloadGrid');
+                    	$(".ui-jqdialog-titlebar-close").trigger('click');
+                    },
+                    errorTextFormat: function (data) {
+                        return 'Error: ' + data.responseText
+                    }
+                },
+                {
+                    editCaption: "Adicionar",
+                    width: "500",
+                    height: "auto",
+                    top: "10",
+                    left: "10",
+                	closeAfterAdd: true,
+                	afterSubmit: function () {
+                    	$("#jqGrid").jqGrid('setGridParam',{datatype:'json'}).trigger('reloadGrid');
+                    	$(".ui-jqdialog-titlebar-close").trigger('click');
+                    },
+                    recreateForm: true,
+                    errorTextFormat: function (data) {
+                        return 'Error: ' + data.responseText
+                    }
+                },
+                {
+                	editCaption: "Apagar",
+                	width: "500",
+                    height: "auto",
+                    top: "10",
+                    left: "10",
+                    errorTextFormat: function (data) {
+                        return 'Error: ' + data.responseText
+                    }
+                });
+			$(window).on('resize.jqGrid', function () {
+				$('#jqGrid').jqGrid('setGridWidth', $(".freeJqgridContainer").width() - 20);
+			}).triggerHandler('resize.jqGrid');
+        });
+    </script>
+</head>
+
+<body>
+	<h4> Controle de Medicamentos </h4>
+	<br />
+
+	<div class="freeJqgridContainer">
+		<table id="jqGrid"></table>
+		<div id="jqGridPager"></div>
+	</div>
+	<br />
+</body>
+</html>

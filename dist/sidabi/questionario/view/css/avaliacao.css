@@ -1,0 +1,29 @@
+#containerCabecalhoAvaliacao,
+#formAvaliacao {
+    margin: 5px 5px;
+    padding: 10px 20px 10px 20px;
+}
+
+.participanteInfo {
+    background-color: #EAEAEA;
+    margin: 8px 5px;
+    padding: 5px 8px;
+}
+
+#containerCabecalhoAvaliacao,
+#formQuestionario {
+    margin: 5px 5px;
+    padding: 10px 20px 10px 20px;
+}
+
+.agrupamentoDivisao {
+    background-color: #EAEAEA;
+    padding: 5px 10px;
+}
+
+.containerQuestao {
+    padding: 5px 10px;
+}
+.alternativa {
+    padding: 3px 20px;
+}

@@ -1,0 +1,8 @@
+After the Apache Web Server, PHP and PostgreSQL installed and configured, you have to change the _classes/Database.php, go to line 12 ($db_senha) and change the password to the password that you have created at Postgres installation.
+
+The backup restore can be done via PgAdmin III or PgAdmin IV direct inside the application or via command line such as:
+1. Open the terminal or command prompt
+2. Go to Postgres folder (e.g. C:\Program Files\PostgreSQL\9.5\bin\) and then execute de command:
+   pg_restore.exe --host localhost --port 5432 --username postgres --dbname postgres c:\database.backup
+
+After database restored and the system deployed into apache web server in a localhost you can open your web browser and type the address: localhost, the login system will open and the default user is admin, and the password is sidabi

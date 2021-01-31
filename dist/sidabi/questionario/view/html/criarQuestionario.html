@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
+    <link href="../../../_resources/free-jqGrid/dist/css/ui.jqgrid.jpf.css" rel="stylesheet" type="text/css" />
+    <link href="/sidabi/questionario/view/css/criarQuestionario.css" rel="stylesheet">
+
+    <script src="../../../_resources/free-jqGrid/dist/i18n/grid.locale-pt-br.js" type="text/ecmascript"></script>
+    <script src="../../../_resources/free-jqGrid/dist/jquery.jqgrid.min.js" type="text/ecmascript"></script>
+
+    <script src="/sidabi/questionario/view/js/criarQuestionario.js" charset="UTF-8" type="text/javascript"></script>
+</head>
+<body>
+    <div id="telaCriarQuestionario">
+        <div id="containerQuestionario" class="form-horizontal">
+            <div class="form-group">
+                <label for="tipoQuestionario" class="control-label col-sm-2"> Tipo de questionário </label>
+                <div class="col-sm-8">
+                    <select id="tipoQuestionario" name="tipoQuestionario" class="form-control">
+                        <option value="">Selecione uma opção</option>
+                        <!-- BEGIN BLOCO_TIPO_QUESTIONARIO_OPTION -->
+                            <option value="{TIPO_QUESTIONARIO_ID}">{TIPO_QUESTIONARIO_TITULO}</option>
+                        <!-- END BLOCO_TIPO_QUESTIONARIO_OPTION -->
+
+                        <!-- BEGIN BLOCO_TIPO_QUESTIONARIO_VAZIO -->
+                            <option value="">Nenhum tipo de questionário encontrado.</option>
+                        <!-- END BLOCO_TIPO_QUESTIONARIO_VAZIO -->
+                    </select>
+                </div>
+            </div>
+
+            <div id="containerDadosQuestionario"></div>
+
+        </div>
+    </div>
+</body>
+</html>

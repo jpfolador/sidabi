@@ -1,0 +1,83 @@
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- Custom CSS -->
+<link href="/sidabi/questionario/view/css/gerenciamento.css" rel="stylesheet">
+
+<div id="containerPrincipal">
+    <div id="verticalMenuIcon">
+        <button type="button" class="btn btn-primary btn-circle btn-lg">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+        </button>
+    </div>
+    <div id="wrapper" class="toggled">
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li id="tituloGerenciamento" class="sidebar-brand">
+                    <span>
+                        Gerenciamento
+                    </span>
+                </li>
+
+                <!-- BEGIN BLOCO_MENU -->
+                <li>
+                    <a href="#menu_{MENU_ID}" class="itemMenu" data-menu-id="{MENU_ID}" data-menu-url="{MENU_URL}">
+                        {MENU_NOME}
+                    </a>
+                </li>
+                <!-- END BLOCO_MENU -->
+
+                <!-- BEGIN BLOCO_SEM_PERMISSAO -->
+                <li>
+                    <a href="#semPermissao" class="usuarioSemPermissao">
+                        Usuário sem permissão
+                    </a>
+                </li>
+                <!-- END BLOCO_SEM_PERMISSAO -->
+            </ul>
+        </div>
+
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="col-md-12">
+                    <div id="containerGerencimento">
+                        <div>
+                            Esta área de gerencimanto possibilita ao usuário: inserir, atualizar e apagar informações
+                            relacionadas aos questionários criados. Além disso, os relatórios que contabilizam
+                            as questões estão disponíveis no menu relatório.
+                        </div>
+
+                        <br/>
+
+                        <p>
+                            <b> Tipo de questionário: </b> Esta tela permite o cadastro do tipo de questionário que você deseja criar, como por exemplo: UPDRS, PDQ-39, etc.
+                        </p>
+                        <p>
+                            <b> Tipo de aplicação das questões: </b> Neste menu é possível cadastrar os tipos de aplicação de uma questão, ou seja, se uma dada
+                            questão poderá ser aplica a diferentes partes do corpo.
+                        </p>
+                        <p>
+                            <b> Paciente: </b> cadastro de pacientes.
+                        </p>
+                        <p>
+                            <b> Questionário: </b> Esta tela permite a criação de todo o questionário para um dado tipo de questionário. Sendo
+                            possível, nesta mesma tela, o usuário pode cadastrar os agrupamentos de questões, as questões, as alternativas e já visualizar o questionário.
+                        </p>
+                        <p>
+                            <b> Relatório: </b> refere-se à visualização da informação contabilizada dos questionário.
+                        </p>
+                        <br/>
+                        <p>
+                            Vale lembrar que nas telas que utilizam as tabelas para gerenciar os dados, no rodapé da tabela estão os ícones de controle:
+
+                            Para <b>inserir</b> um novo registro clique no ícone <img src="/sidabi/gestao_pessoa/view/img/add.png" class="icone"/>.
+                            Para <b>editar</b>, escolha um registro na tabela e depois clique no ícone <img src="/sidabi/gestao_pessoa/view/img/edit.png" class="icone"/>.
+                            Já para <b>visualizar</b> um item cadastrado, marque-o e depois clique no símbolo <img src="/sidabi/gestao_pessoa/view/img/view.png" class="icone"/>, e
+                            por fim, se quiser <b>apagar</b> um registro, escolha o registro e clique no ícone <img src="/sidabi/gestao_pessoa/view/img/delete.png" class="icone"/>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/sidabi/questionario/view/js/gerenciamento.js" charset="UTF-8" type="text/javascript"></script>
+</div>

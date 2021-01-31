@@ -1,0 +1,121 @@
+.collapsing {
+	-webkit-transition: none;
+	transition: none;
+	display: none;
+}
+
+#barraMenu {
+	background-color: #2C5371 !important;
+	color: #FFF;
+}
+
+#alertmod_jqGrid {
+	width: 350px !important;
+}
+
+.tituloModulo {
+	color: #FFF !important;
+}
+
+#toogle-left-menu {
+	color: #FFF;
+}
+
+#sair {
+	background-color: #2b405d !important;
+}
+
+#navbar a {
+	color: #FFF;
+	font-size: 16px;
+}
+#navbar a:hover {
+	background-color: #306a8a !important;
+}
+#navbar a:visited {
+	background-color: #306a8a;
+	font-size: 16px;
+}
+body {
+  	padding-top: 50px;
+}
+
+.conteudoApp {
+	height: auto;
+	width: 100%;
+}
+
+.homeBloco {
+	padding: 10px 0;
+	margin: 5px 0;
+}
+
+.starter-template {
+  	padding: 20px 15px;
+  	overflow: auto;
+}
+
+#containerPaciente {
+	margin: 30px 0;
+}
+
+.filed-ajust {
+	width: 300px;
+}
+
+.descricaoSoftware {
+	margin: 10px;
+	padding-top: 3%;
+}
+
+.imgNiats {
+	width: 250px;
+	height: auto;
+	float: left;
+	padding-top: 10px;
+	margin-bottom: 40px;
+}
+
+.imgUfu {
+	width: 130px;
+	height: auto;
+	float: left;
+}
+
+.imgAssociacao {
+	width: 150px;
+	height: auto;
+}
+.agradecimentoAjuste div {
+	padding-top: 0;
+	margin-top: 0;
+	display: inline-table;
+	vertical-align: middle;
+}
+
+.centerlBlock {
+	text-align: justify;
+	position: relative;
+	margin: 15px 5px;
+	padding: 5px;
+	height: auto;
+	width: 100%;
+}
+
+.flatIcon {
+	text-align: center;
+	border-bottom: 2px solid #EAEAEA;
+	padding: 25px 0;
+	margin: 20px 0;
+}
+.flatIcon img {
+	border: none;
+	width: 70px;
+	height: auto;
+}
+
+.containerVideos {
+	margin: 10px;
+	padding: 5px;
+	
+}

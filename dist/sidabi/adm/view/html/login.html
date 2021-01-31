@@ -1,0 +1,39 @@
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="../../view/css/login.css" rel="stylesheet" type="text/css">
+ 
+<div class="row col-sm-12 center-block">
+	<!-- BEGIN BLOCO_AUTENTICACAO -->
+		<div class="row col-sm-7 loginmodal-container">
+			<div class="col-sm-3 pull-left">
+				<img src="../../view/img/SIDABI-ideia.png" class="imgSidabi">
+			</div>
+			<div class="col-sm-5 pull-right">
+				<h1 id="loginTitulo"> Autenticação </h1>
+				<span id="loader" class="hide">
+					<img src="../../view/img/loading.gif" alt="Verificando... "/> Verificando...
+				</span>
+
+				<br/>
+				<form id="formLogin" name="formLogin" method="post" onsubmit="return false;">
+					<div id="containerLogin">
+						<input type="text" id="usuario" name="usuario" placeholder="Usuário" />
+						<input type="password" id="senha" name="senha" placeholder="Senha" />
+						<input type="button" id="btnLogin" name="btnLogin" class="login loginmodal-submit" value="Autenticar">
+					</div>
+					<div id="containerRecuperar" class="hide">
+						<input type="text" id="email" name="email" placeholder="Informe o email">
+						<input type="button" id="btnRecuperar" name="btnRecuperar" class="login loginmodal-submit" value="Recuperar">
+					</div>
+				</form>
+
+				<div class="login-help">
+					<a id="esqueciSenha" href="#"> Esqueci minha senha </a>
+					<a id="voltarLogin" href="#" class="hide"> Voltar </a>
+				</div>
+			</div>
+		</div>
+	<!-- END BLOCO_AUTENTICACAO -->
+</div>
+
+<script src="/sidabi/_resources/jquery-3.1.1.min.js" type="text/javascript"></script>
+<script src="../../view/js/login.js" charset="UTF-8" type="text/javascript"></script>

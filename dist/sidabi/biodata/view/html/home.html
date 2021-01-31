@@ -1,0 +1,43 @@
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<div class="starter-template" style="margin: 0 5px 30px 5px;">
+	<h2> Gerenciamento de dados biomédicos </h2>
+	
+	<div class="homeBloco col-sm-12">
+		Este módulo é um software web capaz de realizar o gerenciamento de coleta de dados biomédicos,
+		tais como: sinais coletados de eletrocardiograma (ECG), eletroencefalograma (EEG), eletromiografia (EMG), exames de imagens,
+		sensores inerciais, e em formatos de arquivos variados. Os arquivos resultantes de exames e/ou estudos são
+		organizados e armazenados por sessão de coleta, facilitando a busca por essas informações. Além disso,
+		é possível compartilhar esses dados em grupos de pesquisadores agilizando a interação por integrantes da
+		mesma linha de pesquisa sobre seus arquivos e resultados produzidos.
+	</div>
+
+	<div id="containerDashBoard" class="col-sm-12" style="margin: 20px 10px;">
+		<div class="col-sm-12">
+			<div class="col-sm-6">
+				<div class="chart-container text-center" style="min-width: 310px; height: 280px; margin: 10px;">
+					<h4> Quantidade de sessão de coleta por equipamento </h4>
+					<canvas id="graficoSessaoPorEquipamentos"></canvas>
+				</div>
+				<br/><br/>
+			</div>
+			<div class="col-sm-6">
+				<div class="chart-container text-center" style="min-width: 250px; height: 280px; margin: 10px;">
+					<h4> Quantidade de participantes por estudo </h4>
+					<canvas id="graficoParticipantePorEstudo"></canvas>
+				</div>
+				<br/><br/>
+			</div>
+		</div>
+		<div class="col-sm-12" style="margin-top: 20px;">
+			<div class="chart-container text-center" style="height: 350px;">
+				<h4> Quantidade de sessões realizadas por mês </h4>
+				<canvas id="graficoSessaoPorMeses"></canvas>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="/sidabi/_resources/chartJs/dist/Chart.min.js" type="text/javascript"></script>
+<script src="/sidabi/_resources/chartJs/dist/chartjs-plugin-labels.js" type="text/javascript"></script>
+<script src="../../view/js/homeBiodata.js" charset="UTF-8" type="text/javascript"></script>

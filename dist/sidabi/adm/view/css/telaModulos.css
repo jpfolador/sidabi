@@ -1,0 +1,207 @@
+/*
+	Cor da barra horizontal #0d4767
+	Cor do menu vertical #103A51
+*/
+
+/* configura barra de navegação */
+
+#menuHorizontal a {
+	color: #FFF;
+	font-size: 16px;
+}
+#menuHorizontal a:visited {
+	background-color: #306a8a;
+	font-size: 16px;
+}
+#menuHorizontal a:hover {
+	background-color: #306a8a;
+}
+
+#barraMenu {
+	background-color: #2C5371;
+	color: #FFF;
+}
+
+body {
+	background-image: url("../img/bg-principal.jpg");
+	background-repeat: no-repeat;
+}
+
+#sidabiModulo,
+#telaGerenciaSidabi {
+	cursor: pointer;
+}
+
+#formDadosUsuario {
+	position: relative;
+	margin: 10px 5px;
+	padding: 3px;
+}
+
+.descTitulo {
+	text-align: center;
+	display: none;
+	color: #EAEAEA;
+}
+
+.sairSidabi {
+	background-color: #2b405d !important;
+}
+
+#conteudoModulo {
+	margin-top: 50px;
+	position: relative;
+	height: auto;
+	width: 100%;
+}
+
+.siglaTitulo {
+	font-weight: bold;
+	color: #E1EBF3 !important;
+}
+.textoNiats {
+	font-weight: bold;
+	color: #FFF;
+}
+.textoNiats:hover, .textoNiats:visited{
+	color: #f0f0f0;
+	background-color: #356081;
+}
+
+.modulo {
+	overflow: hidden;
+	margin: 10px 5px;
+	padding: 10px;
+	background: rgba(44, 97, 127, 0.2);
+}
+.modulo:hover {
+	cursor: pointer;
+	background-color: #B4CBDC;
+}
+
+.iconeModulo {
+	top: 10px;
+	display: inline;
+	position: relative;
+	width: 37%;
+}
+
+.iconeModulo img{
+	position: relative;
+	top: -7px;
+	height: 80px;
+}
+
+.tituloModulo {
+	overflow: hidden;
+	height: auto;
+	font-size: 14px !important;
+}
+
+.sigla {
+	overflow: hidden;
+	height: 52px;
+	font-size: 19px !important;
+}
+
+.descModulo {
+	margin-top: 5px;
+	width: 70%;
+	height: auto;
+	color: #444;
+	float: right;
+}
+
+#toogle-left-menu {
+	cursor: pointer;
+}
+
+@media (min-width: 768px) {
+	.modulo {
+		margin: 15px 10px;
+		padding: 8px;
+		width: 210px;
+		height: 210px;
+		background-color: rgba(44, 97, 127, 0.2);
+	}
+	.descModulo {
+		margin: 20px 2px 2px 2px;
+		width: 99%;
+		font-size: 18px;
+		height: auto;
+		color: #444;
+	}
+	.descTitulo {
+		text-align: center;
+		display: none;
+		color: #EAEAEA;
+	}
+	.sigla {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 52px;
+		font-size: 19px !important;
+	}
+
+	#navbar {
+		float: right;
+	}
+
+	#formDadosUsuario {
+		position: relative;
+		margin: 30px 20px;
+		padding: 10px;
+	}
+
+	#conteudoModulo {
+		position: relative;
+		text-align: center;
+		height: auto;
+		width: 100%;
+	}
+
+}
+/*
+@media(min-width:960px) {
+	.descModulo {
+		width: auto;
+		font-size: 20px;
+		height: auto;
+		color: #666;
+	}
+	#navbar {
+		float: right;
+	}
+	.descTitulo {
+		text-align: center;
+		display: block;
+		color: #EAEAEA;
+	}
+	.sigla {
+		overflow: hidden;
+		height: 50px;
+		font-size: 19px !important;
+	}
+	#formDadosUsuario {
+		position: relative;
+		margin: 30px 20px;
+		padding: 10px;
+	}
+
+	#conteudoModulo {
+		position: relative;
+		text-align: center;
+		!*padding-top: 50px;*!
+		height: auto;
+		width: 100%;
+	}
+
+	.modulo {
+		margin: 15px 10px;
+		padding: 8px;
+		width: 210px;
+		height: 210px;
+		background-color: rgba(44, 97, 127, 0.2);
+	}
+}*/

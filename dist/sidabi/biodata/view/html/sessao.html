@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+
+    <link href="/sidabi/_resources/free-jqGrid/dist/css/ui.jqgrid.jpf.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        #loader img {
+            float: left;
+            padding: 0;
+            margin: 2px 5px;
+            font-size: 12px;
+            width: 22px;
+            height: 22px;
+        }
+        .areaLinkArquivoSessao {
+            padding: 0;
+            margin-bottom: 10px;
+            width: 90%;
+            height: auto;
+        }
+        .containerArquivo {
+            padding: 1px;
+        }
+        .removeArquivo {
+            padding: 5px;
+            cursor: pointer;
+            position: relative;
+        }
+        .removeArquivo:hover{
+            color: #ff000e;
+        }
+        #observacao {
+            width: 98%;
+            height: 60px;
+        }
+        #tr_mostra_arquivo {
+            display: none;
+        }
+
+        #ViewTbl_jqGrid {
+            width: 760px !important;
+        }
+        #viewmodjqGrid {
+            width: 800px !important;
+        }
+        #trv_mostra_arquivo {
+            display: none;
+        }
+        #nData, #pData {
+            display: none;
+        }
+
+        /* Ajusta o texto com quebra na TD da tabela */
+        .ui-jqgrid tr.jqgrow td {
+            white-space: normal !important;
+            height: auto;
+            padding: 0.5em !important;
+        }
+
+        .checklist {
+            padding-left: 7px;
+        }
+
+        .checklist input{
+            width: 15px !important;
+            margin-left: -20px !important;
+        }
+        /*
+        .ui-search-toolbar input {
+            background-color: #EAEAEA;
+        }
+        */
+    </style>
+
+    <script src="/sidabi/_resources/free-jqGrid/dist/i18n/grid.locale-pt-br.js" type="text/ecmascript"></script>
+    <script src="/sidabi/_resources/free-jqGrid/dist/jquery.jqgrid.src.js" type="text/ecmascript"></script>
+    <script src="/sidabi/_resources/jquery.mask.min.js" type="text/javascript"></script>
+    <script src="/sidabi/_resources/ajaxFileUpload.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(function() {
+            "use strict";
+
+            let atualizarArquivo = function(id, arquivo)
+            {
+                $.ajax({
+                    dataType: "json",
+                    type: "post",
+                    url: "../ctrl_gerenciamento/sessaoAtualizarArquivo.php",
+                    data: {
+                        id: id,
+                        arquivo: arquivo
+                    },
+                    success: function(data) {
+                        switch (data.status)
+                        {
+                            case 'ok':
+                                // Tudo certo
+                                // console.log(data);
+                                break;
+                            case 'erro':
+                                console.log("Erro: " + data.msg);
+                                break;
+                        }
+                    },
+                    error: function(){
+                        console.error("Erro: Não foi possível atualizar o arquivo");
+                    }
+                });
+            };
+
+            let removerUpload = function(nomeArquivo) {
+                $.ajax({
+                    dataType: "json",
+                    type: "post",
+                    url: "../ctrl_gerenciamento/sessaoRemoverArquivo.php",
+                    data: {
+                        nomeArquivo: nomeArquivo
+                    },
+                    success: function(data) {
+                        switch (data.status)
+                        {
+                            case 'ok':
+                                console.log(data);
+                            break;
+                            case 'erro':
+                                console.log("Erro: " + data.msg);
+                            break;
+                        }
+                    },
+                    error: function(){
+                        console.error("Erro: Não foi possível remover o arquivo");
+                    }
+                });
+            };
+
+            let limparInputFile = function() {
+                $("#linkArquivoSessao").attr("href", "../../files/sessao_arquivos/");
+                $("#textoLinkArquivoSessao").empty();
+                $("#nomeArquivo").val('');
+                $('#nome_arquivo').val('').show();
+                $("#removerArquivo").addClass("hide");
+
+                $("#tr_mostra_arquivo").hide();
+                $("#tr_nome_arquivo").show();
+            };
+
+            let pegarArquivo = function()
+            {
+                // pega o dado de uma linha da tabela.
+                let temArquivo = $("#jqGrid").jqGrid('getRowData',$("#jqGrid")[0].p.selrow).nome_arquivo;
+                let gridId = $("#jqGrid").jqGrid('getGridParam',"selrow");
+
+                if ((temArquivo != undefined) && (temArquivo.length > 0))
+                {
+                    $("#removerArquivo").on('click', function (event) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        removerUpload(temArquivo);
+                        atualizarArquivo(gridId, null);
+                        limparInputFile();
+                    });
+
+                    $("#linkArquivoSessao").prop("href", "../../files/sessao_arquivos/" + temArquivo);
+                    $("#removerArquivo").removeClass("hide");
+                    $("#nomeArquivo").val(temArquivo);
+                    $("#textoLinkArquivoSessao").html(temArquivo);
+                    $("#tr_mostra_arquivo").show();
+                    $("#tr_nome_arquivo").hide();
+                }
+
+                $("#FrmGrid_jqGrid").on("change", "#nome_arquivo", function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    $("#linkArquivoSessao").prop("href", "../../files/sessao_arquivos/");
+
+                    let temp = '<span id="loader">' +
+                                    '<img src="../../view/img/loading.gif" alt="Carregando... "/> Carregando...' +
+                               '</span>';
+                    $("#nome_arquivo").parent().append(temp);
+
+                    $.ajaxFileUpload({
+                        url: "../ctrl_gerenciamento/sessaoUploadFile.php",
+                        secureuri: false,
+                        fileElementId: 'nome_arquivo',
+                        dataType: 'json',
+                        success: function (data, status) {
+                            switch (data.status)
+                            {
+                                case 'ok':
+                                    let href = $("#linkArquivoSessao").prop("href");
+
+                                    $("#linkArquivoSessao").prop("href", href + data.obj["file_name"]);
+                                    $("#textoLinkArquivoSessao").html( data.obj["file_name"] );
+                                    $("#removerArquivo").removeClass("hide");
+                                    $("#nomeArquivo").val(data.obj["file_name"]); // campo somente com o nome do arquivo pra facilitar
+                                    $("#nome_arquivo").hide(); // input file
+                                    $("#tr_mostra_arquivo").show();
+                                    $("#tr_nome_arquivo").hide();
+                                    atualizarArquivo(gridId, data.obj["file_name"]); // atualiza arquivo no banco
+
+                                    $("#removerArquivo").on('click', function (event) {
+                                        event.preventDefault();
+                                        event.stopPropagation();
+                                        removerUpload(data.obj["file_name"]);
+                                        atualizarArquivo(gridId, null);
+                                        limparInputFile();
+                                    });
+                                break;
+
+                                case 'erro':
+                                    bootbox.alert("Erro: " + data.msg);
+                                    limparInputFile();
+                                break;
+                            }
+                        },
+                        complete: function() {
+                            $("#loader").remove();
+                        },
+                        error: function (data) {
+                            bootbox.alert("Não foi possível carregar o arquivo. O arquivo deve conter no máximo 1024 MB.");
+                            limparInputFile();
+                        }
+                    });
+                });
+            };
+
+            let carregarParticipantes = function()
+            {
+                atualizaParticipantesCallBack( $("#grupo_estudo_nome").val(), true );
+
+                $("#grupo_estudo_nome").bind("change", function (e) {
+                    atualizaParticipantesCallBack( $("#grupo_estudo_nome").val(), false );
+                });
+            };
+
+            let atualizaParticipantesCallBack = function(state, setselected)
+            {
+                let current = $("#jqGrid").jqGrid('getRowData',$("#jqGrid")[0].p.selrow).participante_id;
+                $("#participante_nome").html("<option value=''> Selecione um participante... </option>").attr("disabled", "disabled");
+
+                $.ajax({
+                    url: "../ctrl_gerenciamento/sessaoConsultarPartipantePeloGrupoEstudo.php",
+                    type: "post",
+                    data: {
+                        grupoEstudoId: state
+                    },
+                    success: function (data) {
+                        let temp = data.obj;
+                        $('#participante_nome').empty();
+
+                        let html = '<option value=""> Selecionar um participante... </option>';
+                        $.each(temp, function (i, item) {
+                            html += '<option value="' + item.id + '">' + item.nome + "</option>\n";
+                        });
+                        $('#participante_nome').append(html);
+                        $("#participante_nome").removeAttr("disabled");
+
+                        if (setselected) {
+                            $("#participante_nome").val( current );
+                        }
+                    }
+                });
+            };
+
+            // Criar vários checkboxes de acordo com BD
+            let multiCheckElem = function( value, options )
+            {
+                let id = options.id;
+                let ctl = '<div id="'+ id + '" class="checklist">';
+                let ckboxAry = options.list.split(';');
+
+                for (let i in ckboxAry) {
+                    let item = ckboxAry[i].split(":");
+                    let classe = item[0] == 'i' ? 'class="fileIndividual"' : 'class="fileShared"';
+                    ctl += '<div class="checkbox"><label>' +
+                            '<input type="checkbox" name="grupo_pesquisadores" id="grupoPesquisadoresChk_' + item[0] + '" ' + classe;
+
+                    if (value.indexOf(item[0]) != -1)
+                        ctl += 'checked="checked" ';
+
+                    // Value retornou do banco com a string '[]', 2 caracteres, portanto não tem nada.
+                    // Se não tiver registros em sessao_grupos_pesquisadores_login, deve ficar individual.
+                    if (value.length == 2 && item[0] == 'i') {
+                        ctl += 'checked="checked" ';
+                    }
+                    ctl += 'value="' + item[0] + '"> ' + item[1] + '</label></div>';
+                }
+
+                ctl += "</div>";
+
+                return ctl;
+            };
+
+            let multiCheckVal = function (elem, action, val)
+            {
+                let items = '';
+                if (action == 'get') // submitted
+                {
+                    $("input[type=checkbox]:checked", elem).each(function (i, e)
+                    {
+                        if (items) items += ",";
+                        items += e.value;
+                    });
+                }
+                return items;
+            };
+
+            $("#jqGrid").jqGrid({
+                url: '../ctrl_gerenciamento/sessaoJqGridLoad.php',
+                editurl: '../ctrl_gerenciamento/sessaoJqGridEdit.php',
+                datatype: "json",
+                mtype: "GET",
+                page: 1,
+                jsonReader: {
+                    page: "obj.currpage",
+                    total: "obj.totalpages",
+                    records: "obj.totalrecords",
+                    repeatitems: false,
+                    root: "obj.rows",
+                    cell: "cell",
+                    id: "0"
+                },
+                colModel: [
+                    {
+						label: 'ID',
+                        name: 'id',
+                        width: 10,
+						key: true,
+						editable: false,
+                        hidden: true
+                    },
+                    {
+                        label: 'Grupo de estudo',
+                        name: 'grupo_estudo_nome',
+                        width: 44,
+                        editable: true,
+                        edittype: 'select',
+                        editoptions: {
+                            value: ':Escolher grupo de estudo...;' + {OPTIONS_GRUPO_ESTUDO}
+                        },
+                        editrules: {
+                            edithidden: true,
+                            required: true
+                        },
+                        search: true,
+                        stype: 'text'
+                    },
+                    {
+                        label: 'ID Participante',
+                        name: 'id_manual',
+                        width: 15,
+                        hidden: true,
+                        editable: false,
+                        align: 'center'
+                    },
+                    {
+                        label: 'Participante ID',
+                        name: 'participante_id',
+                        width: 15,
+                        editable: false,
+                        hidden: true
+                    },
+                    {
+                        label: 'Participante',
+                        name: 'participante_nome',
+                        width: 35,
+                        editable: true,
+                        edittype: 'select',
+                        editoptions: {
+                            value: ":Escolher participante...;" + {OPTIONS_PARTICIPANTE}
+                        },
+                        editrules: {
+                            edithidden: true,
+                            required: true
+                        },
+                        search: true,
+                        stype: 'text'
+                    },
+                    {
+                        label: 'Equipamento',
+                        name: 'equipamento_nome',
+                        width: 30,
+                        editable: true,
+                        edittype: 'select',
+                        editoptions: {
+                            value: ":Escolher equipamento...;" +{OPTIONS_EQUIPAMENTO}
+                        },
+                        editrules: {
+                            edithidden: true,
+                            required: true
+                        },
+                        search: true,
+                        stype: 'text'
+                    },
+                    {
+                        label: 'Protocolo',
+                        name: 'protocolo_nome',
+                        width: 40,
+                        editable: true,
+                        hidden: true,
+                        edittype: 'select',
+                        editoptions: {
+                            value: ":Escolher protocolo...;" + {OPTIONS_PROTOCOLO}
+                        },
+                        editrules: {
+                            edithidden: true,
+                            required: true
+                        },
+                        search: true,
+                        stype: 'text'
+                    },
+                    {
+                        label: 'Data da sessão',
+                        name: 'dt_sessao',
+                        width: 21,
+                        editable: true,
+                        align: 'center',
+                        editrules: {
+                            edithidden: true,
+                            required: true
+                        },
+                        editoptions: {
+                            dataInit: function (elem) {
+                                $(elem).mask("99/99/9999");
+                            }
+                        },
+                        search: true,
+                        stype: 'text'
+                    },
+                    {
+                        label: 'Hora',
+                        name: 'hora',
+                        align: 'center',
+                        width: 14,
+                        editable: true,
+                        editrules: {
+                            edithidden: true,
+                            required: true
+                        },
+                        editoptions: {
+                            dataInit: function (elem) {
+                                $(elem).mask("99:99");
+                            }
+                        },
+                        search: true,
+                        stype: 'text'
+                    },
+                    {
+                        label: 'Medicação',
+                        name: 'medicacao',
+                        width: 40,
+                        editable: true,
+                        hidden: true,
+                        editrules: {
+                            edithidden: true
+                        },
+                        search: true,
+                        stype: 'text'
+                    },
+                    {
+                        // tipo file para realizar o upload
+                        label: 'Arquivo <br /> <span style="font-size: 10px; color: #777;"> Arquivo de até 1 GB <br />(edf, txt, csv, png, jpg, zip, rar)</span>',
+                        name: 'nome_arquivo',
+                        align: 'left',
+                        editable: true,
+                        editrules: { edithidden: true },
+                        hidden: true,
+                        edittype: 'file',
+                        editoptions: {
+                            enctype: "multipart/form-data"
+                        },
+                        width: 80,
+                        search: false
+                    },
+                    {
+                        // Coluna invisivel para enviar apenas o nome do arquivo
+                        label: 'Nome do arquivo',
+                        name: 'nomeArquivo',
+                        hidden: true,
+                        editable: true,
+                        stype: 'text'
+                    },
+                    {
+                        // Campo auxiliar apenas para mostrar o arquivo carregado e permitir remover ele.
+                        label: 'Arquivo',
+                        name: 'mostra_arquivo',
+                        width: 80,
+                        editable: true,
+                        editrules: { edithidden: true },
+                        edittype: 'custom',
+                        hidden: true,
+                        editoptions: {
+                            custom_element: function() {
+                                let temp = "<span class='containerArquivo'>";
+                                temp += "<a id='linkArquivoSessao' href='../../files/sessao_arquivos/' class='areaLinkArquivoSessao' target='_blank' download>";
+                                temp += "<span id='textoLinkArquivoSessao'></span>";
+                                temp += "</a> <div id='removerArquivo' class='glyphicon glyphicon-remove removeArquivo hide'></div>";
+                                temp += "</span>";
+                                return temp;
+                            }
+                        }
+                    },
+                    {
+                        label: '<spam> O arquivo será  <br/> compartilhado com os <br/> grupo de pesquisadores </spam>',
+                        name: 'grupo_pesquisadores',
+                        align: "center",
+                        width: 35,
+                        editable: true,
+                        hidden: true,
+                        editrules: { edithidden: true },
+                        edittype: 'custom',
+                        editoptions: {
+                            custom_element: multiCheckElem,
+                            custom_value: multiCheckVal,
+                            list: {VAR_GRUPO_PESQUISADORES_LISTA}
+                        }
+                    },
+                    {
+                        label: 'Responsável',
+                        name: 'login_nome',
+                        width: 30,
+                        editable: false,
+                        search: true
+                    },
+                    {
+                        label: 'Observação',
+                        name: 'observacao',
+                        width: 100,
+                        hidden: true,
+                        editable: true,
+                        editrules: { edithidden: true },
+                        edittype: 'textarea',
+                        search: true,
+                        stype: 'text'
+                    }
+                ],
+                guiStyle: "bootstrap",
+                autowidth: true,
+                rownumbers: false,
+                hidegrid: false,
+                loadComplete: function () {
+                    $(this).triggerHandler('resize.jqGrid');
+                },
+                sortname: 'grupo_estudo_nome',
+                sortorder: 'asc',
+                viewrecords: true,
+                height: 'auto',
+                rowNum: 15,
+                pager: "#jqGridPager"
+            }).jqGrid('filterToolbar', {defaultSearch:'cn'});
+            
+            $('#jqGrid').navGrid('#jqGridPager',
+                {
+                    edit: {PERMITE_EDITAR},
+                    add: {PERMITE_INCLUIR},
+                    del: {PERMITE_EXCLUIR},
+                    search: false,
+                    refresh: false,
+                    view: {PERMITE_VISUALIZAR},
+                    position: "left",
+                    cloneToTop: false
+                },
+                {
+                    editCaption: "Editar",
+                    width: "700",
+                    height: "auto",
+                    top: "10",
+                    left: "10",
+                    recreateForm: true,
+                    closeAfterEdit: true,
+                    afterShowForm: function() {
+                        pegarArquivo();
+                        carregarParticipantes();
+                    },
+                    beforeShowForm: function(data) {
+                        //console.log(data.grupoPesquisadores);
+                    },
+                    afterComplete: function (data) {
+                        let res = $.parseJSON(data.responseText);
+                        switch (res.status)
+                        {
+                            case 'ok':
+                                //bootbox.alert(res.obj);
+                                break;
+
+                            case 'erro':
+                                console.log(res);
+                                bootbox.alert(res.msg);
+                                break;
+                        }
+                    },
+                    errorTextFormat: function (data) {
+                        return 'Error: ' + data.responseText
+                    }
+                },
+                {
+                    editCaption: "Adicionar",
+                    edittitle: "Edit selected order",
+                    width: "700",
+                    height: "auto",
+                    top: "10",
+                    left: "10",
+                    closeAfterAdd: true,
+                    recreateForm: true,
+                    afterShowForm: function() {
+                        pegarArquivo();
+                        carregarParticipantes();
+                    },
+                    beforeShowForm: function() {
+                        $('#jqGrid').jqGrid('setSelection','');
+                    },
+                    afterComplete: function (data) {
+                        let res = $.parseJSON(data.responseText);
+                        switch (res.status)
+                        {
+                            case 'ok':
+                                //bootbox.alert(res.obj);
+                                break;
+
+                            case 'erro':
+                                console.log(res);
+                                bootbox.alert(res.msg);
+                                break;
+                        }
+                    },
+                    errorTextFormat: function (data) {
+                        return 'Error: ' + data.responseText
+                    }
+                },
+                {
+                    editCaption: "Apagar",
+                    width: "500",
+                    height: "auto",
+                    top: "10",
+                    left: "10",
+                    afterComplete: function (data) {
+                        let res = $.parseJSON(data.responseText);
+                        switch (res.status)
+                        {
+                            case 'ok':
+                                bootbox.alert(res.obj);
+                                break;
+
+                            case 'erro':
+                                bootbox.alert("Não foi possível apagar o registro. Ele pode estar sendo utilizado!");
+                                console.log("Erro: " + res.msg);
+                                break;
+                        }
+                    },
+                    errorTextFormat: function (data) {
+                        return 'Error: ' + data.responseText
+                    }
+                }
+            );
+
+            $(window).on('resize.jqGrid', function () {
+                $('#jqGrid').jqGrid('setGridWidth', $(".freeJqgridContainer").width() - 20);
+            }).triggerHandler('resize.jqGrid');
+
+            $("#view_jqGrid").click(function() {
+                let temp = $("#v_nome_arquivo span").html().trim();
+                $("#v_nome_arquivo span").html("<a href='../../files/sessao_arquivos/" + temp + "' target='_blank'> " + temp + "</a>");
+            });
+
+            $(document).on('click', '#grupo_pesquisadores input', function() {
+                $(this).trigger('click');
+
+                if ($(this).attr("class") == 'fileIndividual') {
+                    if ( $(this).is(":checked") ) {
+                        $("#grupo_pesquisadores").find(".fileShared").prop("checked", false);
+                    }
+                }
+                if ($(this).attr("class") == 'fileShared') {
+                    if ( $(this).is(":checked") ) {
+                        $("#grupo_pesquisadores").find(".fileIndividual").prop("checked", false);
+                    }
+                }
+            });
+        });
+    </script>
+</head>
+
+<body>
+<div id="uploads">
+
+</div>
+	<div class="row">
+	    <h4 class="pull-left"> Sessão de Coleta de dados </h4>
+        <span class="pull-right btn btn-link"
+              data-toggle="collapse"
+              data-parent="#accordion"
+              href="#collapseOne"
+              aria-expanded="true"
+              aria-controls="collapseOne">
+            Ajuda
+            <span class="glyphicon glyphicon-question-sign"></span>
+        </span>
+    </div>
+    <div id="collapseOne" class="panel-collapse collapse out" role="tabpanel" aria-labelledby="headingOne">
+        <div class="panel-body panel panel-default" style="background-color: #F5F5F5">
+            Nesta tela você cadastrará a sessão de coleta realizada juntamente com o arquivo resultante da coleta. <br/>
+            Lembre-se de cadastrar, antes de usar esta tela, o <b>Grupo de estudo</b>, o <b>Participante</b> sobre o qual você efetuou a coleta,
+            o <b>Equipamento</b> utilizado para coletar os dados do participante, e o <b>Protocolo</b> usado. <br/><br/>
+
+            Após efetuar esses passos, você já pode utilizar esta tela. Portanto, basta escolher os campos citados anteriormente
+            e informar a <b>Data da sessão</b>, o dia que você coletou os dados do participante, e a <b>Hora</b>. <br/><br/>
+
+			Você pode ainda informar a <b>Medicação</b> que o voluntário possa ter utilizado no dia da coleta. <br/><br/>
+            
+            Depois, na opção <b>Arquivo</b>, você deve selecionar o seu arquivo de coleta, e lembre-se que este arquivo não pode
+            ser maior do que <b>1 GB</b> (1024 MB) e deve ser do tipo/extensão: <b>.edf, .txt, .csv, .png, .jpg, .zip, .rar ou .pdf</b>.
+            Por fim, na <b>Observação</b> você pode descrever algo importante sobre esse dia de coleta, ou sobre o participante, sobre o arquivo, etc.
+        </div>
+    </div>
+    <div class="freeJqgridContainer row">
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+    </div>
+    <br />
+</body>
+</html>

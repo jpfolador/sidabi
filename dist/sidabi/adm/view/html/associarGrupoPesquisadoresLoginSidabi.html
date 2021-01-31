@@ -1,0 +1,67 @@
+<link type="text/css" href="../../view/css/configSidabi.css" rel="stylesheet" />
+
+<div id="containerPrincipalAssociarPesquisadores" class="row">
+    <h3> Associar usuários/alunos ao grupo de pesquisador  </h3>
+
+    <div class="row" style="margin: 1.5em .2em">
+        <button id="btnAssociarPesquisadores" type="button" class="btn btn-success">
+            Associar itens selecionados
+        </button>
+    </div>
+
+    <div id="containerUsuarios" class="col-sm-6">
+        <h4> Usuários/Alunos </h4>
+        <!-- BEGIN BLOCO_USUARIO_ITEM -->
+            <div class="col-sm-12 usuarioItem">
+                <label class="col-sm-12 checkbox">
+                    <input type="checkbox" class="alert" name="chkUsuario" data-login-id="{LOGIN_ID}"/>
+                    <div> {LOGIN_NOME} </div>
+                </label>
+            </div>
+        <!-- END BLOCO_USUARIO_ITEM -->
+
+        <!-- BEGIN BLOCO_USUARIO_ITEM_VAZIO -->
+            <div class="alert alert-warning">
+                Lista de usuários/alunos vazia.
+            </div>
+        <!-- END BLOCO_USUARIO_ITEM_VAZIO -->
+    </div>
+
+    <div id="containerGrupoPesquisadores" class="col-sm-6">
+        <h4>Grupos de pesquisadores</h4>
+        <!-- BEGIN BLOCO_GRUPO_PESQUISADORES_ITEM -->
+        <div class="col-sm-12 usuarioItem">
+            <div class="col-sm-12">
+                <label class="checkbox">
+                    <input type="checkbox"
+                           class="alert"
+                           name="chkGrupoPesquisadores"
+                           data-grupo-pesquisador-id="{GRUPO_PESQUISADORES_ID}" />
+                    <div class=""> {GRUPO_PESQUISADORES_NOME} </div>
+                </label>
+            </div>
+
+            <div class="col-sm-12">
+                <!-- BEGIN BLOCO_USUARIO_GRUPO_ITEM -->
+                    <div class="label label-primary usuarioGrupoPesquisadores">
+                        {USUARIOS_DO_GRUPO}
+                        <span class="glyphicon glyphicon-remove usuarioGrupoPesquisadoresDelete"
+                              data-grupo-pesquisadores-login-id="{GRUPO_PESQUISADORES_LOGIN_ID}"></span>
+                    </div>
+                <!-- END BLOCO_USUARIO_GRUPO_ITEM -->
+                <br/><br/>
+            </div>
+
+        </div>
+        <!-- END BLOCO_GRUPO_PESQUISADORES_ITEM -->
+
+        <!-- BEGIN BLOCO_GRUPO_ITEM_VAZIO -->
+            <div class="alert alert-warning">
+                Lista de grupo de pesquisadores vazia.
+            </div>
+        <!-- END BLOCO_GRUPO_ITEM_VAZIO -->
+        <br/>
+    </div>
+</div>
+
+<script src="../../view/js/associarGrupoPesquisadoresLoginSidabi.js" charset="UTF-8" type="text/javascript"></script>

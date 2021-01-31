@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+
+    <link href="/sidabi/_resources/free-jqGrid/dist/css/ui.jqgrid.jpf.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">  	
+		 .customelement .radio-inline input {
+			 margin-left: -40px;
+			 padding-right: 10px; 
+		 }
+         #descricao {
+             width: 98%;
+             height: 90px;
+         }
+		 .typeahead {
+			 z-index: 10051;
+		 }
+		 .ui-jqgrid .ui-jqgrid-bdiv {
+			  position: relative; 
+			  margin: 0;
+			  padding: 0;
+			  overflow-x: hidden;
+			  overflow-y: hidden;
+			  text-align: left;
+         }
+         #TblGrid_jqGrid td.CaptionTD,
+         #ViewTbl_jqGrid td.CaptionTD {
+             width: 150px !important;
+         }
+         #ViewTbl_jqGrid td :not(.captionTD) {
+             padding-left: 0;
+             white-space: pre-wrap;
+             text-align: justify;
+         }
+         #ViewTbl_jqGrid {
+             width: 760px !important;
+         }
+         #viewmodjqGrid {
+             width: 800px !important;
+         }
+         /* Ajusta o texto com quebra na TD da tabela */
+         .ui-jqgrid tr.jqgrow td {
+             white-space: normal !important;
+             height: auto;
+             padding: 0.5em !important;
+         }
+    </style>
+
+    <script src="/sidabi/_resources/free-jqGrid/dist/i18n/grid.locale-pt-br.js" type="text/ecmascript"></script>
+    <script src="/sidabi/_resources/free-jqGrid/dist/jquery.jqgrid.min.js" type="text/ecmascript"></script>
+    <script type="text/javascript">
+        $(function() {
+            "use strict";
+
+            $("#jqGrid").jqGrid({
+                url: '../ctrl_gerenciamento/equipamentoJqGridLoad.php',
+                editurl: '../ctrl_gerenciamento/equipamentoJqGridEdit.php',
+                datatype: "json",
+                mtype: "GET",
+                page: 1,
+                jsonReader: {
+                    page: "obj.currpage",
+                    total: "obj.totalpages",
+                    records: "obj.totalrecords",
+                    repeatitems: false,
+                    root: "obj.rows",
+                    cell: "cell",
+                    id: "0"
+                },
+                colModel: [
+                    {
+						label: 'ID',
+                        name: 'id',
+                        width: 20,
+						key: true,
+						editable: false
+                    },
+                    {
+                        label: 'Nome',
+                        name: 'nome',
+                        width: 70,
+                        editable: true,
+                        editrules: { required: true },
+                        search: true,
+                        stype: 'text'
+                    },
+                    {
+						label: 'Descrição',
+                        name: 'descricao',
+                        width: 185,
+                        edittype: 'textarea',
+                        editable: true,
+                        editrules: { required: true },
+                        search: true,
+                        stype: 'text'
+                    }
+                ],
+                guiStyle: "bootstrap",
+                autowidth: true,
+                rownumbers: false,
+                hidegrid: false,
+                loadComplete: function () {
+                    $(this).triggerHandler('resize.jqGrid');
+                },
+                sortname: 'descricao',
+                sortorder: 'asc',
+                viewrecords: true,
+                height: 'auto',
+                rowNum: 15,
+                pager: "#jqGridPager"
+            }).jqGrid('filterToolbar', {defaultSearch:'cn'});
+            
+            $('#jqGrid').navGrid('#jqGridPager',
+                { 
+            		edit: {PERMITE_EDITAR},
+            		add: {PERMITE_INCLUIR},
+            		del: {PERMITE_EXCLUIR},
+            		search: false, 
+            		refresh: false, 
+            		view: {PERMITE_VISUALIZAR},
+            		position: "left", 
+            		cloneToTop: false
+                },
+                {
+                    editCaption: "Editar",
+                    width: "750",
+                    height: "auto",
+                    top: "10",
+                    left: "10",
+                    recreateForm: true,
+                    closeAfterEdit: true,
+                    afterComplete: function (data) {
+                        let res = $.parseJSON(data.responseText);
+                        switch (res.status)
+                        {
+                            case 'ok':
+                                //bootbox.alert(res.obj);
+                                break;
+
+                            case 'erro':
+                                bootbox.alert("Não foi possível editar o registro. Tente atualizar e refazer o processo!");
+                                console.log("Erro: " + res.msg);
+                                break;
+                        }
+                    },
+                    errorTextFormat: function (data) {
+                        return 'Error: ' + data.responseText
+                    }                    
+                },
+                {
+                    editCaption: "Adicionar",
+                    width: "750",
+                    height: "auto",
+                    top: "10",
+                    left: "10",
+                	closeAfterAdd: true,
+                    recreateForm: true,
+                    afterComplete: function (data) {
+                        let res = $.parseJSON(data.responseText);
+                        switch (res.status)
+                        {
+                            case 'ok':
+                                //bootbox.alert(res.obj);
+                                break;
+
+                            case 'erro':
+                                bootbox.alert("Não foi possível adicionar o registro. Tente atualizar e refazer o processo!");
+                                console.log("Erro: " + res.msg);
+                                break;
+                        }
+                    },
+                    errorTextFormat: function (data) {
+                        return 'Error: ' + data.responseText
+                    }
+                },
+                {
+                	editCaption: "Apagar",
+                	width: "500",
+                    height: "auto",
+                    top: "10",
+                    left: "10",
+                    afterComplete: function (data) {
+                        let res = $.parseJSON(data.responseText);
+                        switch (res.status)
+                        {
+                            case 'ok':
+                                bootbox.alert(res.obj);
+                                break;
+
+                            case 'erro':
+                                bootbox.alert("Não foi possível apagar o registro. Ele pode estar sendo utilizado!");
+                                console.log("Erro: " + res.msg);
+                                break;
+                        }
+                    },
+                    errorTextFormat: function (data) {
+                        return 'Error: ' + data.responseText
+                    }
+                });
+
+            $(window).on('resize.jqGrid', function () {
+                $('#jqGrid').jqGrid('setGridWidth', $(".freeJqgridContainer").width() - 20);
+            }).triggerHandler('resize.jqGrid');
+        });
+    </script>
+</head>
+
+<body>
+    <div class="row">
+        <h4 class="pull-left"> Equipamentos de coleta </h4>
+            <span class="pull-right btn btn-link"
+                  data-toggle="collapse"
+                  data-parent="#accordion"
+                  href="#collapseOne"
+                  aria-expanded="true"
+                  aria-controls="collapseOne">
+                Ajuda
+                <span class="glyphicon glyphicon-question-sign"></span>
+            </span>
+    </div>
+    <div id="collapseOne" class="panel-collapse collapse out" role="tabpanel" aria-labelledby="headingOne">
+        <div class="panel-body panel panel-default" style="background-color: #F5F5F5">
+            Esta tela permite o cadastro dos equipamentos utilizados nas sessões de coleta para avaliação do participante. <br/>
+
+            É uma tela de cadastro simples, onde você deve informar o <b>Nome</b> do equipamento usado (seja o mais sucinto possível e
+            EVITE, neste campo, o uso de caracteres diferentes de letras e números).
+            No campo <b>Equipamento</b> descreva as características do equipamento.
+        </div>
+    </div>
+    <div class="freeJqgridContainer row">
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+    </div>
+    <br />
+</body>
+</html>

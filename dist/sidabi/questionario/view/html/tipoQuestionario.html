@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+
+    <link href="../../../_resources/free-jqGrid/dist/css/ui.jqgrid.jpf.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        #v_descricao span {
+            width: 100% !important;
+            height: 90px !important;
+        }
+        #v_endereco_eletronico span {
+            width: 100% !important;
+            height: 90px !important;
+        }
+    </style>
+
+    <script src="../../../_resources/free-jqGrid/dist/i18n/grid.locale-pt-br.js" type="text/ecmascript"></script>
+    <script src="../../../_resources/free-jqGrid/dist/jquery.jqgrid.min.js" type="text/ecmascript"></script>
+	<script type="text/javascript">
+
+        $(document).ready(function () {
+        	let radioelem = function (value, options)
+        	{
+        		var div = $("<div></div>");
+                
+        		var label = $("<label class='radio-inline'></label>");
+                var radio = $("<input>", { style: "margin-left: -35px;", type: "radio", value: "ativo", name: "status", id: "statusAtivo", checked: (value == 'ativo') });
+				label.append(radio).append("Ativo");
+				
+                var label1 = $("<label class='radio-inline'></label>");
+                var radio1 = $("<input>", { style: "margin-left: -41px;", type: "radio", value: "inativo", name: "status", id: "statusInativo", checked: (value == 'inativo') });
+				label1.append(radio1).append("Inativo");
+				
+                div.append(label).append(label1);
+
+                return div;
+        	};
+
+            let radiovalue = function(elem, operation, value)
+        	{
+        		if (operation === "set") {
+                    var radioButton = $(elem).find("input:radio[value='" + value + "']");
+                    if (radioButton.length > 0) {
+                        radioButton.prop("checked", true);
+                    }
+                }
+
+                if (operation === "get") {
+                    return $(elem).find("input:radio:checked").val();
+                }
+        	};
+
+            let $grid = $("#jqGrid");
+            $grid.jqGrid({
+                url: '../ctrl_gerenciamento/tipoQuestionarioJqGridLoad.php',
+                editurl: '../ctrl_gerenciamento/tipoQuestionarioJqGridEdit.php',
+                datatype: "json",
+                mtype: "GET",
+                page: 1,
+                jsonReader: {
+                    page: "obj.currpage",
+                    total: "obj.totalpages",
+                    records: "obj.totalrecords",
+                    repeatitems: false,
+                    root: "obj.rows",
+                    cell: "cell",
+                    id: "0"
+                },
+                colModel: [
+                    {
+						label: 'ID',
+                        name: 'id',
+                        width: 20,
+						key: true,
+						editable: false
+                    },
+                    {
+                        label: 'Título',
+                        name: 'titulo',
+                        width: 90,
+                        editable: true,
+                        editrules : { required: true },
+                        search: true,
+                        stype: 'text'
+                    },
+                    {
+						label: 'Descrição',
+                        name: 'descricao',
+                        width: 120,
+                        editable: true,
+                        editrules : { required: true },
+                        search: true,
+                        edittype: 'textarea',
+                        editoptions: { cols: 50, rows: 5 },
+                        stype: 'text'
+                    },
+                    {
+						label: 'Endereço eletrônico',
+                        name: 'endereco_eletronico',
+                        width: 80,
+                        editable: true,
+                        editrules: { required: false },
+                        search: true,
+                        edittype: 'textarea',
+                        editoptions: { cols: 50, rows: 5 },
+                        stype: 'text'
+                    },
+                    {
+						label: 'Status',
+                        name: 'status',
+                        align: "center",
+                        width: 30,
+                        editable: true,
+	                    sortable: true,
+	                    edittype: 'custom',
+	                    editoptions: {
+	                        custom_element: radioelem,
+	                        custom_value: radiovalue
+	                    },
+	                    editrules : { required: true },
+	                    search: true,
+	                    stype: 'select',
+	                    searchoptions: { 
+                        	value: ':Todos;ativo:Ativo;inativo:Inativo' 
+                        }
+                    }
+                ],
+                guiStyle: "bootstrap",
+                autowidth: true,
+                rownumbers: false,
+                hidegrid: false,
+                loadComplete: function () {
+                    $(this).triggerHandler('resize.jqGrid');
+                },
+                sortname: 'descricao',
+                sortorder: 'asc',
+                viewrecords: true,
+                height: 'auto',
+                rowNum: 15,
+                pager: "#jqGridPager"
+            }).jqGrid('filterToolbar', {defaultSearch:'cn'});
+
+            $grid.navGrid('#jqGridPager',
+                {
+                    edit: {PERMITE_EDITAR},
+                    add: {PERMITE_INCLUIR},
+                    del: {PERMITE_EXCLUIR},
+                    search: false,
+                    refresh: false,
+                    view: {PERMITE_VISUALIZAR},
+            		position: "left",
+            		cloneToTop: false
+                },
+                {
+                    editCaption: "Editar",
+                    //width: "550",
+                    height: "auto",
+                    top: "10",
+                    left: "10",
+                    recreateForm: true,
+                    closeAfterEdit: true,
+                    errorTextFormat: function (data) {
+                        return 'Error: ' + data.responseText
+                    }                    
+                },
+                {
+                    editCaption: "Adicionar",
+                    //width: "650",
+                    height: "auto",
+                    top: "10",
+                    left: "10",
+                	closeAfterAdd: true,
+                    recreateForm: true,
+                    errorTextFormat: function (data) {
+                        return 'Error: ' + data.responseText
+                    }
+                },
+                {
+                	editCaption: "Apagar",
+                	//width: "500",
+                    height: "auto",
+                    top: "10",
+                    left: "10",
+                    errorTextFormat: function (data) {
+                        return 'Error: ' + data.responseText
+                    }
+                });
+
+            $(window).on('resize.jqGrid', function () {
+                $grid.jqGrid('setGridWidth', $(".freeJqgridContainer").width() - 15);
+            }).triggerHandler('resize.jqGrid');
+        });
+    </script>
+</head>
+
+<body>
+	<br />
+	<h4> Tipo de questionário </h4>
+	<br />
+
+	<div class="freeJqgridContainer">
+	    <table id="jqGrid"></table>
+	    <div id="jqGridPager"></div>
+	</div>
+</body>
+</html>

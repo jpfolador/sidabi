@@ -1,0 +1,68 @@
+<!-- BEGIN TABLE_REGISTROS -->
+<br/><br/>
+<!-- BEGIN BLOCO_MSG_ADMIN -->
+<div class="alert alert-warning">
+    Estou como usuário administrador do SIDABI, posso ver todos os arquivos
+    compartilhados se não selecionar nenhum grupo de pesquisadores.
+</div>
+<!-- END BLOCO_MSG_ADMIN -->
+<table class="table table-striped table-hover">
+    <thead>
+    <tr>
+        <!--<th> <input type="checkbox" id="chkTodos" class="chkSelecionarTodos"/> </th>-->
+        <th> Participante </th>
+        <th> Idade </th>
+        <th> Sexo </th>
+        <th> Diagnóstico </th>
+        <th> Cidade/Estado </th>
+        <th> Data de cadastro </th>
+        <th> Informação </th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- BEGIN LINHA_ARQUIVO -->
+    <tr>
+        <!--<td>
+            <input type="checkbox" name="chkSelecionaArquivo" class="chkSelecionaLinha" data-sessao-id="{SESSAO_ID}"/>
+        </td>-->
+        <td>
+            {NOME}
+        </td>
+        <td>
+            {IDADE}
+        </td>
+        <td>
+            {SEXO}
+        </td>
+        <td>
+            {DIAGNOSTICO}
+        </td>
+        <td>
+            {CIDADE_ESTADO}
+        </td>
+        <td>
+            {DATA_CADASTRO}
+        </td>
+        <td>
+            <!-- BEGIN BLOCO_ARQUIVO_LINK -->
+                <a href="/sidabi/biodata/files/sessao_arquivos/{ARQUIVO}" target="_blank">
+                    {ARQUIVO}
+                </a>
+            <!-- END BLOCO_ARQUIVO_LINK -->
+
+            <!-- BEGIN BLOCO_INFORMACAO -->
+                {ARQUIVO}
+            <!-- END BLOCO_INFORMACAO -->
+        </td>
+    </tr>
+    <!-- END LINHA_ARQUIVO -->
+    </tbody>
+</table>
+<!-- END TABLE_REGISTROS -->
+
+<!-- BEGIN MSG_VAZIO -->
+<br/><br/>
+<div class="alert alert-info">
+    Nenhum registro encontrado, tente escolher outros filtros.
+</div>
+<!-- END MSG_VAZIO -->

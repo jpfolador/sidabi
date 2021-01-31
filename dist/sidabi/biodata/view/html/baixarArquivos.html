@@ -1,0 +1,146 @@
+
+<link href="/sidabi/_resources/inlineSearch/inlineSearch.css" rel="stylesheet" type="text/css" />
+<link href="../../view/css/baixarArquivos.css" rel="stylesheet" type="text/css" />
+
+<div class="row">
+    <h4 class="pull-left"> Baixar arquivos de coleta </h4>
+    <span class="pull-right btn btn-link"
+          data-toggle="collapse"
+          data-parent="#accordion"
+          href="#collapseOne"
+          aria-expanded="true"
+          aria-controls="collapseOne">
+        Ajuda
+        <span class="glyphicon glyphicon-question-sign"></span>
+    </span>
+</div>
+<div id="collapseOne" class="panel-collapse collapse out" role="tabpanel" aria-labelledby="headingOne">
+    <div class="panel-body panel panel-default" style="background-color: #F5F5F5">
+        Nesta tela você poderá buscar pelos arquivos das sessões de coletas cadastrados.
+        Lembre-se que você encontrará apenas seus arquivos e/ou aqueles que foram cadastros pelos membros dos
+        seu grupo de pesquisadores. <br/>
+        Aqui você pode filtrar os dados utilizando a busca por um <b>Grupo de estudo</b> específico, ou por um
+        <b>participante</b> da sessão de coleta, pelo <b>protocolo</b> ou <b>equipamento</b>, e ainda por um intervalo da <b>data
+        da sessão</b> de coleta.
+    </div>
+</div>
+
+<div id="containerBaixarArquivos" class="row">
+    <form id="formFiltrosBaixarArquivos" name="formFiltrosBaixarArquivos"
+          onsubmit="return false;" class="form-horizontal">
+
+        <!-- BEGIN BLOCO_RESPONSAVEL -->
+        <div class="form-group">
+            <label for="responsavel" class="control-label col-sm-2"> Usuário </label>
+            <div class="col-sm-10">
+                <div id="responsavel" class="inline-search"
+                     data-controller-url="../../controller/ctrl_gerenciamento/baixarArquivosResponsavelSearch.php"
+                     data-limit="10"
+                     data-obrigatorio="false"
+                     data-results-complement="show"
+                     data-selected-complement="show">
+                </div>
+            </div>
+        </div>
+        <!-- END BLOCO_RESPONSAVEL -->
+
+        <div class="form-group">
+            <label for="grupoEstudo" class="control-label col-sm-2"> Grupo de estudo </label>
+            <div class="col-sm-10">
+                <div id="grupoEstudo" class="inline-search"
+                     data-controller-url="../../controller/ctrl_gerenciamento/baixarArquivosGrupoEstudoSearch.php"
+                     data-limit="10"
+                     data-obrigatorio="true"
+                     data-results-complement="show"
+                     data-selected-complement="show">
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="participante" class="control-label col-sm-2"> Participante </label>
+            <div class="col-sm-10">
+                <div id="participante" class="inline-search"
+                     data-controller-url="../../controller/ctrl_gerenciamento/baixarArquivosParticipanteSearch.php"
+                     data-limit="10"
+                     data-dependency="#fk_grupoEstudo"
+                     data-obrigatorio="true"
+                     data-results-complement="show"
+                     data-selected-complement="show">
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="protocolo" class="control-label col-sm-2"> Protocolo </label>
+            <div class="col-sm-10">
+                <div id="protocolo" class="inline-search"
+                     data-controller-url="../../controller/ctrl_gerenciamento/baixarArquivosProtocoloSearch.php"
+                     data-limit="10"
+                     data-obrigatorio="false"
+                     data-results-complement="show"
+                     data-selected-complement="show">
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="equipamento" class="control-label col-sm-2"> Equipamento </label>
+            <div class="col-sm-10">
+                <div id="equipamento" class="inline-search"
+                     data-controller-url="../../controller/ctrl_gerenciamento/baixarArquivosEquipamentoSearch.php"
+                     data-limit="10"
+                     data-obrigatorio="false"
+                     data-results-complement="show"
+                     data-selected-complement="show">
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="dataInicio" class="control-label col-sm-2"> Data da sessão </label>
+            <div class="col-sm-10">
+                <input type="text" id="dataInicio" name="dataInicio" class="form-control date"/>
+                <span> à </span>
+                <input type="text" id="dataFim" name="dataFim" class="form-control date" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="dataInicio" class="control-label col-sm-2"> Arquivos dos grupos de pesquisadores </label>
+            <div class="col-sm-10">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" id="chkGrupoPesquisadorIndividual"
+                               name="chkGrupoPesquisadorIndividual" value="i"/>
+                        Individual
+                    </label>
+                </div>
+                <!-- BEGIN BLOCO_CHECKBOX_GRUPO_PESQUISADOR -->
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" id="chkGrupoPesquisador_{GRUPO_PESQUISADOR_ID}"
+                               name="chkGrupoPesquisador" value="{GRUPO_PESQUISADOR_ID}"/>
+                        {GRUPO_PESQUISADOR_NOME}
+                    </label>
+                </div>
+                <!-- END BLOCO_CHECKBOX_GRUPO_PESQUISADOR -->
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="button" id="btnLimpar" name="btnLimpar" class="btn btn-default">
+                    Limpar filtros
+                </button>
+
+                <button type="button" id="btnConsultar" name="btnConsultar" class="btn btn-primary">
+                    Consultar arquivos da sessão
+                </button>
+
+                <button type="button" id="btnCompactar" name="btnCompactar" class="btn btn-success hide">
+                    Baixar arquivos selecionados
+                </button>
+            </div>
+        </div>
+    </form>
+    <div id="containerResultado"></div>
+</div>
+
+<script src="/sidabi/_resources/jquery.mask.min.js" type="text/javascript"></script>
+<script src="/sidabi/_resources/inlineSearch/inlineSearch.js" type="text/javascript"></script>
+<script src="../../view/js/baixarArquivos.js" type="text/javascript"></script>

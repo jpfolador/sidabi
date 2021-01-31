@@ -1,0 +1,71 @@
+
+.ui-jqgrid .ui-jqgrid-bdiv {
+	position: relative; 
+	margin: 0;
+	padding:0; 
+	overflow-x:hidden;
+	overflow-y:auto; 
+	text-align:left;
+}
+
+.barraNavegacao {
+	padding: 10px 0;	
+}
+
+#ViewTbl_jqGrid {
+	width: 98% !important;
+}
+
+#ViewTbl_jqGrid tr:nth-child(odd) {
+	background-color: #ECECEC;
+}
+
+#editmodjqGrid {
+	margin: 0 0 30px 0;
+}
+
+#TblGrid_jqGrid td.CaptionTD,
+#ViewTbl_jqGrid td.CaptionTD {
+	width: 150px !important;
+}
+
+#ViewTbl_jqGrid td :not(.captionTD ) {
+	padding-left: 0;
+	white-space: pre-wrap;
+	text-align: justify;
+}
+
+#viewmodjqGrid {
+	width: 800px !important;
+}
+
+.ui-jqgrid tr.jqgrow td {
+	white-space: normal !important;
+	height: auto;
+	padding: 0.5em !important;
+	text-align: justify;
+}
+
+#v_outras_patologias span {
+	word-wrap: break-word !important;
+}
+
+#outras_patologias {
+	width: 98%;
+	height: 90px;
+}
+
+#containerFormPaciente {
+	margin: 15px 0;
+	padding: 2px;
+}
+
+.medicam {
+	background-color: #EAEAEA !important;
+}
+
+#formPaciente input, 
+#formPaciente textarea, 
+#formPaciente select {
+	width: 60%;
+}

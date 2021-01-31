@@ -1,0 +1,31 @@
+.nomeCategoria {
+    margin: 5px 5px 5px 10px;
+    color: #2b405d;
+}
+
+.ajustaVideo {
+    margin: 5px 5px 5px 10px;
+    width: 95%;
+    height: auto;
+}
+
+.containerSintoma {
+    margin: 0 35px 5px 30px;
+    padding: 2px;
+    text-align: justify;
+}
+
+@media(min-width:768px)
+{
+    .ajustaVideo {
+        margin: 5px 5px 5px 10px;
+        width: 250px;
+        height: auto;
+    }
+
+    .containerSintoma {
+        margin: 0 35px 5px 290px;
+        padding: 2px;
+        text-align: justify;
+    }
+}

@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+
+    <link href="/sidabi/_resources/free-jqGrid/dist/css/ui.jqgrid.jpf.css" rel="stylesheet" type="text/css" />
+    <link href="/sidabi/gestao_pessoa/view/css/individuo.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        .icone {
+            width: 18px;
+            height: auto;
+            border: none;
+        }
+        .visualizaFoto {
+            padding: 0;
+            margin-bottom: 10px;
+            width: 150px;
+            height: auto;
+        }
+        .containerFoto {
+            padding: 1px;
+        }
+        .removeFoto {
+            padding: 5px;
+            cursor: pointer;
+            position: relative;
+            top: -50px;
+        }
+        .removeFoto:hover{
+            color: #ff000e;
+        }
+        #tr_foto_nome {
+            display: none;
+        }
+
+        #TblGrid_jqGrid td.CaptionTD,
+        #ViewTbl_jqGrid td.CaptionTD {
+            width: 150px !important;
+        }
+        #ViewTbl_jqGrid td :not(.captionTD) {
+            padding-left: 0;
+            white-space: pre-wrap;
+            text-align: justify;
+        }
+        #trv_foto,
+        #trv_foto_nome {
+            display: none;
+        }
+        #nData, #pData {
+            display: none;
+        }
+    </style>
+
+    <script src="/sidabi/_resources/free-jqGrid/dist/i18n/grid.locale-pt-br.js" type="text/ecmascript"></script>
+    <script src="/sidabi/_resources/free-jqGrid/dist/jquery.jqgrid.min.js" type="text/ecmascript"></script>
+    <script src="/sidabi/_resources/jquery.mask.min.js" type="text/javascript"></script>
+    <script src="/sidabi/_resources/ajaxFileUpload.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(function() {
+            "use strict";
+
+            // INICIO - carrega cidade
+            let populateCities = function()
+            {
+                updateCityCallBack($("#estado_nome").val(), true);
+
+                $("#estado_nome").bind("change", function (e) {
+                    updateCityCallBack($("#estado_nome").val(), false);
+                });
+            };
+
+            let updateCityCallBack = function(state, setselected)
+            {
+                let current = $("#jqGrid").jqGrid('getRowData',$("#jqGrid")[0].p.selrow).cidade_id;
+                $("#cidade_nome").html("<option value=''> Selecione uma cidade... </option>").attr("disabled", "disabled");
+
+                $.ajax({
+                    url: "/sidabi/gestao_pessoa/controller/ctrl_cidade/consultarCidadesPeloIdEstado.php",
+                    data: {
+                        estadoId: state
+                    },
+                    type: "post",
+                    success: function (data) {
+                        let temp = data.obj;
+                        $('#cidade_nome').empty();
+
+                        let html = '<option value=""> Selecionar uma cidade... </option>';
+                        $.each(temp, function (i, item) {
+                            html += '<option value="' + item.id + '">' + item.nome + "</option>\n";
+                        });
+                        $('#cidade_nome').append(html);
+                        $("#cidade_nome").removeAttr("disabled");
+
+                        if (setselected) {
+                            $("#cidade_nome").val( current );
+                        }
+                    }
+                });
+            };
+            // FIM - carrega cidade
+
+            // INICIO - ações para inserir imagem
+            let atualizarFoto = function(id, foto)
+            {
+                $.ajax({
+                    dataType: "json",
+                    type: "post",
+                    url: "/sidabi/gestao_pessoa/controller/ctrl_individuo/individuoAtualizarFoto.php",
+                    data: {
+                        id: id,
+                        foto: foto
+                    },
+                    success: function(data) {
+                        switch (data.status)
+                        {
+                            case 'ok':
+                                // Tudo certo
+                                // console.log(data);
+                                break;
+                            case 'erro':
+                                console.log("Erro: " + data.msg);
+                                break;
+                        }
+                    },
+                    error: function(){
+                        console.error("Erro: Não foi possível atualizar o arquivo");
+                    }
+                });
+            };
+
+            let removerUpload = function(nomeArquivo) {
+                $.ajax({
+                    dataType: "json",
+                    type: "post",
+                    url: "/sidabi/gestao_pessoa/controller/ctrl_individuo/individuoRemoverArquivo.php",
+                    data: {
+                        nomeArquivo: nomeArquivo
+                    },
+                    success: function(data) {
+                        switch (data.status)
+                        {
+                            case 'ok':
+                                // Tudo certo
+                                // console.log(data);
+                                break;
+                            case 'erro':
+                                console.log("Erro: " + data.msg);
+                                break;
+                        }
+                    },
+                    error: function(){
+                        console.error("Erro: Não foi possível remover o arquivo!");
+                    }
+                });
+            };
+
+            let limparInputFile = function() {
+                $("#imgFotoParticipante").attr("src", "/sidabi/gestao_pessoa/files/individuos_fotos/");
+                $('#foto').val('');
+                $("#nomeArquivo").val("");
+                $("#removerFoto").addClass("hide");
+                $("#tr_foto_nome").hide();
+                $("#tr_foto").show();
+            };
+
+            let pegarArquivo = function()
+            {
+                // pega o dado de uma linha da tabela.
+                let temFoto = $("#jqGrid").jqGrid('getRowData',$("#jqGrid")[0].p.selrow).foto;
+                let gridId = $("#jqGrid").jqGrid('getGridParam',"selrow");
+
+                if ((temFoto != undefined) && (temFoto.length > 0))
+                {
+                    $("#removerFoto").on('click', function (event) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        removerUpload(temFoto);
+                        atualizarFoto(gridId, null);
+                        limparInputFile();
+                    });
+
+                    $("#imgFotoParticipante").prop("src", "/sidabi/gestao_pessoa/files/individuos_fotos/" + temFoto);
+                    $("#removerFoto").removeClass("hide");
+                    $("#nomeArquivo").val(temFoto);
+                    $("#tr_foto_nome").show();
+                    $("#tr_foto").hide();
+                }
+
+                $("#FrmGrid_jqGrid").on("change", "#foto", function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    $("#imgFotoParticipante").prop("src", "/sidabi/gestao_pessoa/files/individuos_fotos/");
+
+                    $.ajaxFileUpload({
+                        url: "/sidabi/gestao_pessoa/controller/ctrl_individuo/individuoUploadFile.php",
+                        secureuri: false,
+                        fileElementId: 'foto',
+                        dataType: 'json',
+                        success: function (data, status) {
+                            switch (data.status) {
+                                case 'ok':
+                                    // Eventos ao adicionar uma foto
+                                    let src = $("#imgFotoParticipante").prop("src");
+
+                                    $("#imgFotoParticipante").prop("src", src + data.obj["file_name"]);
+                                    $("#removerFoto").removeClass("hide");
+                                    $("#nomeArquivo").val(data.obj["file_name"]);
+                                    $("#tr_foto_nome").show();
+                                    $("#tr_foto").hide();
+                                    atualizarFoto(gridId, data.obj["file_name"]);
+
+                                    // Eventos ao remover a imagem pelo 'x'
+                                    $("#removerFoto").on('click', function (event) {
+                                        event.preventDefault();
+                                        event.stopPropagation();
+                                        removerUpload(data.obj["file_name"]);
+                                        atualizarFoto(gridId, null);
+                                        limparInputFile();
+                                    });
+                                    break;
+                                case 'erro':
+                                    alert("Erro: " + data.msg);
+                                    limparInputFile();
+                                    break;
+                            }
+                        },
+                        error: function () {
+                            bootbox.alert("Não foi possível carregar o arquivo");
+                            limparInputFile();
+                        }
+                    });
+                });
+            };
+            // FIM - ações para inserir imagem
+
+            let validarNumeroRegistro = function(numero, id) {
+                let result = '';
+                $.ajax({
+                    dataType: "json",
+                    async: !1,
+                    type: "post",
+                    url: "/sidabi/gestao_pessoa/controller/ctrl_individuo/individuoValidarNumeroRegistro.php",
+                    data: {
+                        numeroRegistro: numero,
+                        id: id
+                    },
+                    success: function(data) {
+                        switch (data.status)
+                        {
+                            case 'ok':
+                                // Tudo certo
+                                result = 'ok';
+                                // console.log(data);
+                            break;
+                            case 'erro':
+                                result = 'erro';
+                                bootbox.alert("Erro: " + data.msg);
+                            break;
+                        }
+                    },
+                    error: function(){
+                        console.error("Erro: Impossível validar o número de registro.");
+                        result = 'erro';
+                    }
+                });
+
+                return result;
+            };
+
+            $("#jqGrid").jqGrid({
+                url: '/sidabi/gestao_pessoa/controller/ctrl_individuo/individuoJqGridLoad.php',
+                editurl: '/sidabi/gestao_pessoa/controller/ctrl_individuo/individuoJqGridEdit.php',
+                datatype: "json",
+                mtype: "GET",
+                page: 1,
+                jsonReader: {
+                    page: "obj.currpage",
+                    total: "obj.totalpages",
+                    records: "obj.totalrecords",
+                    repeatitems: false,
+                    root: "obj.rows",
+                    cell: "cell",
+                    id: "0"
+                },
+                colModel: [
+                    {
+						label: 'ID',
+                        name: 'id',
+                        width: 20,
+                        hidden: true,
+						key: true,
+						editable: false
+                    },
+                    {
+                        label: 'Registro',
+                        name: 'numero_registro',
+                        width: 23,
+                        editable: true,
+                        search: true,
+                        stype: 'text'
+                    },
+                    {
+                        label: 'Instituição',
+                        name: 'instituicao',
+                        width: 40,
+                        editable: true,
+                        editrules: { edithidden: true },
+                        hidden: true,
+                        stype: 'text'
+                    },
+                    {
+                        label: 'Nome',
+                        formoptions: {
+                            label: 'Nome <b style="color: red;">*</b>'
+                        },
+                        name: 'individuo_nome',
+                        width: 80,
+                        editable: true,
+                        editrules : { required: true },
+                        search: true,
+                        stype: 'text'
+                    },
+                    {
+                        label: 'Foto',
+                        name: 'foto',
+                        align: 'left',
+                        editable: true,
+                        editrules: { edithidden: true },
+                        hidden: true,
+                        edittype: 'file',
+                        editoptions: {
+                            enctype: "multipart/form-data"
+                        },
+                        width: 80,
+                        search: false
+                    },
+                    {
+                        label: 'Nome do arquivo',
+                        name: 'nomeArquivo',
+                        hidden: true,
+                        editable: true,
+                        stype: 'text'
+                    },
+                    {
+                        label: '&nbsp;',
+                        name: 'foto_nome',
+                        width: 80,
+                        editable: true,
+                        editrules: { edithidden: true },
+                        edittype: 'custom',
+                        hidden: true,
+                        editoptions: {
+                            custom_element: function() {
+                                let temp = "<span class='containerFoto'>";
+                                temp += "<img id='imgFotoParticipante' src='/sidabi/gestao_pessoa/files/individuos_fotos/' class='visualizaFoto' />";
+                                temp += "<div id='removerFoto' class='glyphicon glyphicon-remove removeFoto hide'></div>";
+                                temp += "</span>";
+                                return temp;
+                            }
+                        }
+                    },
+                    {
+						label: 'Sexo',
+                        name: 'individuo_sexo',
+                        width: 25,
+                        editable: true,
+                        edittype: 'select',
+                        editoptions: {
+                            value: ':Selecione o sexo...;F:Feminino;M:Masculino'
+                        },
+                        editrules: {
+                            edithidden: true,
+                            required: true
+                        },
+                        formoptions: {
+                            label: 'Sexo <b style="color: red;">*</b>'
+                        },
+                        search: true,
+                        stype: 'select',
+                        searchoptions: { 
+                        	value: ':Todos;F:Feminino;M:Masculino'
+                        }
+                    },
+                    {
+                    	label: 'Data de Nascimento',
+                        name: 'data_nascimento',
+                        width: 35,
+                        align: 'center',
+                        editable: true,
+                        editrules: {
+                            edithidden: true,
+                            required: true
+                        },
+                        formoptions: {
+                            label: 'Data de Nascimento <b style="color: red;">*</b>'
+                        },
+                        editoptions: {
+                        	dataInit: function (elem) { 
+                        		$(elem).mask("99/99/9999"); 
+                        	}                   
+                        },
+                        search: true,
+                        stype: 'text'
+                    },
+                    {
+                        label: 'Tipo sanguíneo',
+                        name: 'tipo_sangue_descricao',
+                        width: 20,
+                        hidden: true,
+                        editable: true,
+                        editrules: {
+                            edithidden: true
+                        },
+                        edittype: "select",
+                        editoptions: {
+                            value: ":Selecione o tipo sanguíneo...;" + {OPTIONS_TIPO_SANGUE}
+                        }
+                    },
+                    {
+                        label: 'Peso',
+                        name: 'peso',
+                        width: 20,
+                        hidden: true,
+                        editable: true,
+                        editrules: { edithidden: true },
+                        editoptions: {
+                            dataInit: function (elem) {
+                                $(elem).mask('000.00', {reverse: true});
+                            }
+                        },
+                        stype: 'text'
+                    },
+                    {
+                        label: 'Altura',
+                        name: 'altura',
+                        width: 20,
+                        hidden: true,
+                        editable: true,
+                        editrules: { edithidden: true },
+                        editoptions: {
+                            dataInit: function (elem) {
+                                $(elem).mask("9.99");
+                            }
+                        },
+                        stype: 'text'
+                    },
+                    {
+                        label: 'RG',
+                        name: 'rg',
+                        width: 50,
+                        hidden: true,
+                        editable: true,
+                        editrules: { edithidden: true },
+                        editoptions: {
+                            dataInit: function (elem) {
+                                $(elem).mask("99.999.999");
+                            }
+                        }
+                    },
+                    {
+                        label: 'CPF',
+                        name: 'cpf',
+                        width: 50,
+                        hidden: true,
+                        editable: true,
+                        editrules: { edithidden: true },
+                        editoptions: {
+                            dataInit: function (elem) {
+                                $(elem).mask("999.999.999-99");
+                            }
+                        }
+                    },
+                    {
+                        label: 'Email',
+                        name: 'email',
+                        width: 100,
+                        editable: true,
+                        hidden: true,
+                        editrules: { edithidden: true },
+                        search: true,
+                        stype: 'text'
+                    },
+                    {
+						label: 'Telefone',
+                        name: 'telefone1',
+                        width: 25,
+                        editable: true,
+                        align: 'center',
+                        editrules: { edithidden: true },
+                        editoptions: {
+                        	dataInit: function (elem) { 
+                        		$(elem).mask("(99)9999-9999"); 
+                        	}                   
+                        },
+                        search: true,
+                        stype: 'text'
+                    },
+                    {
+						label: 'Celular',
+                        name: 'telefone2',
+                        width: 25,
+                        hidden: true,
+                        editable: true,
+                        align: 'center',
+                        editrules: { edithidden: true },
+                        editoptions: {
+                        	dataInit: function (elem) { 
+                        		$(elem).mask("(99)99999-9999"); 
+                        	}                   
+                        },
+                        search: true,
+                        stype: 'text'
+                    },
+                    {
+						label: 'Logradouro',
+                        name: 'logradouro',
+                        width: 100,
+                        hidden: true,
+                        editable: true,
+                        editrules: { edithidden: true }
+                    },
+                    {
+						label: 'Número',
+                        name: 'numero',
+                        width: 25,
+                        hidden: true,
+                        editable: true,
+                        editrules: { edithidden: true }
+                    },
+                    {
+						label: 'Bairro',
+                        name: 'bairro',
+                        width: 75,
+                        hidden: true,
+                        editable: true,
+                        editrules: { edithidden: true }
+                    },
+                    {
+                    	label: 'Estado',
+                        name: 'estado_nome',
+                        width: 90,
+                        hidden: true,
+                        editable: true,
+                        formoptions: {
+                            label: 'Estado <b style="color: red;">*</b>'
+                        },
+                        editrules: {
+                            edithidden: true,
+                            required: true
+                        },
+                        edittype: "select",
+                        editoptions: {
+                            value: {OPTIONS_ESTADO}
+                        }
+                    },
+                    {
+						label: 'Cidade ID',
+                        name: 'cidade_id',
+                        width: 20,
+						editable: false,
+						hidden: true
+                    },
+                    {
+                    	label: 'Cidade',
+                        name: 'cidade_nome',
+                        width: 90,
+                        hidden: true,
+                        editable: true,
+                        formoptions: {
+                            label: 'Cidade <b style="color: red;">*</b>'
+                        },
+                        editrules: {
+                            edithidden: true,
+                            required: true
+                        },
+                        edittype: "select",
+                        editoptions: {
+                        	value: "selecione uma cidade..."
+                        }
+                    },
+                    {
+						label: 'Diagnóstico',
+                        name: 'diagnostico',
+                        width: 55,
+                        editable: true,
+                        edittype: 'select',
+                        formoptions: {
+                            label: 'Diagnóstico <b style="color: red;">*</b>'
+                        },
+                        editoptions: {
+                            value: ":Seleciona uma opção...;1:Doença de Parkinson Idiopática;2:Parkinsonismo;3:Indivíduo Hígido"
+                        },
+                        editrules: {
+                            edithidden: true,
+                            required: true
+                        },
+                        search: true,
+                        stype: 'select',
+                        searchoptions: { 
+                        	value: ":Todos;1:Doença de Parkinson Idiopática;2:Parkinsonismo;3:Indivíduo Hígido"
+                        }
+                    },
+                    {
+						label: 'Data do diagnóstico',
+                        name: 'dt_diagnostico',
+                        width: 60,
+                        hidden: true,
+                        editable: true,
+                        editrules: { edithidden: true },
+                        editoptions: {
+                        	dataInit: function (elem) { 
+                        		$(elem).mask("99/99/9999"); 
+                        	}                   
+                        },
+                        search: true,
+                        stype: 'text'
+                    },
+                    {
+						label: 'Médico',
+                        name: 'medico_responsavel',
+                        width: 60,
+                        hidden: true,
+                        editable: true,
+                        editrules: { edithidden: true },
+                        search: true,
+                        stype: 'text'
+                    },
+                    {
+						label: 'Contato do médico',
+                        name: 'telefone_medico_responsavel',
+                        width: 60,
+                        hidden: true,
+                        editable: true,
+                        editrules: { edithidden: true },
+                        editoptions: {
+                        	dataInit: function (elem) { 
+                        		$(elem).mask("(99)?999999999"); 
+                        	}                   
+                        },
+                        search: true,
+                        stype: 'text'
+                    },
+                    {
+						label: 'Outras patologias',
+                        name: 'outras_patologias',
+                        width: 185,
+                        hidden: true,
+                        editable: true,
+                        editrules: { edithidden: true },
+                        edittype: 'textarea',
+                        search: true,
+                        stype: 'text'
+                    }
+                ],
+                guiStyle: "bootstrap",
+                autowidth: true,
+                rownumbers: false,
+                hidegrid: false,
+                loadComplete: function () {
+                    $(this).triggerHandler('resize.jqGrid');
+                },
+                sortname: 'individuo_nome',
+                sortorder: 'asc',
+                viewrecords: true,
+                height: 'auto',
+                rowNum: 15,
+                pager: "#jqGridPager"
+            }).jqGrid('filterToolbar', {defaultSearch:'cn'});
+            
+            $('#jqGrid').navGrid('#jqGridPager',
+                {
+                    edit: {PERMITE_EDITAR},
+                    add: {PERMITE_INCLUIR},
+                    del: {PERMITE_EXCLUIR},
+                    search: false,
+                    refresh: false,
+                    view: {PERMITE_VISUALIZAR},
+            		position: "left", 
+            		cloneToTop: false
+                },
+                {
+                    editCaption: "Editar",
+                    width: "700",
+                    height: "auto",
+                    top: "10",
+                    left: "10",
+                    recreateForm: true,
+                    closeAfterEdit: true,
+                    beforeSubmit: function(postdata, formid) {
+                        let id = $("#jqGrid").jqGrid('getGridParam',"selrow");
+                        let status = validarNumeroRegistro( $("#numero_registro").val(), id );
+                        if (status == 'erro' || status == undefined) {
+                            return [false, 'O número de registro deve ser único. Tente inserir outro.'];
+                        }else{
+                            return [true, ''];
+                        }
+                    },
+                    afterShowForm: function() {
+                        populateCities();
+                        pegarArquivo();
+                    },
+                    afterComplete: function (data) {
+                        let res = $.parseJSON(data.responseText);
+                        switch (res.status)
+                        {
+                            case 'ok':
+                                //bootbox.alert(res.obj);
+                                break;
+
+                            case 'erro':
+                                bootbox.alert("Não foi possível editar o registro. " + res.msg);
+                                console.log("Erro: " + res.msg);
+                                break;
+                        }
+                    },
+                    errorTextFormat: function (data) {
+                        return 'Error: ' + data.responseText
+                    }
+                },
+                {
+                    editCaption: "Adicionar",
+                    width: "700",
+                    height: "auto",
+                    top: "10",
+                    left: "10",
+                	closeAfterAdd: true,
+                    recreateForm: true,
+                	afterShowForm: function() {
+                        populateCities();
+                        pegarArquivo();
+
+                        $("#numero_registro").val( Math.floor((Math.random() * 99999999) + 100) );
+                    },
+                    afterComplete: function (data) {
+                        let res = $.parseJSON(data.responseText);
+                        switch (res.status)
+                        {
+                            case 'ok':
+                                //bootbox.alert(res.obj);
+                                break;
+
+                            case 'erro':
+                                bootbox.alert("Não foi possível adicionar o registro. " + res.msg);
+                                console.log("Erro: " + res.msg);
+                                break;
+                        }
+                    },
+                    beforeShowForm: function() {
+                        $('#jqGrid').jqGrid('setSelection','');
+                    },
+                    beforeSubmit: function(postdata, formid) {
+                        let id = $("#jqGrid").jqGrid('getGridParam',"selrow");
+                        let status = validarNumeroRegistro( $("#numero_registro").val(), id );
+                        if (status == 'erro' || status == undefined) {
+                            return [false, 'O número de registro deve ser único. Tente inserir outro.'];
+                        }else{
+                            return [true, ''];
+                        }
+                    },
+                    errorTextFormat: function (data) {
+                        return 'Error: ' + data.responseText
+                    }
+                },
+                {
+                	editCaption: "Apagar",
+                	width: "500",
+                    height: "auto",
+                    top: "10",
+                    left: "10",
+                    afterComplete: function (data) {
+                        let res = $.parseJSON(data.responseText);
+                        switch (res.status)
+                        {
+                            case 'ok':
+                                bootbox.alert(res.obj);
+                                break;
+
+                            case 'erro':
+                                bootbox.alert("Não foi possível apagar o registro. Ele pode estar sendo utilizado!");
+                                console.log("Erro: " + res.msg);
+                                break;
+                        }
+                    },
+                    errorTextFormat: function (data) {
+                        return 'Error: ' + data.responseText
+                    }
+                });
+
+            $("#view_jqGrid").click(function() {
+                let temp = $("#v_foto span").html().trim();
+                $("#v_foto span").html("<img src=" + temp + "'/sidabi/gestao_pessoa/files/individuos_fotos/' class='visualizaFoto'>");
+            });
+
+            $(window).on('resize.jqGrid', function () {
+                $('#jqGrid').jqGrid('setGridWidth', $(".freeJqgridContainer").width() - 20);
+            }).triggerHandler('resize.jqGrid');
+        });
+    </script>
+</head>
+
+<body>
+    <div class="row">
+        <h4 class="pull-left"> Gerenciar Pacientes / Participantes </h4>
+        <span class="pull-right btn btn-link"
+              data-toggle="collapse"
+              data-parent="#accordion"
+              href="#collapseOne"
+              aria-expanded="true"
+              aria-controls="collapseOne">
+            Ajuda
+            <span class="glyphicon glyphicon-question-sign"></span>
+        </span>
+    </div>
+    <div id="collapseOne" class="panel-collapse collapse out" role="tabpanel" aria-labelledby="headingOne">
+        <div class="panel-body panel panel-default" style="background-color: #F5F5F5">
+            Nesta tela você cadastrará o Paciente/Participante das pesquisas. Portanto, preencha todas as informações
+            que você tiver, quanto mais completo melhor. Perceba que existem alguns campos que são de preenchimento
+            obrigatório: <b>Nome</b>, <b>Sexo</b>, <b>Data de Nascimento</b>, <b>Estado</b>, <b>Cidade</b> e <b>Diagnóstico</b>.
+            Estes campos estão marcados com um asterísco (<b style="color: red;">*</b>).<br/>
+            O campo <b>Nº de registro</b> é gerado automaticamente quando se abre a tela, mas você pode fazer uso do número do prontuário
+            do voluntário que se utiliza na instituição que será realizada a coleta. <br/>
+            O campo <b>Instituição</b> deve conter o nome ou a sigla da instituição onde você está realizando a coleta ou
+            de onde são os voluntário/participantes da coleta. Tente colocar sempre o mesmo nome/sigla para os voluntários/participantes
+            provenientes na mesma instituição. <br/>
+            Outro campo que pode trazer dúvidas é o campo <b>Data do diagnóstico</b>, o qual refere-se à data quando o voluntário recebeu 
+            o resultado do diagnóstico confirmando a enfermidade pela primeira vez. Caso o voluntário seja hígido, basta deixar o campo vazio. <br/>
+        </div>
+    </div>
+    <div class="freeJqgridContainer row">
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+    </div>
+    <br />
+<!--    <div id="gridDadosPaciente" class="row">
+	    <table id="jqGrid"></table>
+	    <div id="jqGridPager"></div>
+	</div>-->
+</body>
+</html>

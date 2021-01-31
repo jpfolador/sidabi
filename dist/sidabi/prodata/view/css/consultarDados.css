@@ -1,0 +1,40 @@
+#FrmGrid_jqGrid {
+    overflow: hidden;
+}
+#alertmod_jqGrid {
+    width: 350px !important;
+}
+
+#containerBaixarArquivos,
+#formQuestionario {
+    margin: 5px 5px;
+    padding: 10px 20px 10px 20px;
+}
+
+#btnLimpar,
+#btnConsultar {
+    margin: 3px 5px 3px 0;
+    width: 210px;
+    display: table;
+}
+
+.date {
+    width: 210px;
+    display: table;
+}
+
+@media(min-width:768px)
+{
+    .date {
+        width: 210px;
+        display: inline-block;
+    }
+
+    #btnLimpar,
+    #btnConsultar {
+        margin: 3px 5px 3px 0;
+        width: 210px;
+        display: inline-block;
+    }
+
+}

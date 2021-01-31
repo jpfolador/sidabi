@@ -1,0 +1,160 @@
+#containerConfiguracaoSidabi {
+    margin: 0;
+}
+
+#tituloGerenciamento {
+    color: #2C5371;
+}
+
+#menuHorizontal a {
+    color: #FFF;
+    font-size: 16px;
+}
+#menuHorizontal a:visited {
+    background-color: #306a8a;
+    font-size: 16px;
+}
+#menuHorizontal a:hover {
+    background-color: #306a8a;
+}
+
+#barraMenu {
+    background-color: #2C5371;
+    color: #FFF;
+}
+
+.usuarioGrupoPesquisadores {
+
+    margin: 5px 5px 5px 0;
+    padding: 5px 12px;
+}
+
+.usuarioGrupoPesquisadoresDelete {
+    position: relative !important;
+    right: -9px;
+    text-align: right;
+    color: yellow;
+    cursor: pointer;
+}
+
+.usuarioItem {
+    background-color: #ECECEC;
+    margin: 3px;
+    text-wrap: normal;
+}
+.usuarioItem:hover {
+    background-color: #CCCCCC;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+#FrmGrid_jqGrid {
+    overflow: hidden;
+}
+#alertmod_jqGrid {
+    width: 350px !important;
+}
+
+#voltarSidabi {
+    background-color: #C1C0B9;
+}
+#wrapper.toggled {
+    padding-left: 250px;
+}
+
+#sidebar-wrapper {
+    z-index: 1000;
+    position: fixed;
+    left: 250px;
+    width: 0;
+    height: 100%;
+    margin-left: -250px;
+    overflow-y: auto;
+    background-color: #E7E6D8;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+    width: 250px;
+}
+
+#page-content-wrapper {
+    width: 100%;
+    position: absolute;
+    padding: 0;
+    margin: 0;
+}
+
+#wrapper.toggled #page-content-wrapper {
+    position: absolute;
+    margin-right: -250px;
+}
+
+/* Sidebar Styles */
+
+.sidebar-nav {
+    position: absolute;
+    top: 0;
+    width: 250px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.sidebar-nav li {
+    text-indent: 20px;
+    line-height: 40px;
+}
+
+.sidebar-nav li a {
+    display: block;
+    text-decoration: none;
+    color: #2C5371;
+}
+
+.sidebar-nav li a:hover {
+    text-decoration: none;
+    color: #2C5371;
+    background-color: rgba(44, 83, 113, 0.2);
+}
+
+.sidebar-nav li a:active,
+.sidebar-nav li a:focus {
+    text-decoration: none;
+}
+
+.sidebar-nav > .sidebar-brand {
+    height: 65px;
+    font-size: 18px;
+    line-height: 60px;
+}
+
+@media(min-width:768px) {
+
+    #wrapper {
+        padding-left: 0;
+    }
+
+    #wrapper.toggled {
+        padding-left: 250px;
+    }
+
+    #sidebar-wrapper {
+        width: 0;
+    }
+
+    #wrapper.toggled #sidebar-wrapper {
+        width: 250px;
+    }
+
+    #page-content-wrapper {
+        padding: 20px;
+        position: relative;
+    }
+
+    #wrapper.toggled #page-content-wrapper {
+        position: relative;
+        margin-right: 0;
+    }
+}

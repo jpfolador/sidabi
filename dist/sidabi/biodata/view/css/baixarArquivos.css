@@ -1,0 +1,68 @@
+.icone {
+    width: 18px;
+    height: auto;
+    border: none;
+}
+
+#FrmGrid_jqGrid {
+    overflow: hidden;
+}
+#alertmod_jqGrid {
+    width: 350px !important;
+}
+
+#containerBaixarArquivos,
+#formQuestionario {
+    margin: 5px 5px;
+    padding: 10px 20px 10px 20px;
+}
+
+#btnLimpar,
+#btnConsultar,
+#btnCompactar {
+    margin: 3px 5px 3px 0;
+    width: 210px;
+    display: table;
+}
+/*
+#protocolo input,
+#grupoEstudo input,
+#equipamento input,
+#participante input,
+#responsavel input {
+    width: 300px;
+
+}
+*/
+.date {
+    width: 210px;
+    display: table;
+}
+
+@media(min-width:768px)
+{
+    /*
+    #protocolo input,
+    #grupoEstudo input,
+    #equipamento input,
+    #participante input,
+    #responsavel input {
+        width: 450px;
+
+    }
+    */
+
+    .date {
+        width: 210px;
+        display: inline-block;
+    }
+
+    #btnLimpar,
+    #btnConsultar,
+    #btnCompactar {
+        margin: 3px 5px 3px 0;
+        width: 210px;
+        display: inline-block;
+    }
+
+}

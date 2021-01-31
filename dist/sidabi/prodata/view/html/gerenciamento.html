@@ -1,0 +1,61 @@
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="../../view/css/gerenciamento.css" rel="stylesheet">
+
+<div id="containerPrincipal">
+
+    <div id="verticalMenuIcon">
+        <button type="button" class="btn btn-primary btn-circle btn-lg">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+        </button>
+    </div>
+
+    <div id="wrapper" class="toggled">
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li id="tituloGerenciamento" class="sidebar-brand">
+                    <span>
+                        Gerenciamento
+                    </span>
+                </li>
+
+                <!-- BEGIN BLOCO_MENU -->
+                    <li>
+                        <a href="#menu_{MENU_ID}" class="itemMenu" data-menu-id="{MENU_ID}" data-menu-url="{MENU_URL}">
+                            {MENU_NOME}
+                        </a>
+                    </li>
+                <!-- END BLOCO_MENU -->
+
+                <!-- BEGIN BLOCO_SEM_PERMISSAO -->
+                    <li>
+                        <a href="#semPermissao" class="usuarioSemPermissao">
+                            Usuário sem permissão
+                        </a>
+                    </li>
+                <!-- END BLOCO_SEM_PERMISSAO -->
+            </ul>
+        </div>
+
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="col-md-12">
+                    <div id="containerGerencimento">
+                        <div>
+                            Área de consulta e análise dos dados
+                        </div>
+                        <br/>
+                        <p>
+                            <b> Consultar dados: </b>
+                            Tela responsável por trazer os arquivos baseado em uma pesquisa estruturada,
+                            para posterior análise.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Menu Toggle Script -->
+	<script src="../../view/js/gerenciamento.js" charset="UTF-8" type="text/javascript"></script>
+</div>

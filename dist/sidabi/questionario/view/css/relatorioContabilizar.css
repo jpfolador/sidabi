@@ -1,0 +1,66 @@
+#alertmod_jqGrid_3_t {
+	display: none;
+}
+
+.opcaoRelatorio {
+	margin: 5px 0;
+	padding: 8px 13px;
+	background-color: #EAEAEA;
+	color: #555;
+	font-weight: bold;
+}
+.opcaoRelatorio:hover {
+	background-color: #CACACA;
+	color: #000;
+	cursor: pointer;
+}
+
+.linhaResposta {
+	position: relative;
+	padding-top: 10px !important;
+	font-size: 16px !important;
+	font-weight: bold !important;
+}
+
+.containerRespostas {
+	position: relative;
+	
+}
+
+.perguntasRespostas {
+	margin: 10px 0;
+}
+
+.dadosQuestionario {
+	padding: 5px 10px;
+	margin: 15px 0;
+	background-color: #EAEAEA;
+}
+
+.tituloResultado {
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.tbTodasAvaliacoes {
+	width: 100%;
+	
+}
+
+.tbTodasAvaliacoes td {
+	padding-left: 4px;
+	height: 25px;
+}
+
+.linhaSubTotal {
+	background-color: #f0f3fe;
+}
+.linhaTotalGeral {
+	background-color: #d6e1ff;
+}
+
+#containerTipoRelatorio {
+	position: relative;
+	width: 99%;
+	height: auto;
+}

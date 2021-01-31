@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+
+	<link href="/sidabi/_resources/free-jqGrid/dist/css/ui.jqgrid.jpf.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+		 .customelement .radio-inline input {
+			 margin-left: -40px;
+			 padding-right: 10px; 
+		 }
+		 .typeahead {
+			 z-index: 10051;
+		 }
+         .ui-jqgrid {
+             background-color: #FFF;
+         }
+		 .ui-jqgrid .ui-jqgrid-bdiv {
+			  position: relative; 
+			  margin: 0;
+			  padding: 0;
+			  overflow-x:hidden; 
+			  overflow-y:auto; 
+			  text-align:left;
+         }
+         #TblGrid_jqGrid td.CaptionTD,
+         #ViewTbl_jqGrid td.CaptionTD {
+             width: 150px !important;
+         }
+         #ViewTbl_jqGrid td :not(.captionTD) {
+             padding-left: 0;
+             white-space: pre-wrap;
+             text-align: justify;
+         }
+         #ViewTbl_jqGrid {
+             width: 760px !important;
+         }
+         #viewmodjqGrid {
+             width: 800px !important;
+         }
+         #administradorSim,
+         #administradorNao {
+             width: 15px;
+             margin-left: -22px;
+         }
+    </style>
+
+	<script src="/sidabi/_resources/free-jqGrid/dist/i18n/grid.locale-pt-br.js" type="text/ecmascript"></script>
+	<script src="/sidabi/_resources/free-jqGrid/dist/jquery.jqgrid.min.js" type="text/ecmascript"></script>
+	<script type="text/javascript">
+		$(function() {
+			"use strict";
+
+            let radioelemAdm = function(value, options)
+            {
+                let div = $("<div style='margin: 0px 0 2px 7px;'></div>");
+
+                let label = $("<label class='radio-inline'></label>");
+                let radio = $("<input>", { type: "radio", value: "true", class: "pull-left", name: "radioAdministrador", id: "administradorSim", checked: (value == 'sim') });
+                label.append(radio).append("Usuário administrador");
+
+                let label1 = $("<label class='radio-inline'></label>");
+                let radio1 = $("<input>", { type: "radio", value: "false", name: "radioAdministrador", id: "administradorNao", checked: (value == 'não') });
+                label1.append(radio1).append("Usuário comum");
+
+                div.append(label).append(label1);
+
+                return div;
+            };
+
+            let radiovalueAdm = function(elem, operation, value)
+            {
+                if (operation === "set") {
+                    let radioButton = $(elem).find("input:radio[value='" + value + "']");
+                    if (radioButton.length > 0) {
+                        radioButton.prop("checked", true);
+                    }
+                }
+
+                if (operation === "get") {
+                    return $(elem).find("input:radio:checked").val();
+                }
+            };
+
+            let radioelem = function(value, options)
+            {
+                let div = $("<div style='margin: 0 0 2px 7px;'></div>");
+
+                let label = $("<label class='radio-inline'></label>");
+                let radio = $("<input>", { type: "radio", value: "ativo", name: "status", id: "statusAtivo", checked: (value == 'ativo') });
+                label.append(radio).append("Ativo");
+
+                let label1 = $("<label class='radio-inline'></label>");
+                let radio1 = $("<input>", { type: "radio", value: "inativo", name: "status", id: "statusInativo", checked: (value == 'inativo') });
+                label1.append(radio1).append("Inativo");
+
+                div.append(label).append(label1);
+
+                return div;
+            };
+
+            let radiovalue = function(elem, operation, value)
+            {
+                if (operation === "set") {
+                    let radioButton = $(elem).find("input:radio[value='" + value + "']");
+                    if (radioButton.length > 0) {
+                        radioButton.prop("checked", true);
+                    }
+                }
+
+                if (operation === "get") {
+                    return $(elem).find("input:radio:checked").val();
+                }
+            };
+
+            let verificarEmailExistente = function(email) {
+                $.ajax({
+                    dataType: "json",
+                    type: "post",
+                    url: "../../controller/ctrl_config/gerenciaLoginVerificarEmail.php",
+                    data: {
+                        email: email
+                    },
+                    beforeSend: function() {},
+                    success: function(data) {
+                        switch (data.status)
+                        {
+                            case 'ok':
+                                let temp = data.obj;
+                                //bootbox.alert();
+                                break;
+
+                            case 'erro':
+                                bootbox.alert(data.msg);
+                                console.log("Erro: " + data.msg);
+                                break;
+                        }
+                    },
+                    error: function(){
+                        bootbox.alert("Não foi possível verificar o email. Tente atualizar a página e refazer o processo");
+                    },
+                    complete:function() { }
+                });
+            };
+
+            $("#jqGrid").jqGrid({
+                url: '../ctrl_config/gerenciaLoginJqGridLoad.php',
+                editurl: '../ctrl_config/gerenciaLoginJqGridEdit.php',
+                datatype: "json",
+                mtype: "GET",
+                page: 1,
+                jsonReader: {
+                    page: "obj.currpage",
+                    total: "obj.totalpages",
+                    records: "obj.totalrecords",
+                    repeatitems: false,
+                    root: "obj.rows",
+                    cell: "cell",
+                    id: "0"
+                },
+                colModel: [
+                    {
+						label: 'ID',
+                        name: 'id',
+                        width: 25,
+						key: true,
+						editable: false
+                    },
+                    {
+                        label: 'Nome completo',
+                        name: 'nome',
+                        width: 90,
+                        editable: true,
+                        editrules : { required: true},
+                        search: true,
+                        stype: 'text'
+                    },
+                    {
+						label: 'Usuário',
+                        name: 'usuario',
+                        width: 50,
+                        editable: true,
+                        editrules : { required: true},
+                        search: true,
+                        stype: 'text'
+                    },
+                    {
+						label : 'Senha',
+                        name: 'senha',
+                        width: 105,
+                        hidden: true,
+                        editable: true,
+                        formatter: 'password',
+                        edittype: 'password',
+                        editrules : {
+                            required: true,
+                            edithidden: true
+                        },
+                        search: false
+                    },
+                    {
+						label: 'E-mail',
+                        name: 'email',
+                        width: 90,
+                        editable: true,
+                        editrules : { required: true},
+                        search: true,
+                        stype: 'text'
+                    },
+                    {
+                        label: 'Perfil',
+                        name: 'perfil_descricao',
+                        width: 60,
+                        editable: true,
+                        edittype: 'select',
+                        editoptions: {
+                            value: ':Selecione um perfil...;' + {OPTIONS_PERFIL}
+                        },
+                        editrules: {
+                            required: true,
+                            edithidden: true
+                        },
+                        search: true,
+                        stype: 'select',
+                        searchoptions: {
+                            value: ':Todos;' + {OPTIONS_PERFIL}
+                        }
+                    },
+                    {
+                        label: 'Administrador',
+                        name: 'administrador',
+                        align: "center",
+                        width: 35,
+                        editable: true,
+                        sortable: true,
+                        edittype: 'custom',
+                        editoptions: {
+                            custom_element: radioelemAdm,
+                            custom_value: radiovalueAdm
+                        },
+                        editrules : { required: true },
+                        search: true,
+                        stype: 'select',
+                        searchoptions: {
+                            value: ':Todos;true:Sim;false:Não'
+                        }
+                    },
+                    {
+                        label: 'Ativo',
+                        name: 'ativo',
+                        align: "center",
+                        width: 30,
+                        editable: true,
+                        sortable: true,
+                        edittype: 'custom',
+                        editoptions: {
+                            custom_element: radioelem,
+                            custom_value: radiovalue
+                        },
+                        editrules : { required: true },
+                        search: true,
+                        stype: 'select',
+                        searchoptions: {
+                            value: ':Todos;true:Ativo;false:Inativo'
+                        }
+                    }
+                ],
+				guiStyle: "bootstrap",
+				autowidth: true,
+				rownumbers: false,
+				hidegrid: false,
+				loadComplete: function () {
+					$(this).triggerHandler('resize.jqGrid');
+				},
+				sortname: 'nome',
+				sortorder: 'asc',
+				viewrecords: true,
+				height: 'auto',
+				rowNum: 15,
+				pager: "#jqGridPager"
+            }).jqGrid('filterToolbar', {defaultSearch:'cn'});
+
+            // Adiciona o formater para o campo senha
+            $.extend($.fn.fmatter , {
+                password : function(cellvalue, options, rowdata) {
+                    return "Clique para trocar";
+                }
+            });
+
+            $('#jqGrid').navGrid('#jqGridPager',
+                {
+            		edit: true,
+            		add: true,
+            		del: true, 
+            		search: false, 
+            		refresh: false, 
+            		view: false, 
+            		position: "left", 
+            		cloneToTop: false
+                },
+                {
+                    editCaption: "Editar",
+                    width: "750",
+                    height: "auto",
+                    top: "10",
+                    left: "10",
+                    recreateForm: true,
+                    closeAfterEdit: true,
+                    afterComplete: function (data) {
+                        let res = $.parseJSON(data.responseText);
+                        switch (res.status)
+                        {
+                            case 'ok':
+                                //bootbox.alert(res.obj);
+                            break;
+
+                            case 'erro':
+                                bootbox.alert(res.msg);
+                                console.log("Erro: " + res.msg);
+                            break;
+                        }
+                    },
+                    errorTextFormat: function (data) {
+                        return 'Error: ' + data.responseText
+                    }
+                },
+                {
+                    editCaption: "Adicionar",
+                    width: "750",
+                    height: "auto",
+                    top: "10",
+                    left: "10",
+                	closeAfterAdd: true,
+                    recreateForm: true,
+                    beforeShowForm: function() {
+                        $("#statusAtivo").attr("checked", "checked");
+                        $("#administradorNao").attr("checked", "checked");
+                        $("#email").blur(function() {
+                            verificarEmailExistente(  $("#email").val() );
+                        });
+                    },
+                    afterComplete: function (data) {
+                        let res = $.parseJSON(data.responseText);
+                        switch (res.status)
+                        {
+                            case 'ok':
+                                //bootbox.alert(res.obj);
+                            break;
+
+                            case 'erro':
+                                bootbox.alert("Não foi possível adicionar o registro. Tente atualizar e refazer o processo!");
+                                console.log("Erro: " + res.msg);
+                            break;
+                        }
+                    },
+                    errorTextFormat: function (data) {
+                        return 'Error: ' + data.responseText
+                    }
+                },
+                {
+                	editCaption: "Apagar",
+                	width: "500",
+                    height: "auto",
+                    top: "10",
+                    left: "10",
+                    afterComplete: function (data) {
+                        let res = $.parseJSON(data.responseText);
+                        switch (res.status)
+                        {
+                            case 'ok':
+                                bootbox.alert(res.obj);
+                                break;
+
+                            case 'erro':
+                                bootbox.alert("Não foi possível apagar o registro. Ele pode estar sendo utilizado!");
+                                console.log("Erro: " + res.msg);
+                                break;
+                        }
+                    },
+                    errorTextFormat: function (data) {
+                        return 'Error: ' + data.responseText
+                    }
+                });
+
+			$(window).on('resize.jqGrid', function () {
+				$('#jqGrid').jqGrid('setGridWidth', $(".freeJqgridContainer").width() - 20);
+			}).triggerHandler('resize.jqGrid');
+
+        });
+    </script>
+</head>
+
+<body>
+
+	<h4> Gerenciamento de Usuários </h4>
+	<br />
+
+	<div class="freeJqgridContainer">
+		<table id="jqGrid"></table>
+		<div id="jqGridPager"></div>
+	</div>
+	<br />
+	    
+</body>
+</html>

@@ -1,0 +1,192 @@
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<link href="/sidabi/_resources/inlineSearch/inlineSearch.css" rel="stylesheet" type="text/css" />
+<link href="/sidabi/questionario/view/css/avaliacao.css" rel="stylesheet" type="text/css" />
+
+<div id="containerCabecalhoAvaliacao">
+    <h3 class="tituloCabecalhoAvaliacao"> Avaliação </h3>
+    <br/>
+    <form id="formAvaliacao" method="post" class="form form-horizontal" onsubmit="return false" role="form">
+
+        <div class="form-group">
+            <label for="avaliacaoTipoQuestionario" class="control-label col-sm-2">
+                Tipo de avaliação
+            </label>
+            <div class="col-sm-8">
+                <select id="avaliacaoTipoQuestionario" name="avaliacaoTipoQuestionario" class="form-control">
+                    <option value=""> Escolha uma opção... </option>
+                    <!-- BEGIN BLOCO_TIPO_QUESTIONARIO_OPTION -->
+                        <option value="{VAR_TIPO_QUESTIONARIO_ID}"> {VAR_TIPO_QUESTIONARIO_TITULO} </option>
+                    <!-- END BLOCO_TIPO_QUESTIONARIO_OPTION -->
+
+                    <!-- BEGIN BLOCO_TIPO_QUESTIONARIO_VAZIO -->
+                        <option value="">Nenhum tipo de questionário encontrado.</option>
+                    <!-- END BLOCO_TIPO_QUESTIONARIO_VAZIO -->
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="avaliacaoParticipante" class="control-label col-sm-2"> Participante / Paciente </label>
+            <div class="col-sm-8">
+                <div id="avaliacaoParticipante" class="inline-search"
+                     data-controller-url="../../controller/ctrl_avaliacao/pesquisarParticipanteInlineSearch.php"
+                     data-limit="10"
+                     data-obrigatorio="true"
+                     data-input-width-class="col-sm-10"
+                     data-results-complement="show"
+                     data-selected-complement="show">
+                </div>
+            </div>
+        </div>
+
+        <div id="containerAvaliacoesRealizadas" class="hide">
+            <div class="form-group ">
+                <label for="divSelAvaliacoesRealizadas" class="labelavaliacaoUsados control-label col-sm-2"> Avaliações realizadas </label>
+                <div id="divSelAvaliacoesRealizadas" class="col-sm-5">
+                    <select id="selAvaliacoesRealizadas" name="selAvaliacoesRealizadas" class="form-control">
+                        <option value=""> Escolha uma opção... </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div id="dadosParticipante" class="participanteInfo hide">
+            <h4> Dados do participante / paciente </h4>
+            <div class="form-group">
+                <label for="participanteDtNascimnto" class="control-label col-sm-2"> Data de nascimento </label>
+                <div id="participanteDtNascimnto" class="radio col-sm-4 flagClear"></div>
+
+                <label for="participanteTelefone" class="control-label col-sm-2"> Telefone </label>
+                <div id="participanteTelefone" class="radio col-sm-4 flagClear"></div>
+            </div>
+            <div class="form-group">
+                <label for="participanteDiagnostico" class="control-label col-sm-2"> Diagnóstico </label>
+                <div id="participanteDiagnostico" class="radio col-sm-4 flagClear"></div>
+
+                <label for="participanteDtDiagnostico" class="control-label col-sm-2"> Data do diagnóstico </label>
+                <div id="participanteDtDiagnostico" class="radio col-sm-4 flagClear"></div>
+            </div>
+            <div class="form-group">
+                <label for="participanteMedicoResponsavel" class="control-label col-sm-2"> Médico responsável </label>
+                <div id="participanteMedicoResponsavel" class="radio col-sm-10 flagClear"></div>
+            </div>
+            <div class="form-group">
+                <label for="participanteContatoMedico" class="control-label col-sm-2"> Contato do médico responsável </label>
+                <div id="participanteContatoMedico" class="radio col-sm-10 flagClear"></div>
+            </div>
+        </div>
+
+        <div id="dadosAvaliacao">
+            <div class="form-group">
+                <label for="avaliacaoLocal" class="control-label col-sm-2"> Local </label>
+                <div class="col-sm-8">
+                    <input type="text" id="avaliacaoLocal"
+                           name="avaliacaoLocal" class="form-control"
+                           placeholder="Ex.: Hospital das clínicas, Associação de Parkinson, etc."
+                           required />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="avaliacaoDataAvaliacao" class="control-label col-sm-2"> Data da avaliação </label>
+                <div class="col-sm-2">
+                    <input type="text" id="avaliacaoDataAvaliacao" name="avaliacaoDataAvaliacao"
+                           class="form-control" required />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="avaliacaoInvestigador" class="control-label col-sm-2"> Investigador </label>
+                <div class="col-sm-8">
+                    <input type="text" id="avaliacaoInvestigador"
+                           name="avaliacaoInvestigador" class="form-control"
+                           placeholder="Informar o nome completo do pesquisador, examinador."
+                           required />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="avaliacaoFontePrimaria" class="control-label col-sm-2"> Fonte primária da informação </label>
+                <div class="col-sm-8">
+                    <select id="avaliacaoFontePrimaria" name="avaliacaoFontePrimaria" class="form-control" required>
+                        <option value=""> Selecione uma fonte...  </option>
+                        <option value="1"> Participante / Paciente </option>
+                        <option value="2"> Cuidador </option>
+                        <option value="3"> Paciente / Participante e Cuidador em proporções iguais </option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="avaliacaoMedicamento" class="control-label col-sm-2"> Medicamento </label>
+                <div class="col-sm-8">
+                    <input type="text" id="avaliacaoMedicamento" name="avaliacaoMedicamento"
+                           class="form-control"
+                           placeholder="Medicamento (dosagem) Ex.: Prolopa (100 mg + 25 mg), Bramicar (40mg)" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="avaliacaoObservacao" class="control-label col-sm-2"> Observação </label>
+                <div class="col-sm-8">
+                    <textarea id="avaliacaoObservacao" name="avaliacaoObservacao"
+                              placeholder="Informações extras sobre o participante / paciente."
+                              class="form-control" rows="3"></textarea>
+                </div>
+            </div>
+
+            <div class="form-group" id="grupo_pesquisadores">
+                <label for="chkGrupoPesquisadorIndividual" class="control-label col-sm-2">
+                    Esta avaliação será compartilhado com os grupo de pesquisadores
+                </label>
+                <div class="col-sm-10">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" id="chkGrupoPesquisadorIndividual"
+                                   name="chkGrupoPesquisadorIndividual" value="i" class="chkIndividual"/>
+                            Individual
+                        </label>
+                    </div>
+                    <!-- BEGIN BLOCO_CHECKBOX_GRUPO_PESQUISADOR -->
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" id="chkGrupoPesquisador_{GRUPO_PESQUISADOR_ID}"
+                                   name="chkGrupoPesquisador" value="{GRUPO_PESQUISADOR_ID}" class="chkGrupoPesq"/>
+                            {GRUPO_PESQUISADOR_NOME}
+                        </label>
+                    </div>
+                    <!-- END BLOCO_CHECKBOX_GRUPO_PESQUISADOR -->
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-5 col-sm-offset-2">
+                    <input type="hidden" id="avaliacaoId" name="avaliacaoId"/>
+                    <button id="btnComecar" type="button" class="btn btn-success">
+                        Começar
+                    </button>
+                    <button id="btnContinuar" type="button" class="btn btn-primary hide">
+                        Continuar
+                    </button>
+                    <button id="btnNovaAvaliacao" type="button" class="btn btn-primary hide">
+                        Realizar nova avaliação
+                    </button>
+                </div>
+            </div>
+
+            <div id="msgAvaliacaoFinalizada">
+                <p class="msgFinalizado alert alert-success hide">
+                    Esta avaliação <b>já foi finalizada</b>.
+                </p>
+                <p class="msgNaoFinalizado alert alert-info hide">
+                    Esta avaliação ainda <b>não foi finalizada.</b> Confira e continue normalmente.
+                </p>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+<div id="containerQuestoesAvaliacao"></div>
+
+<script src="/sidabi/_resources/jquery.mask.min.js" type="text/javascript"></script>
+<script src="/sidabi/_resources/inlineSearch/inlineSearch.js" type="text/javascript"></script>
+<script src="/sidabi/questionario/view/js/avaliacao.js" type="text/javascript"></script>
