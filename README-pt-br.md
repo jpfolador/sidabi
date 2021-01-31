@@ -1,4 +1,4 @@
-``## Projeto SIDABI 
+## Projeto SIDABI 
 O projeto SIDABI é um software baseado na Web seguindo o conceito de dados integrados 
 para a área da saúde, e com foco na Doença de Parkinson. O sistema apresenta várias 
 funcionalidades para ajudar no monitoramento e acompanhamento de exames e avaliações 
