@@ -186,7 +186,7 @@ $(document).ready(function() {
     });
 
     $("#containerResultado").delegate("#chkTodos", "click", function() {
-        $('input:checkbox').not(this).prop('checked', this.checked);
+        $('#containerResultado input:checkbox').not(this).prop('checked', this.checked);
     });
 
     $("#btnLimpar").click(function() {

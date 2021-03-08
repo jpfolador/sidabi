@@ -24,7 +24,7 @@ else
 		$result = PublicMedicamento::consultarMedicamentos();
 		if (!empty($result)) {
 			foreach ($result as $linha) {
-				$opcoes .= $linha["id"] . ":" . $linha["descricao"] . ";";
+				$opcoes .= $linha["id"] . ":" . $linha["nome"] . ";";
 			}
 			$opcoes = substr($opcoes, 0, -1);
 		}
