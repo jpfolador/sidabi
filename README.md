@@ -31,7 +31,7 @@ In addition, a database server runining [PostgreSQL 9.5+](https://www.postgresql
 * Federal Institute of Triângulo Mineiro - [IFTM](https://iftm.edu.br/en/)
 
 ### Registration
-Software registration number: [BR5120210001060](http://busca.inpi.gov.br/pePI/servlet/ProgramaServletController?Action=detail&CodPedido=31183&SearchParameter=)
+Software registration number: [BR5120210001060](https://busca.inpi.gov.br/pePI/jsp/programas/ProgramaSearchBasico.jsp)
 
 ### License
 
@@ -58,7 +58,7 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-###List of publications
+### List of publications
 1. Folador JP, Vieira MF, Pereira AA, Andrade AdO. 2021. Open-source data management system for Parkinson’s disease follow-up. PeerJ Computer Science 7:e396
 [![DOI: 10.7717/peerj-cs.396](https://img.shields.io/badge/DOI-10.7717%2Fpeerj--cs.396-blue)](https://doi.org/10.7717/peerj-cs.396)
 
