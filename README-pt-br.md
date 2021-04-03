@@ -43,6 +43,9 @@ Além disso, o banco de dados [PostgreSQL 9.5+](https://www.postgresql.org/downl
 * [Parkinson Association of Triângulo](https://parkinsontriangulo.org.br/) 
 * Instituto Federal do Triângulo Mineiro - [IFTM](https://iftm.edu.br/)
 
+### Registro
+Software registrado sob o número: [BR5120210001060](http://busca.inpi.gov.br/pePI/servlet/ProgramaServletController?Action=detail&CodPedido=31183&SearchParameter=)
+
 ### Licença
 
 [![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org)
@@ -67,3 +70,12 @@ FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+###Lista de publicações
+1. Folador JP, Vieira MF, Pereira AA, Andrade AdO. 2021. Open-source data management system for Parkinson’s disease follow-up. PeerJ Computer Science 7:e396
+   [![DOI: 10.7717/peerj-cs.396](https://img.shields.io/badge/DOI-10.7717%2Fpeerj--cs.396-blue)](https://doi.org/10.7717/peerj-cs.396)
+
+2. Folador J.P., Chagas L., Vieira M.F., Andrade A.O. (2019) Architecture and Organization of a Computational System for the Management of Data from Individuals with
+   Parkinson’s Disease. In: Lhotska L., Sukupova L., Lacković I., Ibbott G. (eds) World Congress on Medical Physics and Biomedical Engineering 2018. IFMBE Proceedings, vol 68/1. Springer, Singapore.
+   [![DOI: IUPESM-2018/978-981-10-9035-6](https://img.shields.io/badge/DOI-IUPESM--2018%2F978--981--10--9035--6-orange)](https://doi.org/10.1007/978-981-10-9035-6_54)
+
