@@ -20,7 +20,7 @@ desses indivíduos.
 
 ### Autores
 * **Joao Paulo Folador** - (Programador) jpfolador@gmail.com
-* **Adriano O. Andrade** - (:star: Supervisor) adriano@ufu.br
+* **Adriano O. Andrade** - (Supervisor) adriano@ufu.br
 
 ### Conjunto de bibliotecas/Frameworks utilizados
 * [Free jqGrid](https://github.com/free-jqgrid/jqGrid) - Free jqGrid permite criar tabelas de gerenciamento de dados com funcionalidades práticas para inserir, atualizar, apagar dados, ordenação, pesquisa, dentre outras funcionalidades. 

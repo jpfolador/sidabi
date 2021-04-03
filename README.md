@@ -7,7 +7,7 @@ The SIDABI project is a web-based software following the concept of data integra
 
 ### Authors
 * **Joao Paulo Folador** - (Programmer) jpfolador@gmail.com
-* **Adriano O. Andrade** - (:star: Advisor) adriano@ufu.br
+* **Adriano O. Andrade** - (Advisor) adriano@ufu.br
 
 ### Set of libraries/Frameworks used
 * [Free jqGrid](https://github.com/free-jqgrid/jqGrid) - Free jqGrid allows one to create comfortable and performant grids having many additional features like sorting, grouping and so on
