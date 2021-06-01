@@ -26,7 +26,7 @@ $(document).ready(function() {
                             message: "A associação foi salva com sucesso.",
                             callback: function() {
                                 cleanBugJqGrid();
-                                associarGrupoPesquisadoresLoginSidabi();
+                                telaInicialSidabiConfiguracao.associarGrupoPesquisadoresLoginSidabi();
                             }
                         });
                         break;
@@ -80,7 +80,7 @@ $(document).ready(function() {
                             message: "Usuário removido com sucesso.",
                             callback: function() {
                                 cleanBugJqGrid();
-                                associarGrupoPesquisadoresLoginSidabi();
+                                telaInicialSidabiConfiguracao.associarGrupoPesquisadoresLoginSidabi();
                             }
                         });
                     break;
@@ -105,12 +105,12 @@ $(document).ready(function() {
     };
 
     $("#btnAssociarPesquisadores").click(function() {
-        var usuarios = [];
+        let usuarios = [];
         $.each( $("#containerUsuarios input[name='chkUsuario']:checked"), function(){
             usuarios.push( $(this).attr("data-login-id") );
         });
 
-        var grupoPesquisadores = [];
+        let grupoPesquisadores = [];
         $.each( $("#containerGrupoPesquisadores input[name='chkGrupoPesquisadores']:checked"), function(){
             grupoPesquisadores.push( $(this).attr("data-grupo-pesquisador-id") );
         });
@@ -118,7 +118,7 @@ $(document).ready(function() {
         salvarAssociacaoPesquisadores(usuarios, grupoPesquisadores);
     });
 
-    $("#containerGrupoPesquisadores").delegate(".usuarioGrupoPesquisadores", "click", function() {
+    $("#containerGrupoPesquisadores").on( "click", ".usuarioGrupoPesquisadoresDelete", function() {
         confirmarExclusaoUsuario( $(this).attr("data-grupo-pesquisadores-login-id") );
     });
 });

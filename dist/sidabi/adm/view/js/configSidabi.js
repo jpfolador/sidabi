@@ -5,7 +5,7 @@ var telaInicialSidabiConfiguracao = (function() {
     privado.pathTelaModulos = "/sidabi/adm/controller/ctrl_tela_modulos/";
     privado.pathConfig = "/sidabi/adm/controller/ctrl_config/";
 
-    privado.gerenciaLogin = function() {
+    publico.gerenciaLogin = function() {
         let url = privado.pathConfig + "gerenciaLogin.php";
         let data = null;
         $.post( url, data, function( response ) {
@@ -27,7 +27,7 @@ var telaInicialSidabiConfiguracao = (function() {
         });
     };
 
-    privado.gerenciaPerfil = function() {
+    publico.gerenciaPerfil = function() {
         let url = privado.pathConfig + "gerenciaPerfil.php";
         let data = null;
         $.post( url, data, function( response ) {
@@ -49,7 +49,7 @@ var telaInicialSidabiConfiguracao = (function() {
         });
     };
 
-    privado.moduloSidabi = function() {
+    publico.moduloSidabi = function() {
         $.ajax({
             dataType: "json",
             type: "get",
@@ -81,7 +81,7 @@ var telaInicialSidabiConfiguracao = (function() {
         });
     };
 
-    privado.menuSidabi = function() {
+    publico.menuSidabi = function() {
         $.ajax({
             dataType: "json",
             type: "get",
@@ -112,7 +112,7 @@ var telaInicialSidabiConfiguracao = (function() {
         });
     };
 
-    privado.permissaoSidabi = function() {
+    publico.permissaoSidabi = function() {
         $.ajax({
             dataType: "json",
             type: "get",
@@ -144,7 +144,7 @@ var telaInicialSidabiConfiguracao = (function() {
         });
     };
 
-    privado.permissaoMenuSidabi = function() {
+    publico.permissaoMenuSidabi = function() {
         $.ajax({
             dataType: "json",
             type: "get",
@@ -176,7 +176,7 @@ var telaInicialSidabiConfiguracao = (function() {
         });
     };
 
-    privado.grupoPesquisadoresSidabi = function() {
+    publico.grupoPesquisadoresSidabi = function() {
         $.ajax({
             dataType: "json",
             type: "get",
@@ -208,7 +208,7 @@ var telaInicialSidabiConfiguracao = (function() {
         });
     };
 
-    privado.associarGrupoPesquisadoresLoginSidabi = function() {
+    publico.associarGrupoPesquisadoresLoginSidabi = function() {
         $.ajax({
             dataType: "json",
             type: "get",
@@ -240,7 +240,7 @@ var telaInicialSidabiConfiguracao = (function() {
         });
     };
 
-    privado.randomColorGenerator = function(qtd) {
+    publico.randomColorGenerator = function(qtd) {
         let arr = [];
         for (let i = 0; i < qtd; i++) {
             arr.push( '#' + (Math.random().toString(16) + '0000000').slice(2, 8) );
@@ -248,7 +248,7 @@ var telaInicialSidabiConfiguracao = (function() {
         return arr;
     };
 
-    privado.showGraphUserPefil = function() {
+    publico.showGraphUserPefil = function() {
         $.post("./dadosGraficoQtdAlunos.php",function (response) {
             let data = response.obj;
             let name = [];
@@ -264,7 +264,7 @@ var telaInicialSidabiConfiguracao = (function() {
                 marks = [2, 4, 3];
             }
 
-            let arrColor = privado.randomColorGenerator(marks.length);
+            let arrColor = publico.randomColorGenerator(marks.length);
             let chartdata = {
                 labels: name,
                 borderWidth: 1,
@@ -306,7 +306,7 @@ var telaInicialSidabiConfiguracao = (function() {
         });
     };
 
-    privado.showGraphUserGrupo = function() {
+    publico.showGraphUserGrupo = function() {
 
         $.post("./dadosGraficoQtdUsuarioGrupoPesquisadores.php",function (response) {
             let data = response.obj;
@@ -323,7 +323,7 @@ var telaInicialSidabiConfiguracao = (function() {
                 marks = [5, 3, 3];
             }
 
-            let arrColor = privado.randomColorGenerator(marks.length);
+            let arrColor = publico.randomColorGenerator(marks.length);
             let chartdata = {
                 labels: name,
                 borderWidth: 1,
@@ -367,40 +367,40 @@ var telaInicialSidabiConfiguracao = (function() {
 
     $(document).ready(function() {
 
-        privado.showGraphUserPefil();
+        publico.showGraphUserPefil();
 
-        privado.showGraphUserGrupo();
+        publico.showGraphUserGrupo();
 
         $("#loginSidabi").click(function() {
-            privado.gerenciaLogin();
+            publico.gerenciaLogin();
         });
 
         $("#perfil").click(function() {
-            privado.gerenciaPerfil();
+            publico.gerenciaPerfil();
         });
 
         $("#moduloSidabi").click(function() {
-            privado.moduloSidabi();
+            publico.moduloSidabi();
         });
 
         $("#permissaoSidabi").click(function() {
-            privado.permissaoSidabi();
+            publico.permissaoSidabi();
         });
 
         $("#menuSidabi").click(function() {
-            privado.menuSidabi();
+            publico.menuSidabi();
         });
 
         $("#permissaoMenuSidabi").click(function() {
-            privado.permissaoMenuSidabi();
+            publico.permissaoMenuSidabi();
         });
 
         $("#grupoPesquisadoresSidabi").click(function() {
-            privado.grupoPesquisadoresSidabi();
+            publico.grupoPesquisadoresSidabi();
         });
 
         $("#associarGrupoPesquisadoresLoginSidabi").click(function() {
-            privado.associarGrupoPesquisadoresLoginSidabi();
+            publico.associarGrupoPesquisadoresLoginSidabi();
         });
 
         $("#toogle-left-menu").click(function(e) {
