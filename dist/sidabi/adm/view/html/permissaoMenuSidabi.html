@@ -51,12 +51,10 @@
                 $.getJSON(url, {moduloId: modulo}, function(data) {
                     if (data != null) {
                         let items = [];
-                        //var teste = '';
                         $.each( data.obj, function( key, val ) {
                             items.push( "<option value='" + key + "'>" + val + "</option>" );
-                            //teste += key + ':' + val + ';';
                         });
-                        $("#gs_menu_nome").empty().append("<option value=''> todos </option>").append(items);
+                        $("#gs_jqGrid_menu_nome").empty().append("<option value=''> todos </option>").append(items);
                     }
                 });
             }
@@ -70,7 +68,7 @@
                         $.each( data.obj, function( key, val ) {
                             //marcar o item que já estava no grid antes de editar
                             if (val == celValue) {
-                                marcar = 'selected="selected"';
+                                marcar = ' selected="selected" ';
                             }else{
                                 marcar = '';
                             }
@@ -250,7 +248,7 @@
                         recreateForm: true,
                         closeAfterEdit: true,
                         beforeShowForm: function() {
-                            let myGrid = $('#jqGridDetails');
+                            let myGrid = $('#jqGrid');
                             let selRowId = myGrid.jqGrid ('getGridParam', 'selrow');
                             let celValue = myGrid.jqGrid ('getCell', selRowId, 'menu_nome');
 
